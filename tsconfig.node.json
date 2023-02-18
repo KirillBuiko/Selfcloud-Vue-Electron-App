@@ -1,0 +1,23 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.node.json",
+  "include": [
+    "src/node/**/*.ts",
+    "src/electron-bridge.d.ts"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "types": ["node", "jsdom"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@node/*": ["./src/node/*"],
+      "@vue/*": ["./src/vue/*"]
+    }
+  }
+}
