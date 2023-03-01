@@ -1,5 +1,5 @@
-import type {RefreshData} from "@/Objects";
-import type ResultCode from "@/ResultCode";
+import type {RefreshData} from "../../Objects";
+import type {ResultCode} from "../../ResultCode";
 
 export default interface IAuthStorage{
     setAccessToken(token: string): ResultCode,

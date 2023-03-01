@@ -1,6 +1,6 @@
 import type {RouteRecordRaw} from "vue-router";
-import ViewStart from "@/view/ViewStart.vue"
-import ViewWorkspace from "@/view/ViewWorkspace.vue"
+import ViewStart from "../view/ViewStart.vue";
+import ViewWorkspace from "../view/ViewWorkspace.vue";
 
 export const viewRoutes: RouteRecordRaw[] = [{
         path: '/',

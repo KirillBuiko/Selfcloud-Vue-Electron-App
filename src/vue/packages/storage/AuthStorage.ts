@@ -1,8 +1,8 @@
-import AbstractStorage from "@/packages/storage/AbstractStorage";
-import type IAuthStorage from "@/packages/request/IAuthStorage";
-import type IStorageHandler from "@/packages/request/IStorageHandler";
-import type {RefreshData} from "@/Objects";
-import ResultCode from "@/ResultCode";
+import AbstractStorage from "./AbstractStorage";
+import type IAuthStorage from "../request/IAuthStorage";
+import type IStorageHandler from "../request/IStorageHandler";
+import type {RefreshData} from "../../Objects";
+import {ResultCode} from "../../ResultCode";
 
 export default class AuthStorage extends AbstractStorage implements IAuthStorage{
     constructor(storageHandler: IStorageHandler) {

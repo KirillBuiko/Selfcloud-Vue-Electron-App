@@ -1,13 +1,13 @@
 <template>
-  <div class="ml-10">
+  <div>
     <div v-if="!isCookieEnabled()">Куки недоступны! Всё в локале</div>
     <div v-else>Куки доступны</div>
     <div>Ответ: {{requestResult}}</div>
-    <button @click="loginPassword()">Логин (пароль)</button>
-    <button @click="loginToken()">Логин (токен)</button>
-    <button @click="registration()">Регистрация</button>
-    <button @click="registrationWrong()">Регистрация (Неправильный пароль)</button>
-    <button @click="logout()">Выйти</button>
+    <ControlButton @click="loginPassword()">Логин (пароль)</ControlButton>
+    <ControlButton @click="loginToken()">Логин (токен)</ControlButton>
+    <ControlButton @click="registration()">Регистрация</ControlButton>
+    <ControlButton @click="registrationWrong()">Регистрация (Неправильный пароль)</ControlButton>
+    <ControlButton @click="logout()">Выйти</ControlButton>
   </div>
   <div class="overlay flex items-center justify-center" :class="{active: isLoading}">
     <div class="w-4/12 h-2/3 bg-gray-400 rounded-xl"></div>
@@ -15,10 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import AccountRequestClass from "@/packages/request/AccountRequestClass";
-import type {ResponseData} from "@/Objects";
+import AccountRequestClass from "../../packages/request/AccountRequestClass";
+import type {ResponseData} from "../../Objects";
 import {ref} from "vue";
-import {ResultCode} from "@/ResultCode";
+import {ResultCode} from "../../ResultCode";
+import ControlButton from "../controls/ControlButton.vue";
 
 const password = "qwe123@#$QWE"
 const passwordWrong = "qwe123"
@@ -74,7 +75,7 @@ function setResult(response: ResponseData<object>){
       res = "Ошибка конфигурации";
       break;
     default:
-      res = response.code.toString();
+      res = response.code;
   }
   requestResult.value = res;
 }
@@ -85,31 +86,4 @@ function isCookieEnabled(){
 </script>
 
 <style scoped lang="scss">
-  button{
-    display: block;
-    width: 200px;
-    height: 70px;
-    margin-block: 10px;
-    border: 2px solid black;
-    &:hover{
-      border-width: 3px;
-    }
-    &:active{
-      border-width: 2px;
-    }
-  }
-  .overlay{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    transition: all 0.6s;
-    clip-path: circle(0% at 105% -5%);
-    &.active{
-      clip-path: circle(100%);
-      background: rgba(0,0,0,0.5);
-    }
-  }
 </style>

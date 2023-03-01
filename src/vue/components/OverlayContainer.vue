@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-  import * as overlays from "@/components/overlays"
-  import {useOverlayStateStore} from "@/stores/overlayStore";
+  import * as overlays from "./overlays"
+  import {useOverlayStateStore} from "../stores/overlayStore";
   import {storeToRefs} from "pinia";
 
   const overlayState = useOverlayStateStore();
@@ -16,7 +16,10 @@
 
   function backgroundClick(e: Event){
     if(e.target === e.currentTarget) overlayState.closeOverlay();
+    console.log("CLICK")
   }
+
+  console.log("CONTAINER")
 </script>
 
 <style scoped lang="scss">

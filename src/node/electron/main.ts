@@ -12,7 +12,7 @@ function createWindow() {
         }
     });
     win.webContents.openDevTools();
-    win.loadURL('http://localhost:8300/');
+    win.loadURL('http://localhost:8300/#/test');
     //win.loadFile("dist/index.html");
     return win;
 }
@@ -29,13 +29,6 @@ class A{
 
 app.whenReady().then(() => {
     const win = createWindow();
-
-    const instA = new A(200,2);
-    setInterval(() => {
-        instA.a += 100;
-        console.log(instA.a)
-        win.webContents.send("a", instA.a);
-    }, 500);
 
     app.on("activate", () => {
         if (BrowserWindow.getAllWindows().length === 0) {

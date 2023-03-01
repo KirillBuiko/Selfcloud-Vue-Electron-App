@@ -20,8 +20,8 @@
 
 <script setup lang="ts">
 import {defineProps} from "vue";
-import type {Notification} from "@/stores/notificationsStore";
-import {useNotificationsStore} from "@/stores/notificationsStore";
+import type {Notification} from "../stores/notificationsStore";
+import {useNotificationsStore} from "../stores/notificationsStore";
 
 const notificationStore = useNotificationsStore();
 const {showNotification, hideNotification, startNotificationTimer, stopNotificationTimer} = notificationStore;

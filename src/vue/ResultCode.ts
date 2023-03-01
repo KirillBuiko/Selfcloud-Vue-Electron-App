@@ -1,4 +1,4 @@
-const enum ResultCode{
+export const enum ResultCode{
     // SERVER PART
     OK = 0,
     FAIL = 1,
@@ -31,5 +31,3 @@ export const ResultCodeDescription = {
     [ResultCode.CONFIGURATION_ERROR]: "Configuration Error",
     [ResultCode.CONNECTION_ERROR]: "Connection Error",
 }
-
-export default ResultCode;

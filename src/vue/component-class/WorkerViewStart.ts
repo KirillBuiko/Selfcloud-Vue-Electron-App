@@ -1,4 +1,4 @@
-import {useOverlayStateStore} from "@/stores/overlayStore";
+import {useOverlayStateStore} from "../stores/overlayStore";
 
 export class WorkerViewStart {
     overlayState;
@@ -7,7 +7,7 @@ export class WorkerViewStart {
         this.overlayState = useOverlayStateStore();
     }
 
-    openLoginOverlay(){
+    public openLoginOverlay(){
         this.overlayState.setOverlayName('login');
         this.overlayState.openOverlay();
     }

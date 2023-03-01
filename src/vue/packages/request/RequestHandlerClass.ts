@@ -1,11 +1,11 @@
-import type IRequestHandler from "@/packages/request/IRequestHandler";
-import type {RequestData, ResponseData, RefreshData} from "@/Objects";
-import TokenHandler from "@/packages/request/TokenHandler";
-import type IStorageHandler from "@/packages/request/IStorageHandler";
-import StorageHandlerClass from "@/packages/storage/StorageHandlerClass";
+import type IRequestHandler from "./IRequestHandler";
+import type {RequestData, ResponseData, RefreshData} from "../../Objects";
+import TokenHandler from "./TokenHandler";
+import type IStorageHandler from "./IStorageHandler";
+import StorageHandlerClass from "../storage/StorageHandlerClass";
 import axios, {AxiosError} from "axios";
 import type {AxiosInstance, AxiosRequestConfig} from "axios"
-import ResultCode from "@/ResultCode";
+import {ResultCode} from "../../ResultCode";
 
 export default class requestClass implements IRequestHandler{
     tokenHandler: TokenHandler

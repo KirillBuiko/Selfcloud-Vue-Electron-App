@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-10">
+  <div>
     <ControlButton @click="addNotification({
     header: 'Ошибка',
     body: 'Какое-то уведомление об ошибке',
@@ -35,9 +35,9 @@
 </template>
 
 <script setup lang="ts">
-import ControlButton from "@/components/controls/ControlButton.vue"
-import ControlTextbox from "@/components/controls/ControlTextbox.vue"
-import {useNotificationsStore} from "@/stores/notificationsStore";
+import ControlButton from "../controls/ControlButton.vue";
+import ControlTextbox from "../controls/ControlTextbox.vue";
+import {useNotificationsStore} from "../../stores/notificationsStore";
 import {ref} from "vue";
 import {storeToRefs} from "pinia";
 

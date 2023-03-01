@@ -1,11 +1,10 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["./src/vue/**/*.ts", "./src/vue/**/*.vue"],
+  "include": ["src/vue/**/*.ts", "src/vue/**/*.vue"],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/vue/*"]
-    }
+    "rootDir": "src",
+    "outDir": "build",
   }
 }
