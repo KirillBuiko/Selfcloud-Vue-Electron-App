@@ -1,8 +1,7 @@
 <template>
   <div class="notification-list-item-wrapper"
-       :class="{active: note.isShow}"
-       @mouseenter="stopNotificationTimer(note.id)"
-       @mouseleave="startNotificationTimer(note.id)">
+       @mouseenter="mouseEnterFunc"
+       @mouseleave="mouseLeaveFunc">
     <div class="type-icon"
          :style="{backgroundColor: typeToColor[note.type]}"/>
     <div class="vertical-separator"/>
@@ -24,21 +23,24 @@ import type {Notification} from "../stores/notificationsStore";
 import {useNotificationsStore} from "../stores/notificationsStore";
 
 const notificationStore = useNotificationsStore();
-const {showNotification, hideNotification, startNotificationTimer, stopNotificationTimer} = notificationStore;
+const {showNotification, hideNotification, startNotificationTimer} = notificationStore;
 
 const props = defineProps<{
   note: Notification
 }>()
-console.log(props.note.isShow)
-
-setTimeout(() => {
-  showNotification(props.note.id);
-}, 1);
 
 const typeToColor = {
   'error': '#F21',
   'warning': '#FB0',
   'notify': '#09F'
+}
+
+function mouseEnterFunc(){
+  showNotification(props.note.id);
+}
+
+function mouseLeaveFunc(){
+  startNotificationTimer(props.note.id);
 }
 </script>
 
@@ -60,20 +62,12 @@ const typeToColor = {
   flex-direction: row;
   width: 100%;
   background-color: white;
-  height: 0;
-  opacity: 0;
+  height: 80px;
+  border: 1px solid black;
   overflow-y: hidden;
-  transition-duration: 0.2s;
-  transition: all 0.2s;
-  margin-block: 0;
-  border-width: 0;
-
-  &.active{
-    border: 1px solid black;
-    opacity: 1;
-    height: 80px;
-    margin-block: 5px;
-  }
+  margin-block: 5px;
+  opacity: 1;
+  pointer-events: all;
 
   .type-icon{
     width: 20px;

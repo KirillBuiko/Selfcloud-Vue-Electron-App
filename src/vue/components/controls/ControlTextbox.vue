@@ -19,7 +19,7 @@ withDefaults(defineProps<{
   inputType?: string,
   placeholder: string,
   errorText?: string,
-  modelValue?: string,
+  modelValue?: string | number,
   error?: boolean}>(), {
   inputType: "text",
   errorText: "",

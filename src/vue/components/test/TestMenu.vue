@@ -1,5 +1,6 @@
 <template>
   <div class="menu-wrapper ml-10">
+    {{$route.path}}
     <nav v-show="!isSelected">
       <RouterLink to="/test/auth" custom v-slot="{ navigate }">
         <ControlButton @click="navigate(); isSelected=true;" role="link">Тест авторизации</ControlButton>
@@ -16,7 +17,9 @@
     </nav>
     <main v-show="isSelected">
       <ControlButton @click="isSelected=false">Назад</ControlButton>
-      <RouterView/>
+      <router-view v-slot="{ Component }">
+        <component :is="Component" ></component>
+      </router-view>
     </main>
   </div>
 </template>
@@ -29,4 +32,13 @@
 </script>
 
 <style scoped lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

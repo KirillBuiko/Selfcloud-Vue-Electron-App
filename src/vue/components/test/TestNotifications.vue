@@ -24,8 +24,7 @@
     header: randomString,
     body: '',
     type: 'notify'
-    })">
-      Добавить нечто</ControlButton>
+    })">Добавить нечто</ControlButton>
     <ControlButton @click="hideAllNotifications()">Очистить</ControlButton>
     <ControlTextbox class="duration-input"
                     input-type="number"
@@ -45,13 +44,6 @@ const notificationsStore = useNotificationsStore()
 const {addNotification, hideAllNotifications} = notificationsStore;
 const {defaultDuration} = storeToRefs(notificationsStore);
 const randomString = ref("qwe")
-
-setInterval(() => {
-  let buffer = new Uint8Array(16);
-  buffer = crypto.getRandomValues(buffer)
-  randomString.value = String.fromCharCode.apply(String, buffer as unknown as number[]);
-}, 100)
-
 </script>
 
 <style scoped lang="scss">

@@ -10,25 +10,36 @@ export interface NotificationInput{
 export interface Notification extends NotificationInput{
     id: number;
     isShow: boolean;
+    isClosing: boolean;
 }
 
 export const useNotificationsStore = defineStore('notifications', {
     state: () => ({
         notificationsList: [] as Notification[],
         timerList: {} as {[id: number]: number},
-        defaultDuration: 2000,
+        defaultDuration: 3000,
         id: 0
     }),
     getters: {
-        notifications: (state): Notification[] => state.notificationsList
+        activeNotificationsList(state){
+            const list = [] as Notification[];
+            for(const note of state.notificationsList) {
+                if(note.isShow)
+                    list.push(note);
+            }
+            return list;
+        }
     },
     actions: {
         addNotification(note: NotificationInput){
             const notification = note as Notification;
             notification.id = this.id++;
+
             if(notification.duration === undefined) notification.duration = this.defaultDuration;
-            notification.isShow = false;
             this.notificationsList.push(notification);
+
+            notification.isShow = true;
+            notification.isClosing = false;
             this.startNotificationTimer(notification.id);
         },
         getNotification(id: number){
@@ -41,7 +52,11 @@ export const useNotificationsStore = defineStore('notifications', {
         },
         showNotification(id: number){
             const note = this.getNotification(id);
-            if(note !== undefined) note.isShow = true;
+            if(note) {
+                console.log(`SHOW ${id}`)
+                note.isShow = true;
+                this.stopNotificationTimer(id);
+            }
         },
         hideNotification(id: number){
             const note = this.getNotification(id);
@@ -57,7 +72,13 @@ export const useNotificationsStore = defineStore('notifications', {
         startNotificationTimer(id: number){
             const note = this.getNotification(id);
             if(note === undefined || this.timerList[id] !== undefined) return;
-            this.timerList[id] = setTimeout(() => this.hideNotification(id), note.duration)
+            this.timerList[id] = setTimeout(() => {
+                this.stopNotificationTimer(id);
+                this.hideNotification(id);
+            }, note.duration);
+        },
+        startHideNotificationTimerAll(){
+            //
         },
         stopNotificationTimer(id: number){
             if(this.timerList[id] === undefined) return;

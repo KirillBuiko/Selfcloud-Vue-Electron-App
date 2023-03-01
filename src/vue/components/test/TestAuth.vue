@@ -1,16 +1,18 @@
 <template>
   <div>
-    <div v-if="!isCookieEnabled()">Куки недоступны! Всё в локале</div>
-    <div v-else>Куки доступны</div>
-    <div>Ответ: {{requestResult}}</div>
-    <ControlButton @click="loginPassword()">Логин (пароль)</ControlButton>
-    <ControlButton @click="loginToken()">Логин (токен)</ControlButton>
-    <ControlButton @click="registration()">Регистрация</ControlButton>
-    <ControlButton @click="registrationWrong()">Регистрация (Неправильный пароль)</ControlButton>
-    <ControlButton @click="logout()">Выйти</ControlButton>
-  </div>
-  <div class="overlay flex items-center justify-center" :class="{active: isLoading}">
-    <div class="w-4/12 h-2/3 bg-gray-400 rounded-xl"></div>
+    <div>
+      <div v-if="!isCookieEnabled()">Куки недоступны! Всё в локале</div>
+      <div v-else>Куки доступны</div>
+      <div>Ответ: {{requestResult}}</div>
+      <ControlButton @click="loginPassword()">Логин (пароль)</ControlButton>
+      <ControlButton @click="loginToken()">Логин (токен)</ControlButton>
+      <ControlButton @click="registration()">Регистрация</ControlButton>
+      <ControlButton @click="registrationWrong()">Регистрация (Неправильный пароль)</ControlButton>
+      <ControlButton @click="logout()">Выйти</ControlButton>
+    </div>
+    <div class="overlay flex items-center justify-center" :class="{active: isLoading}">
+      <div class="w-4/12 h-2/3 bg-gray-400 rounded-xl"></div>
+    </div>
   </div>
 </template>
 
