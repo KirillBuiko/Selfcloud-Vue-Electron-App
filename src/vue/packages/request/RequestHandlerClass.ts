@@ -1,11 +1,11 @@
-import type IRequestHandler from "@vue/packages/request/IRequestHandler";
-import type {RequestData, ResponseData, RefreshData} from "@vue/Objects";
-import TokenHandler from "@vue/packages/request/TokenHandler";
-import type IStorageHandler from "@vue/packages/request/IStorageHandler";
-import StorageHandlerClass from "@vue/packages/storage/StorageHandlerClass";
+import type IRequestHandler from "@/packages/request/IRequestHandler";
+import type {RequestData, ResponseData, RefreshData} from "@/Objects";
+import TokenHandler from "@/packages/request/TokenHandler";
+import type IStorageHandler from "@/packages/request/IStorageHandler";
+import StorageHandlerClass from "@/packages/storage/StorageHandlerClass";
 import axios, {AxiosError} from "axios";
 import type {AxiosInstance, AxiosRequestConfig} from "axios"
-import ResultCode from "@vue/ResultCode";
+import ResultCode from "@/ResultCode";
 
 export default class requestClass implements IRequestHandler{
     tokenHandler: TokenHandler
@@ -31,48 +31,39 @@ export default class requestClass implements IRequestHandler{
         const config: AxiosRequestConfig = {
             responseType: responseType
         }
-        const requestBody: RefreshData = {...this.tokenHandler.getTokens(), ...body}
-        if(!refresh) requestBody.refresh = "";
-
+        const requestBody = {...this.tokenHandler.getTokens(), ...body}
+        if(!refresh) requestBody.refresh = undefined;
 
         console.log(requestBody);
 
-        let req;
-        if (method == "GET") {
-            config.params = requestBody;
-            req = this.axiosInst.get<K>(url, config)
-        }
-        if (method == "POST") {
-            req = this.axiosInst.post<K>(url, requestBody, config)
-        }
-        if (!req)
-            return {code: ResultCode.CONFIGURATION_ERROR}
+        if (method == "GET") config.params = requestBody;
+        const req = method === "GET" ? this.axiosInst.get<ResponseData<K>>(url, config) :
+            this.axiosInst.post<ResponseData<K>>(url, requestBody, config)
+
         try {
-            const result = await req;
-            return {code: ResultCode.OK, result: result.data};
+            const response = await req;
+            console.log(response)
+            if(response.data.code == ResultCode.OK)
+                return response.data;
+
+            // check token expired and update
+            if (response.data.code === ResultCode.TOKEN_EXPIRED){
+                const updRes = await this.updateToken();
+                if(updRes.code !== ResultCode.OK)
+                    return {code: updRes.code};
+                return await this.makeRequest<K>(request)
+            }
+            return response.data;
         }
         catch(err){
             if(err instanceof AxiosError) {
-                if (err.response) {
-                    console.log(err.response)
-                    if ((err.response.data instanceof Object) && (err.response.data.jarvis_exception !== undefined)) {
-                        // check token expired and update
-                        if (err.response.data.jarvis_exception === ResultCode.TOKEN_EXPIRED){
-                            const updRes = await this.updateToken();
-                            if(updRes.code !== ResultCode.OK)
-                                return {code: updRes.code, error: updRes.error};
-                            return await this.makeRequest<K>(request)
-                        }
-                        return {code: err.response.data.jarvis_exception, error: err.response.data};
-                    }
-                    return {code: ResultCode.FAIL, error: err.response.statusText};
-                }else if (err.request) {
-                    return {code: ResultCode.CONNECTION_ERROR, error: err.request};
+                if (err.request) {
+                    return {code: ResultCode.CONNECTION_ERROR};
                 } else {
-                    return {code: ResultCode.CONFIGURATION_ERROR, error: err.message};
+                    return {code: ResultCode.CONFIGURATION_ERROR};
                 }
             }
-            return {code: ResultCode.FAIL, error: "Unknown error"};
+            return {code: ResultCode.FAIL};
         }
     }
 

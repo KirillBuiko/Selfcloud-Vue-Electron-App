@@ -1,8 +1,8 @@
-import type {RefreshData} from "@vue/Objects";
-import type IAuthStorage from "@vue/packages/request/IAuthStorage";
-import AuthStorage from "@vue/packages/storage/AuthStorage";
-import type IStorageHandler from "@vue/packages/request/IStorageHandler";
-import ResultCode from "../../ResultCode";
+import type {RefreshData} from "@/Objects";
+import type IAuthStorage from "@/packages/request/IAuthStorage";
+import AuthStorage from "@/packages/storage/AuthStorage";
+import type IStorageHandler from "@/packages/request/IStorageHandler";
+import ResultCode from "@/ResultCode";
 
 export default class TokenHandler{
     authStorage: IAuthStorage

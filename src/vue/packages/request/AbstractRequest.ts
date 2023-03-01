@@ -1,5 +1,5 @@
-import type IRequestHandler from "@vue/packages/request/IRequestHandler";
-import type IStorageHandler from "@vue/packages/request/IStorageHandler";
+import type IRequestHandler from "@/packages/request/IRequestHandler";
+import type IStorageHandler from "@/packages/request/IStorageHandler";
 
 export default abstract class AbstractRequest{
     requestHandler: IRequestHandler;

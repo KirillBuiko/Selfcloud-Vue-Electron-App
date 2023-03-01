@@ -1,5 +1,5 @@
-import IStorageHandler from "@vue/packages/request/IStorageHandler";
-import {ResultCode} from "@vue/Objects";
+import type IStorageHandler from "@/packages/request/IStorageHandler";
+import ResultCode from "@/ResultCode";
 
 export default class StorageHandlerClass implements IStorageHandler{
 

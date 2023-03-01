@@ -1,18 +1,19 @@
-import AbstractStorage from "@vue/packages/StorageHandler/AbstractStorage";
-import IAuthStorage from "@vue/packages/request/IAuthStorage";
-import IStorageHandler from "@vue/packages/request/IStorageHandler";
-import {ResultCode, TokenData} from "@vue/Objects";
+import AbstractStorage from "@/packages/storage/AbstractStorage";
+import type IAuthStorage from "@/packages/request/IAuthStorage";
+import type IStorageHandler from "@/packages/request/IStorageHandler";
+import type {RefreshData} from "@/Objects";
+import ResultCode from "@/ResultCode";
 
 export default class AuthStorage extends AbstractStorage implements IAuthStorage{
     constructor(storageHandler: IStorageHandler) {
         super(storageHandler);
     }
 
-    getTokenData(): TokenData {
+    getTokenData(): RefreshData {
         return {
-            access_token: this.storageHandler.getValue('accessToken'),
-            update_token: this.storageHandler.getValue('updateToken'),
-            imprint_token: this.storageHandler.getValue('imprintToken')
+            access: this.storageHandler.getValue('accessToken'),
+            refresh: this.storageHandler.getValue('refreshToken'),
+            fingerprint: this.storageHandler.getValue('fingerprint')
         }
     }
 
@@ -23,10 +24,10 @@ export default class AuthStorage extends AbstractStorage implements IAuthStorage
     setImprint(token: string | undefined): ResultCode {
         if(token === undefined)
             return ResultCode.OK;
-        return this.storageHandler.setValue('imprintToken', token);
+        return this.storageHandler.setValue('refreshToken', token);
     }
 
     setUpdateToken(token: string): ResultCode {
-        return this.storageHandler.setValue('updateToken', token);
+        return this.storageHandler.setValue('fingerprint', token);
     }
 }

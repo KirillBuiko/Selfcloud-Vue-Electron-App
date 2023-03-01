@@ -15,9 +15,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/node*"],
       "@node/*": ["./src/node/*"],
-      "@vue/*": ["./src/vue/*"]
     }
   }
 }

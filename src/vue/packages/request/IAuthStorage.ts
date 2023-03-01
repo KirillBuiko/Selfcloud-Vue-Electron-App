@@ -1,5 +1,5 @@
-import type {RefreshData} from "@vue/Objects";
-import type ResultCode from "@vue/ResultCode";
+import type {RefreshData} from "@/Objects";
+import type ResultCode from "@/ResultCode";
 
 export default interface IAuthStorage{
     setAccessToken(token: string): ResultCode,

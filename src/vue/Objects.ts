@@ -1,4 +1,4 @@
-import type ResultCode from "@vue/ResultCode";
+import type ResultCode from "@/ResultCode";
 import type {ResponseType} from "axios";
 
 export abstract class AbstractData{
@@ -15,7 +15,6 @@ export interface RequestData extends AbstractData{
 export interface ResponseData<K> extends AbstractData{
     code: ResultCode;
     result?: K;
-    error?: string;
 }
 
 export interface AccessData{

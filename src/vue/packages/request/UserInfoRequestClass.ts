@@ -1,6 +1,6 @@
-import AbstractRequest from "@vue/packages/request/AbstractRequest";
-import type IRequestHandler from "@vue/packages/request/IRequestHandler";
-import type {ResponseData, UserData} from "@vue/Objects";
+import AbstractRequest from "@/packages/request/AbstractRequest";
+import type IRequestHandler from "@/packages/request/IRequestHandler";
+import type {ResponseData, UserData} from "@/Objects";
 
 export default class UserInfoRequestClass extends AbstractRequest{
     constructor(requestHandler: IRequestHandler) {

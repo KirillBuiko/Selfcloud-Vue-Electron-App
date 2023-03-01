@@ -1,17 +1,19 @@
-import AbstractRequest from "@vue/packages/request/AbstractRequest";
-import type IRequestHandler from "@vue/packages/request/IRequestHandler";
-import type {LoginData, RegData, ResponseData, RefreshData} from "@vue/Objects";
-import ResultCode from "../../ResultCode";
+import AbstractRequest from "@/packages/request/AbstractRequest";
+import RequestHandlerClass from "@/packages/request/RequestHandlerClass";
+import type {LoginData, RegData, ResponseData, RefreshData} from "@/Objects";
+import ResultCode from "@/ResultCode";
 
 export default class AccountRequestClass extends AbstractRequest{
-    constructor(requestHandler: IRequestHandler) {
-        super(requestHandler);
+    REQUEST_PREFIX = '/request'
+
+    constructor() {
+        super(new RequestHandlerClass());
     }
 
     async loginPassword(loginData: LoginData): Promise<ResponseData<object>>{
         const response = await this.requestHandler.makeRequest<RefreshData>({
             // TODO: set URL
-            url: "/auth/",
+            url: this.REQUEST_PREFIX + "/login/",
             method: "POST",
             body: loginData,
         });
@@ -24,15 +26,21 @@ export default class AccountRequestClass extends AbstractRequest{
     }
 
     async loginToken(): Promise<ResponseData<object>>{
-        return await this.requestHandler.makeRequest({
-            url: "/access/auth/",
-            method: "GET",
+        const response = await this.requestHandler.makeRequest<RefreshData>({
+            // TODO: set URL
+            url: this.REQUEST_PREFIX + "/loginToken/"
         });
+        console.log(response);
+        if(response.code == ResultCode.OK && response.result !== undefined){
+            const tokens = response.result;
+            this.requestHandler.setTokens(tokens);
+        }
+        return response;
     }
 
     async registration(regData: RegData): Promise<ResponseData<object>>{
         return await this.requestHandler.makeRequest({
-            url: "/reg/",
+            url: this.REQUEST_PREFIX + "/registration/",
             method: "POST",
             body: regData,
         });
@@ -56,7 +64,7 @@ export default class AccountRequestClass extends AbstractRequest{
     async logout(): Promise<ResponseData<object>>{
         this.requestHandler.setTokens({access: "", refresh: ""});
         return await this.requestHandler.makeRequest({
-            url: "/access/log_out/",
+            url: this.REQUEST_PREFIX + "/log_out/",
         });
     }
 }
