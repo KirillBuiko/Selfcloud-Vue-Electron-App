@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 
-import {useOverlayStateStore} from "../../stores/overlayStore";
+import {useOverlayStateStore} from "@/stores/overlayStore";
 
 const {closeOverlay} = useOverlayStateStore()
 </script>

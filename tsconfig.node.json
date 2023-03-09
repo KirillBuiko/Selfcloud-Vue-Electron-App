@@ -1,23 +1,15 @@
 {
   "extends": "@vue/tsconfig/tsconfig.node.json",
-  "include": [
-    "src/node/**/*.ts"
-  ],
+  "include": ["src/node/**/*"],
   "compilerOptions": {
     "composite": true,
-    "types": ["node", "jsdom"],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es6",
-    "outDir": "build",
-    "rootDir": "src",
-    "sourceMap": true,
     "baseUrl": ".",
+    "module": "CommonJS",
+    "types": ["node", "jsdom"],
+    "rootDir": "src",
+    "outDir": "build",
     "paths": {
-      "@/*": ["./src/node*"],
-      "@node/*": ["./src/node/*"],
+      "@/*": ["./src/*"]
     }
   }
 }

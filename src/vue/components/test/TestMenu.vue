@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
   import {ref} from "vue";
-  import ControlButton from "../controls/ControlButton.vue";
+  import ControlButton from "@/components/controls/ControlButton.vue";
 
   const isSelected = ref(false)
 </script>

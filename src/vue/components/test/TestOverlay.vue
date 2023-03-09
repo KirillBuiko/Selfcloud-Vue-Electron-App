@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import {WorkerViewStart} from "../../component-class/WorkerViewStart";
-import ControlButton from "../controls/ControlButton.vue";
+import {WorkerViewStart} from "@/component-class/WorkerViewStart";
+import ControlButton from "@/components/controls/ControlButton.vue";
 const workerViewStart = new WorkerViewStart()
 </script>
 

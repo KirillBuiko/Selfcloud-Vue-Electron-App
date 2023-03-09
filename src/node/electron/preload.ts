@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron"
-import type {ElectronApi} from "../../electron-bridge.d";
+import type {ElectronApi} from "../../electron-bridge";
 
 // contextBridge.exposeInMainWorld('bridge',
 //     {a: (callback: any) => ipcRenderer.on('a', callback)}

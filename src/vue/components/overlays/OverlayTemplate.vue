@@ -9,11 +9,11 @@
 </template>
 
 <script setup lang="ts">
-import OverlayHeader from "./OverlayHeader.vue"
+import OverlayHeader from "@/components/overlays/OverlayHeader.vue";
 import {defineProps} from "vue";
 import {storeToRefs} from "pinia";
-import {useOverlayStateStore} from "../../stores/overlayStore";
-import OverlayPreloader from "./OverlayPreloader.vue";
+import {useOverlayStateStore} from "@/stores/overlayStore";
+import OverlayPreloader from "@/components/overlays/OverlayPreloader.vue";
 
 const {isLoading} = storeToRefs(useOverlayStateStore())
 

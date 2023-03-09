@@ -20,11 +20,11 @@
 </template>
 
 <script setup lang="ts">
-import OverlayTemplateDecorated from "./OverlayTemplateDecorated.vue";
-import ControlTextbox from "../controls/ControlTextbox.vue";
-import ControlButton from "../controls/ControlButton.vue";
+import OverlayTemplateDecorated from "@/components/overlays/OverlayTemplateDecorated.vue";
+import ControlTextbox from "@/components/controls/ControlTextbox.vue";
+import ControlButton from "@/components/controls/ControlButton.vue";
 import {ref} from "vue";
-import {WorkerOverlayWindowLogin} from "../../component-class/WorkerOverlayWindowLogin";
+import {WorkerOverlayWindowLogin} from "@/component-class/WorkerOverlayWindowLogin";
 
 const loginInput = ref("")
 const passwordInput = ref("")

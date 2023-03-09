@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import OverlayHeader from "./OverlayHeader.vue"
+import OverlayHeader from "@/components/overlays/OverlayHeader.vue";
 </script>
 
 <style scoped>

@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import OverlayContainer from "./components/OverlayContainer.vue";
-import NotificationList from "./components/NotificationList.vue";
+import NotificationList from "@/components/NotificationList.vue";
+import OverlayContainer from "@/components/OverlayContainer.vue";
 </script>
 
 <style scoped>

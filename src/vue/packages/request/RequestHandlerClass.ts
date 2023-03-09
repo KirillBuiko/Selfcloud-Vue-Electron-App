@@ -1,13 +1,13 @@
-import type IRequestHandler from "./IRequestHandler";
-import type {RequestData, ResponseData, RefreshData} from "../../Objects";
-import TokenHandler from "./TokenHandler";
-import type IStorageHandler from "./IStorageHandler";
-import StorageHandlerClass from "../storage/StorageHandlerClass";
+import type IRequestHandler from "@/packages/request/IRequestHandler";
+import type {RequestData, ResponseData, RefreshData} from "@/Objects";
+import TokenHandler from "@/packages/request/TokenHandler";
+import type IStorageHandler from "@/packages/request/IStorageHandler";
+import StorageHandlerClass from "@/packages/storage/StorageHandlerClass";
 import axios, {AxiosError} from "axios";
 import type {AxiosInstance, AxiosRequestConfig} from "axios"
-import {ResultCode} from "../../ResultCode";
+import {ResultCode} from "@/ResultCode";
 
-export default class requestClass implements IRequestHandler{
+export default class RequestHandlerClass implements IRequestHandler{
     tokenHandler: TokenHandler
     storageHandler: IStorageHandler
     axiosInst: AxiosInstance
@@ -76,7 +76,7 @@ export default class requestClass implements IRequestHandler{
     }
 
     async updateToken(): Promise<ResponseData<object>> {
-        const request: RequestData = {url: "/update/update_all_tokens"};
+        const request: RequestData = {url: "/request/update_all_tokens"};
         const response = await this.makeRequest<RefreshData>(request, true);
         if(response.code == ResultCode.OK && response.result !== undefined){
             const tokens = response.result;

@@ -1,4 +1,4 @@
-import type {ResultCode} from "../../ResultCode";
+import type {ResultCode} from "@/ResultCode";
 
 export default interface IStorageHandler{
     getValue(key: string): string;

@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-  import * as overlays from "./overlays"
-  import {useOverlayStateStore} from "../stores/overlayStore";
+  import * as overlays from "@/components/overlays"
+  import {useOverlayStateStore} from "@/stores/overlayStore";
   import {storeToRefs} from "pinia";
 
   const overlayState = useOverlayStateStore();

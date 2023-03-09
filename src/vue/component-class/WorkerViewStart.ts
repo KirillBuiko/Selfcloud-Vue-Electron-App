@@ -1,4 +1,4 @@
-import {useOverlayStateStore} from "../stores/overlayStore";
+import {useOverlayStateStore} from "@/stores/overlayStore";
 
 export class WorkerViewStart {
     overlayState;

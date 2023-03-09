@@ -1,8 +1,8 @@
-import type {RefreshData} from "../../Objects";
-import type IAuthStorage from "./IAuthStorage";
-import AuthStorage from "../storage/AuthStorage";
-import type IStorageHandler from "./IStorageHandler";
-import {ResultCode} from "../../ResultCode";
+import type {RefreshData} from "@/Objects";
+import type IAuthStorage from "@/packages/request/IAuthStorage";
+import AuthStorage from "@/packages/storage/AuthStorage";
+import type IStorageHandler from "@/packages/request/IStorageHandler";
+import {ResultCode} from "@/ResultCode";
 
 export default class TokenHandler{
     authStorage: IAuthStorage

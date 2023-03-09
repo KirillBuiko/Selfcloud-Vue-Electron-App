@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import {defineProps} from "vue";
-import LogoRotating from "../icon/LogoRotating.vue";
+import LogoRotating from "@/components/icon/LogoRotating.vue";
 
 defineProps<{isLoading: boolean}>()
 </script>

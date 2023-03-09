@@ -17,11 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import AccountRequestClass from "../../packages/request/AccountRequestClass";
-import type {ResponseData} from "../../Objects";
+import AccountRequestClass from "@/packages/request/AccountRequestClass";
+import type {ResponseData} from "@/Objects";
 import {ref} from "vue";
-import {ResultCode} from "../../ResultCode";
-import ControlButton from "../controls/ControlButton.vue";
+import {ResultCode} from "@/ResultCode";
+import ControlButton from "@/components/controls/ControlButton.vue";
 
 const password = "qwe123@#$QWE"
 const passwordWrong = "qwe123"

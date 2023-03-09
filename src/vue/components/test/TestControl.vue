@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import ControlTextbox from "../controls/ControlTextbox.vue";
+import ControlTextbox from "@/components/controls/ControlTextbox.vue";
 const textValue = ref("");
 const inputError = ref(true);
 </script>
