@@ -7,7 +7,6 @@ export const useConfigStore = defineStore('counter', {
         isLogin: useLocalStorage('config-is-login', false),
     }),
     getters: {
-        isLogin: (state) => state.isLogin,
     },
     actions: {
         setIsLogin(val: boolean) {
