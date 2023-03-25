@@ -1,7 +1,7 @@
 import AbstractRequest from "@/packages/request/AbstractRequest";
 import RequestHandlerClass from "@/packages/request/RequestHandlerClass";
-import type {LoginData, RegData, ResponseData, RefreshData} from "@/Objects";
-import {ResultCode} from "@/ResultCode";
+import type {LoginData, RegData, ResponseData, RefreshData} from "@/types/Objects";
+import {ResultCode} from "@/types/ResultCode";
 
 export default class AccountRequestClass extends AbstractRequest{
     REQUEST_PREFIX = '/request'

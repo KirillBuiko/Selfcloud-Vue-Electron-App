@@ -18,9 +18,9 @@
 
 <script setup lang="ts">
 import AccountRequestClass from "@/packages/request/AccountRequestClass";
-import type {ResponseData} from "@/Objects";
+import type {ResponseData} from "@/types/Objects";
 import {ref} from "vue";
-import {ResultCode} from "@/ResultCode";
+import {ResultCode} from "@/types/ResultCode";
 import ControlButton from "@/components/controls/ControlButton.vue";
 
 const password = "qwe123@#$QWE"
@@ -77,7 +77,7 @@ function setResult(response: ResponseData<object>){
       res = "Ошибка конфигурации";
       break;
     default:
-      res = response.code;
+      res = response.code.toString();
   }
   requestResult.value = res;
 }

@@ -1,5 +1,5 @@
 import {WorkerOverlay} from "@/component-class/WorkerOverlay";
-import type {LoginData} from "@/Objects";
+import type {LoginData} from "@/types/Objects";
 
 export class WorkerOverlayWindowLogin extends WorkerOverlay{
     constructor() {

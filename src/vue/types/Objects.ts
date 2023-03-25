@@ -1,4 +1,4 @@
-import type {ResultCode} from "@/ResultCode";
+import type {ResultCode} from "@/types/ResultCode";
 import type {ResponseType} from "axios";
 
 export abstract class AbstractData{

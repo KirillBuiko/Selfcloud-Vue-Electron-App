@@ -1,6 +1,6 @@
 import AbstractRequest from "@/packages/request/AbstractRequest";
 import type IRequestHandler from "@/packages/request/IRequestHandler";
-import type {ResponseData, UserData} from "@/Objects";
+import type {ResponseData, UserData} from "@/types/Objects";
 
 export default class UserInfoRequestClass extends AbstractRequest{
     constructor(requestHandler: IRequestHandler) {

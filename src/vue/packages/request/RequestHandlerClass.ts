@@ -1,20 +1,17 @@
 import type IRequestHandler from "@/packages/request/IRequestHandler";
-import type {RequestData, ResponseData, RefreshData} from "@/Objects";
-import TokenHandler from "@/packages/request/TokenHandler";
-import type IStorageHandler from "@/packages/request/IStorageHandler";
-import StorageHandlerClass from "@/packages/storage/StorageHandlerClass";
+import type {RequestData, ResponseData, RefreshData, AccessData} from "@/types/Objects";
 import axios, {AxiosError} from "axios";
 import type {AxiosInstance, AxiosRequestConfig} from "axios"
-import {ResultCode} from "@/ResultCode";
+import {ResultCode} from "@/types/ResultCode";
+import type IAuthStorage from "@/packages/request/IAuthStorage";
+import {useAuthStore} from "@/stores/authStore";
 
 export default class RequestHandlerClass implements IRequestHandler{
-    tokenHandler: TokenHandler
-    storageHandler: IStorageHandler
+    authStore: IAuthStorage;
     axiosInst: AxiosInstance
 
     constructor() {
-        this.storageHandler = new StorageHandlerClass()
-        this.tokenHandler = new TokenHandler(this.storageHandler)
+        this.authStore = useAuthStore();
         this.axiosInst = axios.create({
             baseURL: 'http://localhost:35000/',
             headers: {
@@ -31,7 +28,7 @@ export default class RequestHandlerClass implements IRequestHandler{
         const config: AxiosRequestConfig = {
             responseType: responseType
         }
-        const requestBody = {...this.tokenHandler.getTokens(), ...body}
+        const requestBody: AccessData & {refresh?: string} = {...this.authStore.getTokenData(), ...body}
         if(!refresh) requestBody.refresh = undefined;
 
         console.log(requestBody);
@@ -67,12 +64,8 @@ export default class RequestHandlerClass implements IRequestHandler{
         }
     }
 
-    setTokens(tokens: RefreshData): ResultCode {
-        return this.tokenHandler.setTokens(tokens);
-    }
-
-    getStorageHandler(): IStorageHandler {
-        return this.storageHandler;
+    setTokens(tokens: RefreshData): void {
+        this.authStore.setTokenData(tokens);
     }
 
     async updateToken(): Promise<ResponseData<object>> {

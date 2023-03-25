@@ -1,8 +1,6 @@
-import type {RefreshData, RequestData, ResponseData} from "@/Objects";
-import type IStorageHandler from "@/packages/request/IStorageHandler";
+import type {RefreshData, RequestData, ResponseData} from "@/types/Objects";
 
 export default interface IRequestHandler{
     makeRequest<K>(request: RequestData): Promise<ResponseData<K>>
-    getStorageHandler(): IStorageHandler
     setTokens(token: RefreshData): void
 }

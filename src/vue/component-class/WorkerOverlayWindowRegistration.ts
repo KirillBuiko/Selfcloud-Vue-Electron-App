@@ -1,5 +1,5 @@
 import {WorkerOverlay} from "@/component-class/WorkerOverlay";
-import type {RegData} from "@/Objects";
+import type {RegData} from "@/types/Objects";
 
 export class WorkerOverlayWindowRegistration extends WorkerOverlay{
     constructor() {
