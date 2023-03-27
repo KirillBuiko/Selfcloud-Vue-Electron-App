@@ -14,8 +14,11 @@ export class SocketEmitActions {
         // connected
     }
 
+    /**
+     * Get and return virtual disks
+     * */
     async getVirtualDisks(): Promise<VirtualDiskData[]>{
-        // get-virtual-disks
+        // TODO check
         return new Promise((resolve, reject) => {
             this.socket.timeout(5000).emit("get-virtual-disks", (err, vds) => {
                 if(err){
@@ -26,18 +29,27 @@ export class SocketEmitActions {
         })
     }
 
+    /**
+     * Provide virtual disks
+     * */
     provideVirtualDisks(vdIDs: string[]){
-        // provide-virtual-disks
-        this.socket.timeout(5000).emit("provide-virtual-disks", vdIDs);
+        // TODO check
+        this.socket.emit("provide-virtual-disks", vdIDs);
     }
 
-    revokeVirtualDisks(vdIDs: string[]){
-        // provide-virtual-disks
-        this.socket.timeout(5000).emit("provide-virtual-disks", vdIDs);
+    /**
+     * Revoke virtual disks
+     * */
+    revokeVirtualDisk(vdID: string){
+        // TODO check
+        this.socket.emit("revoke-virtual-disk", vdID);
     }
 
+    /**
+     * Create virtual disk and return virtual disk data
+     * */
     createVirtualDisk(): Promise<VirtualDiskData>{
-        // create-virtual-disk
+        // TODO check
         return new Promise((resolve, reject) => {
             this.socket.timeout(5000).emit("create-virtual-disk", (err, vd) => {
                 if(err){
@@ -48,23 +60,35 @@ export class SocketEmitActions {
         })
     }
 
+    /**
+     * Remove virtual disk
+     * */
     removeVirtualDisk(vdID: string){
-        // remove-virtual-disk
+        // TODO check
         this.socket.emit("remove-virtual-disk", vdID);
     }
 
+    /**
+     * Connect webrtc
+     * */
     connectToDevice(targetID: string, fingerprint: string, offer: string){
-        // connect-webrtc
+        // TODO check
         this.socket.emit("connect-webrtc", targetID, fingerprint, offer);
     }
 
+    /**
+     * Send webrtc answer
+     * */
     acceptConnectionToDevice(targetID: string, fingerprint: string, answer: string){
-        // connect-webrtc-answer
+        // TODO check
         this.socket.emit("connect-webrtc-answer", targetID, fingerprint, answer);
     }
 
+    /**
+     * Send webrtc candidate
+     * */
     sendWebRTCCandidate(targetID: string, fingerprint: string, candidate: string){
-        // send-webrtc-candidate
+        // TODO check
         this.socket.emit("send-webrtc-candidate", targetID, fingerprint, candidate);
     }
 }

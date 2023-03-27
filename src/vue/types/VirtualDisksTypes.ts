@@ -11,12 +11,11 @@ export interface VirtualDiskConfig{
     totalSizeBytes: number,
     remainedSizeBytes: number,
     localPath: string,
+    readyForConnection: boolean,
 }
 
 export interface LocalVirtualDiskConfig extends VirtualDiskConfig{
-    readyForConnection: boolean
 }
 
 export interface RemoteVirtualDiskConfig extends VirtualDiskConfig, VirtualDiskData{
-    isConnected: boolean;
 }

@@ -7,14 +7,12 @@ import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
 
 export const useVirtualDiskStore = defineStore<"virtualDisk", object,
     {[ind: string]: any}, IVirtualDisksStore>('virtualDisk', {
-    state: () => {
-        return {
-            remoteVirtualDisksConfig: [] as RemoteVirtualDiskConfig[],
-            localVirtualDisksConfig: [] as LocalVirtualDiskConfig[],
-            remoteVirtualDisks: new Map<string, RemoteVirtualDiskClass>(),
-            localVirtualDisks: new Map<string, LocalVirtualDiskClass>(),
-        }
-    },
+    state: () => ({
+        remoteVirtualDisksConfig: [] as RemoteVirtualDiskConfig[],
+        localVirtualDisksConfig: [] as LocalVirtualDiskConfig[],
+        remoteVirtualDisks: new Map<string, RemoteVirtualDiskClass>(),
+        localVirtualDisks: new Map<string, LocalVirtualDiskClass>(),
+    }),
     actions: {
         getRemoteVirtualDisk: (vdID: string): RemoteVirtualDiskClass | undefined => {
             // TODO
@@ -38,5 +36,11 @@ export const useVirtualDiskStore = defineStore<"virtualDisk", object,
         addLocalVirtualDisk: (vd: LocalVirtualDiskConfig): void => {
             // TODO
         },
+        removeLocalVirtualDisk(vdID: string): void {
+            // TODO
+        },
+        removeRemoteVirtualDisk(vdID: string): void {
+            // TODO
+        }
     }
 })

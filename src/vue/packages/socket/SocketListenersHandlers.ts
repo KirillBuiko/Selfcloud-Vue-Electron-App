@@ -17,11 +17,12 @@ export class SocketListenersHandlers{
         this.socketEmitActions = new SocketEmitActions(socket);
     }
 
+    /**
+     * Get virtual disks from socket, set online to them,
+     * provide all ready local virtual disks
+     * */
     onConnected(){
         // TODO check
-        // set socket state to online
-        // get vds and configure
-        // provide all ready vd
         this.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) => {
             vds.forEach((vd: VirtualDiskData) => {
                 if(this.virtualDiskWorkerActions.getLocalVirtualDisk(vd.vdID)) return;
@@ -41,44 +42,52 @@ export class SocketListenersHandlers{
         this.socketEmitActions.provideVirtualDisks(readyList);
     }
 
+
     onDisconnected(){
         // TODO check
-        // set socket state to offline
     }
 
+    /**
+     * Set offline to all this device's vd
+     * */
     onDeviceDisconnected(fingerprint: string){
         // TODO check
-        // set offline to all this device's vd
         this.virtualDiskWorkerActions.setRemoteDeviceOffline(fingerprint);
-        // this.virtualDiskWorkerActions.getAllRemoteVirtualDisks().forEach((vd: IRemoteVirtualDisk) => {
-        //     if(vd.getConfig().fingerprint === fingerprint)
-        //         vd.setOffline();
-        // });
     }
 
+    /**
+     * Nothing*/
     onDeviceConnected(socketID: string, fingerprint: string){
         // TODO check
-        // nothing?
     }
 
+    /**
+     * Set online to all provided virtual disks
+     * */
     onProvideVirtualDisks(socketID: string, fingerprint: string, vdIDs: string[]){
         // TODO check
-        // set socketID and fingerprint to vds, set online by vd
         this.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(socketID, fingerprint, vdIDs);
     }
 
+    /**
+     * Set remote virtual disk offline
+     * */
     onRevokeVirtualDisk(fingerprint: string, vdID: string){
         // TODO check
-        // set vd offline by vd
         this.virtualDiskWorkerActions.setRemoteVirtualDiskOffline(fingerprint, vdID);
     }
 
+    /**
+     * Add remote virtual disk
+     * */
     onCreateVirtualDisk(vd: VirtualDiskData){
         // TODO check
-        // add vd by worker
         this.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
     }
 
+    /**
+     * Remove remote or local virtual disk
+     * */
     onRemoveVirtualDisk(vdID: string){
         // TODO check
         // remove vd by worker
@@ -90,19 +99,16 @@ export class SocketListenersHandlers{
 
     onWebRTCOfferReceived(sourceID: string, fingerprint: string, offer: string){
         // TODO check
-        // to webrtc worker
-        this.webrtcWorkerActions.answerToOffer(sourceID, fingerprint, offer);
+        this.webrtcWorkerActions.answerToOffer(fingerprint, sourceID, offer);
     }
 
     onWebRTCAnswerReceived(sourceID: string, fingerprint: string, answer: string){
         // TODO check
-        // to webrtc worker
         this.webrtcWorkerActions.setRemoteAnswer(sourceID, fingerprint, answer);
     }
 
     onWebRTCCandidateReceived(sourceID: string, fingerprint: string, candidate: string){
         // TODO check
-        // to webrtc worker
         this.webrtcWorkerActions.setCandidate(sourceID, fingerprint, candidate);
     }
 }

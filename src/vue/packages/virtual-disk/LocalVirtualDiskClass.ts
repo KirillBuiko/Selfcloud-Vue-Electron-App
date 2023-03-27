@@ -9,6 +9,7 @@ export class LocalVirtualDiskClass extends VirtualDiskClass<LocalVirtualDiskConf
     }
 
     check(): boolean{
-        return false;
+        // TODO
+        return true;
     }
 }

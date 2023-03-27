@@ -9,7 +9,8 @@ export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskCo
     }
 
     check(): boolean {
-        return false;
+        // TODO
+        return true;
     }
 
     setOnline(socketID: string, fingerprint: string): void {
