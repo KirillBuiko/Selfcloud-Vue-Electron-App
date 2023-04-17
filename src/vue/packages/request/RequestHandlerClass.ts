@@ -3,15 +3,12 @@ import type {RequestData, ResponseData, RefreshData, AccessData} from "@/types/O
 import axios, {AxiosError} from "axios";
 import type {AxiosInstance, AxiosRequestConfig} from "axios"
 import {ResultCode} from "@/types/ResultCode";
-import type IAuthStorage from "@/packages/request/IAuthStorage";
-import {useAuthStore} from "@/stores/authStore";
+import type {$AuthStore} from "@/packages/request/IAuthStorage";
 
 export default class RequestHandlerClass implements IRequestHandler{
-    authStore: IAuthStorage;
     axiosInst: AxiosInstance
 
-    constructor() {
-        this.authStore = useAuthStore();
+    constructor(private D: $AuthStore) {
         this.axiosInst = axios.create({
             baseURL: 'http://localhost:35000/',
             headers: {
@@ -28,7 +25,7 @@ export default class RequestHandlerClass implements IRequestHandler{
         const config: AxiosRequestConfig = {
             responseType: responseType
         }
-        const requestBody: AccessData & {refresh?: string} = {...this.authStore.getTokenData(), ...body}
+        const requestBody: AccessData & {refresh?: string} = {...this.D.authStore.getTokenData(), ...body}
         if(!refresh) requestBody.refresh = undefined;
 
         console.log(requestBody);
@@ -65,7 +62,7 @@ export default class RequestHandlerClass implements IRequestHandler{
     }
 
     setTokens(tokens: RefreshData): void {
-        this.authStore.setTokenData(tokens);
+        this.D.authStore.setTokenData(tokens);
     }
 
     async updateToken(): Promise<ResponseData<object>> {

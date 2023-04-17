@@ -2,12 +2,13 @@ import {defineStore} from "pinia";
 import {io} from "socket.io-client";
 import type {SCSocket} from "@/types/SocketTypes";
 import {ref} from "vue";
-import {SocketListenersHandlers} from "@/packages/socket/SocketListenersHandlers";
+import type {$SocketListenersHandlers} from "@/packages/socket/SocketListenersHandlers";
+import {useOverlayStateStore} from "@/stores/overlayStore";
 
-export const useSocketStore = defineStore('counter', () => {
+export const useSocketStore = (D: $SocketListenersHandlers) => defineStore('socketStore', () => {
     const socket = ref<SCSocket>();
     socket.value = io("https://socket.self-cloud.ru", {autoConnect: false});
-    const handlers = new SocketListenersHandlers(socket.value);
+    const handlers = D.socketListenersHandlers;
 
     socket.value.on("connect", handlers.onConnected.bind(handlers));
     socket.value.on("disconnect", handlers.onDisconnected.bind(handlers));
@@ -27,4 +28,6 @@ export const useSocketStore = defineStore('counter', () => {
 
     socket.value.connect();
     return {socket}
-})
+})()
+
+export type $Socket = {socket: SCSocket}

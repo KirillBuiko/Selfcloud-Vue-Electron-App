@@ -1,12 +1,8 @@
 import {defineStore} from "pinia";
-import type {IWebRTCStoreActions} from "@/packages/webrtc/interfaces/IWebRTCStoreActions";
+import type {IWebRTCStoreActions, IWebRTCStoreState} from "@/packages/webrtc/interfaces/IWebRTCStoreActions";
 
-interface IWebRTCStoreState{
-    webrtcConnectionsToRemote: Map<string, RTCPeerConnection>,
-    webrtcConnectionsToLocal: Map<string, RTCPeerConnection>
-}
-
-export const useWebRTCStore = defineStore<"webrtc", IWebRTCStoreState, {}, IWebRTCStoreActions>('webrtc', {
+export const useWebRTCStore = defineStore<"webrtcStore", IWebRTCStoreState, {}, IWebRTCStoreActions>('webrtcStore',
+    {
     state: () => ({
         webrtcConnectionsToRemote: new Map<string, RTCPeerConnection>(),
         webrtcConnectionsToLocal: new Map<string, RTCPeerConnection>()

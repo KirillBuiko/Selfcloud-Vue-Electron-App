@@ -2,11 +2,11 @@ import {defineStore} from "pinia";
 import type {RemoteVirtualDiskClass} from "@/packages/virtual-disk/RemoteVirtualDiskClass";
 import type {LocalVirtualDiskClass} from "@/packages/virtual-disk/LocalVirtualDiskClass";
 import type {LocalVirtualDiskConfig, RemoteVirtualDiskConfig} from "@/types/VirtualDisksTypes";
-import type {IVirtualDisksStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStore";
+import type {IVirtualDisksStoreActions} from "@/packages/virtual-disk/interfaces/IVirtualDisksStoreActions";
 import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
 
-export const useVirtualDiskStore = defineStore<"virtualDisk", object,
-    {[ind: string]: any}, IVirtualDisksStore>('virtualDisk', {
+export const useVirtualDiskStore = defineStore<"virtualDiskStore", object,
+    {[ind: string]: any}, IVirtualDisksStoreActions>('virtualDiskStore', {
     state: () => ({
         remoteVirtualDisksConfig: [] as RemoteVirtualDiskConfig[],
         localVirtualDisksConfig: [] as LocalVirtualDiskConfig[],

@@ -39,8 +39,9 @@ import ControlTextbox from "@/components/controls/ControlTextbox.vue";
 import {useNotificationsStore} from "@/stores/notificationsStore";
 import {ref} from "vue";
 import {storeToRefs} from "pinia";
+import {container} from "@/composition/DIContainer";
 
-const notificationsStore = useNotificationsStore()
+const notificationsStore = container.notificationStore;
 const {addNotification, hideAllNotifications} = notificationsStore;
 const {defaultDuration} = storeToRefs(notificationsStore);
 const randomString = ref("qwe")

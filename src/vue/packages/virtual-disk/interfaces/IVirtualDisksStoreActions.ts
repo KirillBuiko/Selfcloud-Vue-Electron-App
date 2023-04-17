@@ -1,8 +1,9 @@
 import type {RemoteVirtualDiskClass} from "@/packages/virtual-disk/RemoteVirtualDiskClass";
 import type {LocalVirtualDiskClass} from "@/packages/virtual-disk/LocalVirtualDiskClass";
 import type {LocalVirtualDiskConfig, VirtualDiskData} from "@/types/VirtualDisksTypes";
+import type {IWebRTCStoreActions} from "@/packages/webrtc/interfaces/IWebRTCStoreActions";
 
-export interface IVirtualDisksStore {
+export interface IVirtualDisksStoreActions {
     getRemoteVirtualDisk(vdID: string): RemoteVirtualDiskClass | undefined,
 
     getLocalVirtualDisk(vdID: string): LocalVirtualDiskClass | undefined,
@@ -19,3 +20,5 @@ export interface IVirtualDisksStore {
 
     removeRemoteVirtualDisk(vdID: string): void
 }
+
+export type $VirtualDiskStore = {virtualDiskStore: IVirtualDisksStoreActions}

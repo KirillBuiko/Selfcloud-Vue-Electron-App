@@ -1,21 +1,11 @@
-import type {SCSocket} from "@/types/SocketTypes";
+import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirtualDiskWorkerActions";
+import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
-import type {IWebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
-import {WebRTCWorkerActions} from "@/packages/webrtc/WebRTCWorkerActions";
-import type {IVirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirtualDiskWorkerActions";
-import {SocketEmitActions} from "@/packages/socket/SocketEmitActions";
-import {VirtualDiskWorkerActions} from "@/packages/virtual-disk/VirtualDiskWorkerActions";
+import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
+
 
 export class SocketListenersHandlers{
-    webrtcWorkerActions: IWebRTCWorkerActions;
-    virtualDiskWorkerActions: IVirtualDiskWorkerActions;
-    socketEmitActions: SocketEmitActions;
-
-    constructor(private socket: SCSocket) {
-        this.webrtcWorkerActions = new WebRTCWorkerActions();
-        this.virtualDiskWorkerActions = new VirtualDiskWorkerActions();
-        this.socketEmitActions = new SocketEmitActions(socket);
-    }
+    constructor(private D: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions) {}
 
     /**
      * Get virtual disks from socket, set online to them,
@@ -23,23 +13,23 @@ export class SocketListenersHandlers{
      * */
     onConnected(){
         // TODO check
-        this.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) => {
+        this.D.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) => {
             vds.forEach((vd: VirtualDiskData) => {
-                if(this.virtualDiskWorkerActions.getLocalVirtualDisk(vd.vdID)) return;
-                this.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
+                if(this.D.virtualDiskWorkerActions.getLocalVirtualDisk(vd.vdID)) return;
+                this.D.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
                 if(vd.isOnline)
-                    this.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(vd.socketID, vd.fingerprint, [vd.vdID]);
+                    this.D.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(vd.socketID, vd.fingerprint, [vd.vdID]);
             })
         }).catch(() => {
             //
         });
         const readyList: string[] = [];
-        this.virtualDiskWorkerActions.getAllLocalVirtualDisks().forEach((vd) => {
+        this.D.virtualDiskWorkerActions.getAllLocalVirtualDisks().forEach((vd) => {
             const config = vd.getConfig();
             if(config.readyForConnection)
                 readyList.push(config.vdID);
         });
-        this.socketEmitActions.provideVirtualDisks(readyList);
+        this.D.socketEmitActions.provideVirtualDisks(readyList);
     }
 
 
@@ -52,7 +42,7 @@ export class SocketListenersHandlers{
      * */
     onDeviceDisconnected(fingerprint: string){
         // TODO check
-        this.virtualDiskWorkerActions.setRemoteDeviceOffline(fingerprint);
+        this.D.virtualDiskWorkerActions.setRemoteDeviceOffline(fingerprint);
     }
 
     /**
@@ -66,7 +56,7 @@ export class SocketListenersHandlers{
      * */
     onProvideVirtualDisks(socketID: string, fingerprint: string, vdIDs: string[]){
         // TODO check
-        this.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(socketID, fingerprint, vdIDs);
+        this.D.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(socketID, fingerprint, vdIDs);
     }
 
     /**
@@ -74,7 +64,7 @@ export class SocketListenersHandlers{
      * */
     onRevokeVirtualDisk(fingerprint: string, vdID: string){
         // TODO check
-        this.virtualDiskWorkerActions.setRemoteVirtualDiskOffline(fingerprint, vdID);
+        this.D.virtualDiskWorkerActions.setRemoteVirtualDiskOffline(fingerprint, vdID);
     }
 
     /**
@@ -82,7 +72,7 @@ export class SocketListenersHandlers{
      * */
     onCreateVirtualDisk(vd: VirtualDiskData){
         // TODO check
-        this.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
+        this.D.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
     }
 
     /**
@@ -91,24 +81,26 @@ export class SocketListenersHandlers{
     onRemoveVirtualDisk(vdID: string){
         // TODO check
         // remove vd by worker
-        if(this.virtualDiskWorkerActions.getLocalVirtualDisk(vdID))
-            this.virtualDiskWorkerActions.removeLocalVirtualDisk(vdID);
+        if(this.D.virtualDiskWorkerActions.getLocalVirtualDisk(vdID))
+            this.D.virtualDiskWorkerActions.removeLocalVirtualDisk(vdID);
         else
-            this.virtualDiskWorkerActions.removeRemoteVirtualDisk(vdID);
+            this.D.virtualDiskWorkerActions.removeRemoteVirtualDisk(vdID);
     }
 
     onWebRTCOfferReceived(sourceID: string, fingerprint: string, offer: string){
         // TODO check
-        this.webrtcWorkerActions.answerToOffer(fingerprint, sourceID, offer);
+        this.D.webrtcWorkerActions.answerToOffer(fingerprint, sourceID, offer);
     }
 
     onWebRTCAnswerReceived(sourceID: string, fingerprint: string, answer: string){
         // TODO check
-        this.webrtcWorkerActions.setRemoteAnswer(sourceID, fingerprint, answer);
+        this.D.webrtcWorkerActions.setRemoteAnswer(sourceID, fingerprint, answer);
     }
 
     onWebRTCCandidateReceived(sourceID: string, fingerprint: string, candidate: string){
         // TODO check
-        this.webrtcWorkerActions.setCandidate(sourceID, fingerprint, candidate);
+        this.D.webrtcWorkerActions.setCandidate(sourceID, fingerprint, candidate);
     }
 }
+
+export type $SocketListenersHandlers = {socketListenersHandlers: SocketListenersHandlers}

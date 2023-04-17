@@ -10,8 +10,9 @@
   import * as overlays from "@/components/overlays"
   import {useOverlayStateStore} from "@/stores/overlayStore";
   import {storeToRefs} from "pinia";
+  import {container} from "@/composition/DIContainer";
 
-  const overlayState = useOverlayStateStore();
+  const overlayState = container.overlayStore;
   const {overlayName, isOpen} = storeToRefs(overlayState)
 
   function backgroundClick(e: Event){

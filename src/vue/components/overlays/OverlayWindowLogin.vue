@@ -25,10 +25,11 @@ import ControlTextbox from "@/components/controls/ControlTextbox.vue";
 import ControlButton from "@/components/controls/ControlButton.vue";
 import {ref} from "vue";
 import {WorkerOverlayWindowLogin} from "@/component-class/WorkerOverlayWindowLogin";
+import {container} from "@/composition/DIContainer";
 
 const loginInput = ref("")
 const passwordInput = ref("")
-const worker = new WorkerOverlayWindowLogin()
+const worker = new WorkerOverlayWindowLogin(container)
 
 console.log("LOGIN WINDOW")
 

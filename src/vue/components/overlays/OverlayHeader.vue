@@ -9,10 +9,9 @@
 </template>
 
 <script setup lang="ts">
+import {container} from "@/composition/DIContainer";
 
-import {useOverlayStateStore} from "@/stores/overlayStore";
-
-const {closeOverlay} = useOverlayStateStore()
+const {closeOverlay} = container.overlayStore;
 </script>
 
 <style scoped lang="scss">

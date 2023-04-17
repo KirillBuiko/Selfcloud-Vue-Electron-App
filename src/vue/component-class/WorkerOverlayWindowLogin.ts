@@ -1,9 +1,10 @@
 import {WorkerOverlay} from "@/component-class/WorkerOverlay";
 import type {LoginData} from "@/types/Objects";
+import type {$OverlayStore} from "@/stores/overlayStore";
 
 export class WorkerOverlayWindowLogin extends WorkerOverlay{
-    constructor() {
-        super();
+    constructor(D: $OverlayStore) {
+        super(D);
     }
 
     async login(data?: LoginData){
@@ -15,3 +16,5 @@ export class WorkerOverlayWindowLogin extends WorkerOverlay{
         this.stopLoading();
     }
 }
+
+export type $WorkerOverlayWindowLogin = {workerOverlayWindowLogin: WorkerOverlayWindowLogin}

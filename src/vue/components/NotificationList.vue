@@ -16,10 +16,10 @@
 
 <script setup lang="ts">
 import NotificationListItem from "@/components/NotificationListItem.vue";
-import {useNotificationsStore} from "@/stores/notificationsStore";
 import {storeToRefs} from "pinia";
+import {container} from "@/composition/DIContainer";
 
-const notificationsStore = useNotificationsStore()
+const notificationsStore = container.notificationStore;
 const {activeNotificationsList} = storeToRefs(notificationsStore);
 const {hideAllNotifications} = notificationsStore;
 

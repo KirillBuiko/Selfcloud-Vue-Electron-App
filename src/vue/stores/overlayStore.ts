@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useOverlayStateStore = defineStore('overlayState', {
+export const useOverlayStateStore = defineStore('overlayStore', {
     state: () => ({
         overlayName: "login",
         isOpen: false,
@@ -30,3 +30,5 @@ export const useOverlayStateStore = defineStore('overlayState', {
         }
     }
 })
+
+export type $OverlayStore = {overlayStore: ReturnType<typeof useOverlayStateStore>}

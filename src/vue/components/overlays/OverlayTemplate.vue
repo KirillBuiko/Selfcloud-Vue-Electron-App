@@ -14,8 +14,9 @@ import {defineProps} from "vue";
 import {storeToRefs} from "pinia";
 import {useOverlayStateStore} from "@/stores/overlayStore";
 import OverlayPreloader from "@/components/overlays/OverlayPreloader.vue";
+import {container} from "@/composition/DIContainer";
 
-const {isLoading} = storeToRefs(useOverlayStateStore())
+const {isLoading} = storeToRefs(container.overlayStore);
 
 defineProps<{
   headerText: string

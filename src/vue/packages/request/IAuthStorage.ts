@@ -8,3 +8,5 @@ export default interface IAuthStorage{
     setTokenData(tokens: RefreshData): void,
     getTokenData(): RefreshData,
 }
+
+export type $AuthStore = {authStore: IAuthStorage}

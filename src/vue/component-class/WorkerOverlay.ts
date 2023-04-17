@@ -1,14 +1,11 @@
-import {useOverlayStateStore} from "@/stores/overlayStore";
+import type {$OverlayStore} from "@/stores/overlayStore";
 
 export class WorkerOverlay {
-    overlayState;
-
-    constructor() {
-        this.overlayState = useOverlayStateStore();
+    constructor(private D: $OverlayStore) {
     }
 
     closeOverlay() {
-        this.overlayState.closeOverlay();
+        this.D.overlayStore.closeOverlay();
     }
 
     changeOverlay(name: string) {
@@ -16,10 +13,12 @@ export class WorkerOverlay {
     }
 
     startLoading() {
-        this.overlayState.startLoading();
+        this.D.overlayStore.startLoading();
     }
 
     stopLoading() {
-        this.overlayState.stopLoading();
+        this.D.overlayStore.stopLoading();
     }
 }
+
+export type $WorkerOverlay = {workerOverlay: WorkerOverlay}

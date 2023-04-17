@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import {useLocalStorage} from "@vueuse/core";
 
-export const useConfigStore = defineStore('config', {
+export const useConfigStore = defineStore('configStore', {
     state: () => ({
         darkMode: useLocalStorage('config-dark-mode', false),
         isLogin: useLocalStorage('config-is-login', false),
@@ -17,3 +17,5 @@ export const useConfigStore = defineStore('config', {
         },
     },
 })
+
+export type $ConfigStore = {configStore: ReturnType<typeof useConfigStore>}

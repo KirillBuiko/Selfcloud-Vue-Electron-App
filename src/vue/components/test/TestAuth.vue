@@ -22,11 +22,12 @@ import type {ResponseData} from "@/types/Objects";
 import {ref} from "vue";
 import {ResultCode} from "@/types/ResultCode";
 import ControlButton from "@/components/controls/ControlButton.vue";
+import {container} from "@/composition/DIContainer";
 
 const password = "qwe123@#$QWE"
 const passwordWrong = "qwe123"
 
-const accountHandler = new AccountRequestClass();
+const accountHandler = container.accountRequestActions;
 let requestResult = ref("0");
 let isLoading = ref(false);
 

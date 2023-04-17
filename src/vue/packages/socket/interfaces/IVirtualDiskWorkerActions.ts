@@ -18,3 +18,5 @@ export interface IVirtualDiskWorkerActions{
     getAllLocalVirtualDisks(): LocalVirtualDiskClass[],
     getAllRemoteVirtualDisks(): RemoteVirtualDiskClass[],
 }
+
+export type $VirtualDiskWorkerActions = {virtualDiskWorkerActions: IVirtualDiskWorkerActions}

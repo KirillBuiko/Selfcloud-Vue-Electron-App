@@ -21,8 +21,9 @@
 import {defineProps} from "vue";
 import type {Notification} from "@/stores/notificationsStore";
 import {useNotificationsStore} from "@/stores/notificationsStore";
+import {container} from "@/composition/DIContainer";
 
-const notificationStore = useNotificationsStore();
+const notificationStore = container.notificationStore;
 const {showNotification, hideNotification, startNotificationTimer} = notificationStore;
 
 const props = defineProps<{

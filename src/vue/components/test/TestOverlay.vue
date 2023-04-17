@@ -8,7 +8,8 @@
 <script setup lang="ts">
 import {WorkerViewStart} from "@/component-class/WorkerViewStart";
 import ControlButton from "@/components/controls/ControlButton.vue";
-const workerViewStart = new WorkerViewStart()
+import {container} from "@/composition/DIContainer";
+const workerViewStart = new WorkerViewStart(container)
 </script>
 
 <style scoped lang="scss">

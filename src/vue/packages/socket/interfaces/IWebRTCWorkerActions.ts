@@ -1,3 +1,5 @@
+import type {$VirtualDiskStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStoreActions";
+
 export interface IWebRTCWorkerActions {
     createConnection(fingerprint: string, socketID: string): Promise<void>,
 
@@ -13,3 +15,5 @@ export interface IWebRTCWorkerActions {
 
     sendCandidate(socketID: string, fingerprint: string, candidate: string): void,
 }
+
+export type $WebRTCWorkerActions = {webrtcWorkerActions: IWebRTCWorkerActions}

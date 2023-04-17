@@ -13,7 +13,7 @@ export interface Notification extends NotificationInput{
     isClosing: boolean;
 }
 
-export const useNotificationsStore = defineStore('notifications', {
+export const useNotificationsStore = defineStore('notificationsStore', {
     state: () => ({
         notificationsList: [] as Notification[],
         timerList: {} as {[id: number]: number},
@@ -87,3 +87,5 @@ export const useNotificationsStore = defineStore('notifications', {
         }
     }
 })
+
+export type $NotificationStore = {notificationStore: ReturnType<typeof useNotificationsStore>}
