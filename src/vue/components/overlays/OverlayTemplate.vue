@@ -11,12 +11,10 @@
 <script setup lang="ts">
 import OverlayHeader from "@/components/overlays/OverlayHeader.vue";
 import {defineProps} from "vue";
-import {storeToRefs} from "pinia";
-import {useOverlayStateStore} from "@/stores/overlayStore";
 import OverlayPreloader from "@/components/overlays/OverlayPreloader.vue";
 import {container} from "@/composition/DIContainer";
 
-const {isLoading} = storeToRefs(container.overlayStore);
+const {isLoading} = container.overlayStore;
 
 defineProps<{
   headerText: string

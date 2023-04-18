@@ -2,10 +2,11 @@ import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirt
 import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
 import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
+import type {$AuthStore} from "@/packages/request/IAuthStorage";
 
 
 export class SocketListenersHandlers{
-    constructor(private S: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions) {}
+    constructor(private deps: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions & $AuthStore) {}
 
     /**
      * Get virtual disks from socket, set online to them,
@@ -13,25 +14,25 @@ export class SocketListenersHandlers{
      * */
     onConnected(){
         // TODO check
-        this.S.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) => {
+        this.deps.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) => {
             vds.forEach((vd: VirtualDiskData) => {
-                if(this.S.virtualDiskWorkerActions.getLocalVirtualDisk(vd.vdID)) return;
-                this.S.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
+                if(this.deps.virtualDiskWorkerActions.getLocalVirtualDisk(vd.vdID) ||
+                    vd.fingerprint === this.deps.authStore.fingerprint.value) return;
+                this.deps.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
                 if(vd.isOnline)
-                    this.S.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(vd.socketID, vd.fingerprint, [vd.vdID]);
+                    this.deps.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(vd.socketID, vd.fingerprint, [vd.vdID]);
             })
         }).catch(() => {
-            //
+            // TODO: Exception handle
         });
         const readyList: string[] = [];
-        this.S.virtualDiskWorkerActions.getAllLocalVirtualDisks().forEach((vd) => {
+        this.deps.virtualDiskWorkerActions.getAllLocalVirtualDisks().forEach((vd) => {
             const config = vd.getConfig();
             if(config.readyForConnection)
                 readyList.push(config.vdID);
         });
-        this.S.socketEmitActions.provideVirtualDisks(readyList);
+        this.deps.socketEmitActions.provideVirtualDisks(readyList);
     }
-
 
     onDisconnected(){
         // TODO check
@@ -42,7 +43,7 @@ export class SocketListenersHandlers{
      * */
     onDeviceDisconnected(fingerprint: string){
         // TODO check
-        this.S.virtualDiskWorkerActions.setRemoteDeviceOffline(fingerprint);
+        this.deps.virtualDiskWorkerActions.setRemoteDeviceOffline(fingerprint);
     }
 
     /**
@@ -56,7 +57,7 @@ export class SocketListenersHandlers{
      * */
     onProvideVirtualDisks(socketID: string, fingerprint: string, vdIDs: string[]){
         // TODO check
-        this.S.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(socketID, fingerprint, vdIDs);
+        this.deps.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(socketID, fingerprint, vdIDs);
     }
 
     /**
@@ -64,7 +65,7 @@ export class SocketListenersHandlers{
      * */
     onRevokeVirtualDisk(fingerprint: string, vdID: string){
         // TODO check
-        this.S.virtualDiskWorkerActions.setRemoteVirtualDiskOffline(fingerprint, vdID);
+        this.deps.virtualDiskWorkerActions.setRemoteVirtualDiskOffline(fingerprint, vdID);
     }
 
     /**
@@ -72,7 +73,7 @@ export class SocketListenersHandlers{
      * */
     onCreateVirtualDisk(vd: VirtualDiskData){
         // TODO check
-        this.S.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
+        this.deps.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
     }
 
     /**
@@ -81,25 +82,25 @@ export class SocketListenersHandlers{
     onRemoveVirtualDisk(vdID: string){
         // TODO check
         // remove vd by worker
-        if(this.S.virtualDiskWorkerActions.getLocalVirtualDisk(vdID))
-            this.S.virtualDiskWorkerActions.removeLocalVirtualDisk(vdID);
+        if(this.deps.virtualDiskWorkerActions.getLocalVirtualDisk(vdID))
+            this.deps.virtualDiskWorkerActions.removeLocalVirtualDisk(vdID);
         else
-            this.S.virtualDiskWorkerActions.removeRemoteVirtualDisk(vdID);
+            this.deps.virtualDiskWorkerActions.removeRemoteVirtualDisk(vdID);
     }
 
     onWebRTCOfferReceived(sourceID: string, fingerprint: string, offer: string){
         // TODO check
-        this.S.webrtcWorkerActions.answerToOffer(fingerprint, sourceID, offer);
+        this.deps.webrtcWorkerActions.answerToOffer(fingerprint, sourceID, offer);
     }
 
     onWebRTCAnswerReceived(sourceID: string, fingerprint: string, answer: string){
         // TODO check
-        this.S.webrtcWorkerActions.setRemoteAnswer(sourceID, fingerprint, answer);
+        this.deps.webrtcWorkerActions.setRemoteAnswer(sourceID, fingerprint, answer);
     }
 
     onWebRTCCandidateReceived(sourceID: string, fingerprint: string, candidate: string){
         // TODO check
-        this.S.webrtcWorkerActions.setCandidate(sourceID, fingerprint, candidate);
+        this.deps.webrtcWorkerActions.setCandidate(sourceID, fingerprint, candidate);
     }
 }
 

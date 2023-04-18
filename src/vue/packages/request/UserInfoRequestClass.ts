@@ -1,24 +1,22 @@
 import AbstractRequest from "@/packages/request/AbstractRequest";
-import type IRequestHandler from "@/packages/request/IRequestHandler";
 import type {ResponseData, UserData} from "@/types/Objects";
 import type {$RequestHandler} from "@/packages/request/IRequestHandler";
-import AccountRequestClass from "@/packages/request/AccountRequestClass";
 
 export default class UserInfoRequestClass extends AbstractRequest{
-    constructor(private S: $RequestHandler) {
+    constructor(private deps: $RequestHandler) {
         super();
     }
 
     async getUserInfo(): Promise<ResponseData<UserData>>{
         // TODO: set URL
-        return await this.S.requestHandler.makeRequest<UserData>({
+        return await this.deps.requestHandler.makeRequest<UserData>({
             url: "",
             method: "POST"
         });
     }
 
     async updateUserInfo(userData: UserData): Promise<ResponseData<object>>{
-        return await this.S.requestHandler.makeRequest({
+        return await this.deps.requestHandler.makeRequest({
             url: "",
             method: "POST",
             body: userData

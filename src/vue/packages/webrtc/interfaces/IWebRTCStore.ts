@@ -1,4 +1,8 @@
-export interface IWebRTCStoreActions {
+import type {Ref} from "vue";
+
+export interface IWebRTCStore {
+    webrtcConnectionsToRemote: Ref<Map<string, RTCPeerConnection>>,
+    webrtcConnectionsToLocal: Ref<Map<string, RTCPeerConnection>>,
     getRTCConnectionToRemote(fingerprint: string): RTCPeerConnection | undefined,
 
     getRTCConnectionToLocal(fingerprint: string): RTCPeerConnection | undefined,
@@ -16,9 +20,4 @@ export interface IWebRTCStoreActions {
     removeRTCConnectionToRemote(fingerprint: string): void
 }
 
-export interface IWebRTCStoreState {
-    webrtcConnectionsToRemote: Map<string, RTCPeerConnection>,
-    webrtcConnectionsToLocal: Map<string, RTCPeerConnection>
-}
-
-export type $WebRTCStore = {webrtcStore: IWebRTCStoreActions}
+export type $WebRTCStore = {webrtcStore: IWebRTCStore}

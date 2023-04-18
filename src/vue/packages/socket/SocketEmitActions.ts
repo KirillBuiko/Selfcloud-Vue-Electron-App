@@ -1,9 +1,9 @@
 import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
 import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
-import type {$Socket} from "@/stores/soketStore";
+import type {$Socket} from "@/stores/SoketStore";
 
 export class SocketEmitActions {
-    constructor(private S: $WebRTCWorkerActions & $Socket) {}
+    constructor(private deps: $WebRTCWorkerActions & $Socket) {}
 
     initConnection(){
         // connected
@@ -15,7 +15,7 @@ export class SocketEmitActions {
     async getVirtualDisks(): Promise<VirtualDiskData[]>{
         // TODO check
         return new Promise((resolve, reject) => {
-            this.S.socket.timeout(5000).emit("get-virtual-disks", (err, vds) => {
+            this.deps.socket.timeout(5000).emit("get-virtual-disks", (err, vds) => {
                 if(err){
                     reject(err);
                 }
@@ -29,7 +29,7 @@ export class SocketEmitActions {
      * */
     provideVirtualDisks(vdIDs: string[]){
         // TODO check
-        this.S.socket.emit("provide-virtual-disks", vdIDs);
+        this.deps.socket.emit("provide-virtual-disks", vdIDs);
     }
 
     /**
@@ -37,7 +37,7 @@ export class SocketEmitActions {
      * */
     revokeVirtualDisk(vdID: string){
         // TODO check
-        this.S.socket.emit("revoke-virtual-disk", vdID);
+        this.deps.socket.emit("revoke-virtual-disk", vdID);
     }
 
     /**
@@ -46,7 +46,7 @@ export class SocketEmitActions {
     createVirtualDisk(): Promise<VirtualDiskData>{
         // TODO check
         return new Promise((resolve, reject) => {
-            this.S.socket.timeout(5000).emit("create-virtual-disk", (err, vd) => {
+            this.deps.socket.timeout(5000).emit("create-virtual-disk", (err, vd) => {
                 if(err){
                     reject(err);
                 }
@@ -60,7 +60,7 @@ export class SocketEmitActions {
      * */
     removeVirtualDisk(vdID: string){
         // TODO check
-        this.S.socket.emit("remove-virtual-disk", vdID);
+        this.deps.socket.emit("remove-virtual-disk", vdID);
     }
 
     /**
@@ -68,7 +68,7 @@ export class SocketEmitActions {
      * */
     connectToDevice(targetID: string, fingerprint: string, offer: string){
         // TODO check
-        this.S.socket.emit("connect-webrtc", targetID, fingerprint, offer);
+        this.deps.socket.emit("connect-webrtc", targetID, fingerprint, offer);
     }
 
     /**
@@ -76,7 +76,7 @@ export class SocketEmitActions {
      * */
     acceptConnectionToDevice(targetID: string, fingerprint: string, answer: string){
         // TODO check
-        this.S.socket.emit("connect-webrtc-answer", targetID, fingerprint, answer);
+        this.deps.socket.emit("connect-webrtc-answer", targetID, fingerprint, answer);
     }
 
     /**
@@ -84,7 +84,7 @@ export class SocketEmitActions {
      * */
     sendWebRTCCandidate(targetID: string, fingerprint: string, candidate: string){
         // TODO check
-        this.S.socket.emit("send-webrtc-candidate", targetID, fingerprint, candidate);
+        this.deps.socket.emit("send-webrtc-candidate", targetID, fingerprint, candidate);
     }
 }
 

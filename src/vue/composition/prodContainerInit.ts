@@ -1,15 +1,13 @@
-import type {$WebRTCStore} from "@/packages/webrtc/interfaces/IWebRTCStoreActions";
+import type {$WebRTCStore} from "@/packages/webrtc/interfaces/IWebRTCStore";
 import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
-import type {$VirtualDiskStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStoreActions";
-import type {$OverlayStore} from "@/stores/overlayStore";
-import type {$Socket} from "@/stores/soketStore";
-import {useOverlayStateStore} from "@/stores/overlayStore";
+import type {$VirtualDiskStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStore";
+import type {$OverlayStore} from "@/stores/OverlayStore";
+import type {$Socket} from "@/stores/SoketStore";
+import {OverlayStore} from "@/stores/OverlayStore";
 import {useConfigStore} from "@/stores/configStore";
 import {useNotificationsStore} from "@/stores/notificationsStore";
-import {useSocketStore} from "@/stores/soketStore";
-import {useVirtualDiskStore} from "@/stores/virtualDiskStore";
-import {useWebRTCStore} from "@/stores/webrtcStore";
-import {useAuthStore} from "@/stores/authStore";
+import {useSocketStore} from "@/stores/SoketStore";
+import {WebRTCStore} from "@/stores/WebRTCStore";
 import {WebRTCWorkerActions} from "@/packages/webrtc/WebRTCWorkerActions";
 import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirtualDiskWorkerActions";
 import {VirtualDiskWorkerActions} from "@/packages/virtual-disk/VirtualDiskWorkerActions";
@@ -28,15 +26,17 @@ import {WorkerViewStart} from "@/component-class/WorkerViewStart";
 import {WorkerOverlayWindowRegistration} from "@/component-class/WorkerOverlayWindowRegistration";
 import type {DIContainerType} from "@/composition/DIContainer";
 import {container} from "@/composition/DIContainer";
+import {AuthStore} from "@/stores/AuthStore";
+import {VirtualDiskStore} from "@/stores/VirtualDiskStore";
 
 export const prodContainerInit = () => {
-    const check: DIContainerType = {
+    const _: DIContainerType = {
         configStore: container.configStore = useConfigStore(),
-        overlayStore: container.overlayStore = useOverlayStateStore(),
+        overlayStore: container.overlayStore = new OverlayStore(),
         notificationStore: container.notificationStore = useNotificationsStore(),
-        virtualDiskStore: container.virtualDiskStore = useVirtualDiskStore(),
-        webrtcStore: container.webrtcStore = useWebRTCStore(),
-        authStore: container.authStore = useAuthStore(),
+        virtualDiskStore: container.virtualDiskStore = new VirtualDiskStore(),
+        webrtcStore: container.webrtcStore = new WebRTCStore(),
+        authStore: container.authStore = new AuthStore(),
 
         webrtcWorkerActions: container.webrtcWorkerActions =
             new WebRTCWorkerActions(container as
@@ -49,7 +49,7 @@ export const prodContainerInit = () => {
                 $WebRTCWorkerActions & $VirtualDiskStore & $SocketEmitActions),
         socketListenersHandlers: container.socketListenersHandlers =
             new SocketListenersHandlers(container as
-                $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions),
+                $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions & $AuthStore),
 
         socket: container.socket = useSocketStore(container as
             $SocketListenersHandlers).socket as SCSocket,
@@ -77,5 +77,4 @@ export const prodContainerInit = () => {
             new WorkerOverlayWindowRegistration(container as
                 $OverlayStore),
     }
-    console.log(container)
 }

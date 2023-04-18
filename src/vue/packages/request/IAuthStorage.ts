@@ -1,10 +1,13 @@
 import type {RefreshData} from "@/types/Objects";
-import type {ResultCode} from "@/types/ResultCode";
+import type {Ref} from "vue";
 
 export default interface IAuthStorage{
-    setAccessToken(token: string): ResultCode,
-    setUpdateToken(token: string): ResultCode,
-    setImprint(key: string | undefined): ResultCode,
+    access: Ref<string>,
+    refresh: Ref<string>,
+    fingerprint:Ref<string>,
+    setAccessToken(token: string): void,
+    setRefreshToken(token: string): void,
+    setFingerprint(key: string | undefined): void,
     setTokenData(tokens: RefreshData): void,
     getTokenData(): RefreshData,
 }

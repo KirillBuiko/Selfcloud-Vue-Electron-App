@@ -7,16 +7,14 @@
 </template>
 
 <script setup lang="ts">
-  import * as overlays from "@/components/overlays"
-  import {useOverlayStateStore} from "@/stores/overlayStore";
-  import {storeToRefs} from "pinia";
+  import * as overlays from "@/components/overlays/index"
   import {container} from "@/composition/DIContainer";
 
-  const overlayState = container.overlayStore;
-  const {overlayName, isOpen} = storeToRefs(overlayState)
+  const overlayStore = container.overlayStore;
+  const {overlayName, isOpen} = overlayStore
 
   function backgroundClick(e: Event){
-    if(e.target === e.currentTarget) overlayState.closeOverlay();
+    if(e.target === e.currentTarget) overlayStore.closeOverlay();
     console.log("CLICK")
   }
 

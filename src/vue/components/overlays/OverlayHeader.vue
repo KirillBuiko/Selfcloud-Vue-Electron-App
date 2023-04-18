@@ -3,7 +3,7 @@
     <span class="header-text">
       <slot/>
     </span>
-    <button class="close-button" @click="closeOverlay()"></button>
+    <button class="close-button" @click="overlayStore.closeOverlay()"></button>
   </header>
 <!--  TODO: make header-->
 </template>
@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import {container} from "@/composition/DIContainer";
 
-const {closeOverlay} = container.overlayStore;
+const overlayStore = container.overlayStore;
 </script>
 
 <style scoped lang="scss">

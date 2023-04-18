@@ -75,7 +75,7 @@ export const useNotificationsStore = defineStore('notificationsStore', {
             this.timerList[id] = setTimeout(() => {
                 this.stopNotificationTimer(id);
                 this.hideNotification(id);
-            }, note.duration);
+            }, note.duration) as unknown as number;
         },
         startHideNotificationTimerAll(){
             //
