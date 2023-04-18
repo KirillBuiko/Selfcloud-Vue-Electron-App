@@ -3,8 +3,8 @@ import type {LoginData} from "@/types/Objects";
 import type {$OverlayStore} from "@/stores/overlayStore";
 
 export class WorkerOverlayWindowLogin extends WorkerOverlay{
-    constructor(servs: $OverlayStore) {
-        super(servs);
+    constructor(S: $OverlayStore) {
+        super(S);
     }
 
     async login(data?: LoginData){

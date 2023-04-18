@@ -1,11 +1,11 @@
 import type {$OverlayStore} from "@/stores/overlayStore";
 
 export class WorkerOverlay {
-    constructor(private servs: $OverlayStore) {
+    constructor(private S: $OverlayStore) {
     }
 
     closeOverlay() {
-        this.servs.overlayStore.closeOverlay();
+        this.S.overlayStore.closeOverlay();
     }
 
     changeOverlay(name: string) {
@@ -13,11 +13,11 @@ export class WorkerOverlay {
     }
 
     startLoading() {
-        this.servs.overlayStore.startLoading();
+        this.S.overlayStore.startLoading();
     }
 
     stopLoading() {
-        this.servs.overlayStore.stopLoading();
+        this.S.overlayStore.stopLoading();
     }
 }
 

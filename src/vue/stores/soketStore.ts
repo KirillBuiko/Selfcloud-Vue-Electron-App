@@ -5,10 +5,10 @@ import {ref} from "vue";
 import type {$SocketListenersHandlers} from "@/packages/socket/SocketListenersHandlers";
 import {useOverlayStateStore} from "@/stores/overlayStore";
 
-export const useSocketStore = (servs: $SocketListenersHandlers) => defineStore('socketStore', () => {
+export const useSocketStore = (S: $SocketListenersHandlers) => defineStore('socketStore', () => {
     const socket = ref<SCSocket>();
     socket.value = io("https://socket.self-cloud.ru", {autoConnect: false});
-    const handlers = servs.socketListenersHandlers;
+    const handlers = S.socketListenersHandlers;
 
     socket.value.on("connect", handlers.onConnected.bind(handlers));
     socket.value.on("disconnect", handlers.onDisconnected.bind(handlers));

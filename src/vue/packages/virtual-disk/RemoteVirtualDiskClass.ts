@@ -1,9 +1,8 @@
 import type {RemoteVirtualDiskConfig} from "@/types/VirtualDisksTypes";
 import {VirtualDiskClass} from "@/packages/virtual-disk/VirtualDiskClass";
 import type {Ref} from "vue";
-import type {IRemoteVirtualDisk} from "@/packages/socket/interfaces/IRemoteVirtualDisk";
 
-export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskConfig> implements IRemoteVirtualDisk{
+export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskConfig>{
     constructor(config: Ref<RemoteVirtualDiskConfig>) {
         super(config);
     }

@@ -4,8 +4,8 @@ import {WorkerViewStart} from "@/component-class/WorkerViewStart";
 import type {$OverlayStore} from "@/stores/overlayStore";
 
 export class WorkerOverlayWindowRegistration extends WorkerOverlay{
-    constructor(servs: $OverlayStore) {
-        super(servs);
+    constructor(S: $OverlayStore) {
+        super(S);
     }
 
     registration(data: RegData){
