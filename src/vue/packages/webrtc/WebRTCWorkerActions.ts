@@ -3,7 +3,7 @@ import type {$WebRTCStore} from "@/packages/webrtc/interfaces/IWebRTCStoreAction
 import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 
 export class WebRTCWorkerActions implements IWebRTCWorkerActions{
-    constructor(private D: $WebRTCStore & $SocketEmitActions) {}
+    constructor(private servs: $WebRTCStore & $SocketEmitActions) {}
 
     /**
      * Create new connection to remote if there is not,
@@ -11,11 +11,11 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * */
     async createConnection(fingerprint: string, socketID: string): Promise<void> {
         // TODO check
-        const conn = this.D.webrtcStore.createRTCConnectionToRemote(fingerprint, socketID)
+        const conn = this.servs.webrtcStore.createRTCConnectionToRemote(fingerprint, socketID)
         const offer = await conn.createOffer();
         await conn.setLocalDescription(offer);
         if (offer.sdp)
-            this.D.socketEmitActions.connectToDevice(socketID, fingerprint, offer.sdp);
+            this.servs.socketEmitActions.connectToDevice(socketID, fingerprint, offer.sdp);
     }
 
     /**
@@ -23,12 +23,12 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * */
     removeConnectionToRemote(fingerprint: string): void {
         // TODO check
-        this.D.webrtcStore.removeRTCConnectionToRemote(fingerprint);
+        this.servs.webrtcStore.removeRTCConnectionToRemote(fingerprint);
     }
 
     removeConnectionToLocal(fingerprint: string): void {
         // TODO check
-        this.D.webrtcStore.removeRTCConnectionToLocal(fingerprint);
+        this.servs.webrtcStore.removeRTCConnectionToLocal(fingerprint);
     }
 
     /**
@@ -43,7 +43,7 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * */
     async answerToOffer(fingerprint: string, socketID: string, offer: string): Promise<void> {
         // TODO check
-        const conn = this.D.webrtcStore.createRTCConnectionToLocal(fingerprint, socketID)
+        const conn = this.servs.webrtcStore.createRTCConnectionToLocal(fingerprint, socketID)
         await conn.setLocalDescription({
             sdp: offer,
             type: "offer"
@@ -51,18 +51,18 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
         const answer = await conn.createOffer();
         await conn.setRemoteDescription(answer);
         if (answer.sdp)
-            this.D.socketEmitActions.acceptConnectionToDevice(socketID, fingerprint, answer.sdp);
+            this.servs.socketEmitActions.acceptConnectionToDevice(socketID, fingerprint, answer.sdp);
     }
 
     /**
      * Add ICE Candidate to connection
      * */
     async setCandidate(socketID: string, fingerprint: string, candidate: string): Promise<void>{
-        let conn = this.D.webrtcStore.getRTCConnectionToLocal(fingerprint);
+        let conn = this.servs.webrtcStore.getRTCConnectionToLocal(fingerprint);
         if (conn)
             await conn.addIceCandidate({candidate: candidate});
         else{
-            conn = this.D.webrtcStore.getRTCConnectionToRemote(fingerprint);
+            conn = this.servs.webrtcStore.getRTCConnectionToRemote(fingerprint);
             if (conn)
                 await conn.addIceCandidate({candidate: candidate});
         }
@@ -73,6 +73,6 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * */
     sendCandidate(socketID: string, fingerprint: string, candidate: string): void{
         // TODO
-        this.D.socketEmitActions.sendWebRTCCandidate(socketID, fingerprint, candidate);
+        this.servs.socketEmitActions.sendWebRTCCandidate(socketID, fingerprint, candidate);
     }
 }

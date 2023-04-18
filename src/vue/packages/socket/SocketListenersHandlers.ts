@@ -5,7 +5,7 @@ import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWor
 
 
 export class SocketListenersHandlers{
-    constructor(private D: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions) {}
+    constructor(private servs: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions) {}
 
     /**
      * Get virtual disks from socket, set online to them,
@@ -13,23 +13,23 @@ export class SocketListenersHandlers{
      * */
     onConnected(){
         // TODO check
-        this.D.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) => {
+        this.servs.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) => {
             vds.forEach((vd: VirtualDiskData) => {
-                if(this.D.virtualDiskWorkerActions.getLocalVirtualDisk(vd.vdID)) return;
-                this.D.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
+                if(this.servs.virtualDiskWorkerActions.getLocalVirtualDisk(vd.vdID)) return;
+                this.servs.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
                 if(vd.isOnline)
-                    this.D.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(vd.socketID, vd.fingerprint, [vd.vdID]);
+                    this.servs.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(vd.socketID, vd.fingerprint, [vd.vdID]);
             })
         }).catch(() => {
             //
         });
         const readyList: string[] = [];
-        this.D.virtualDiskWorkerActions.getAllLocalVirtualDisks().forEach((vd) => {
+        this.servs.virtualDiskWorkerActions.getAllLocalVirtualDisks().forEach((vd) => {
             const config = vd.getConfig();
             if(config.readyForConnection)
                 readyList.push(config.vdID);
         });
-        this.D.socketEmitActions.provideVirtualDisks(readyList);
+        this.servs.socketEmitActions.provideVirtualDisks(readyList);
     }
 
 
@@ -42,7 +42,7 @@ export class SocketListenersHandlers{
      * */
     onDeviceDisconnected(fingerprint: string){
         // TODO check
-        this.D.virtualDiskWorkerActions.setRemoteDeviceOffline(fingerprint);
+        this.servs.virtualDiskWorkerActions.setRemoteDeviceOffline(fingerprint);
     }
 
     /**
@@ -56,7 +56,7 @@ export class SocketListenersHandlers{
      * */
     onProvideVirtualDisks(socketID: string, fingerprint: string, vdIDs: string[]){
         // TODO check
-        this.D.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(socketID, fingerprint, vdIDs);
+        this.servs.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(socketID, fingerprint, vdIDs);
     }
 
     /**
@@ -64,7 +64,7 @@ export class SocketListenersHandlers{
      * */
     onRevokeVirtualDisk(fingerprint: string, vdID: string){
         // TODO check
-        this.D.virtualDiskWorkerActions.setRemoteVirtualDiskOffline(fingerprint, vdID);
+        this.servs.virtualDiskWorkerActions.setRemoteVirtualDiskOffline(fingerprint, vdID);
     }
 
     /**
@@ -72,7 +72,7 @@ export class SocketListenersHandlers{
      * */
     onCreateVirtualDisk(vd: VirtualDiskData){
         // TODO check
-        this.D.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
+        this.servs.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
     }
 
     /**
@@ -81,25 +81,25 @@ export class SocketListenersHandlers{
     onRemoveVirtualDisk(vdID: string){
         // TODO check
         // remove vd by worker
-        if(this.D.virtualDiskWorkerActions.getLocalVirtualDisk(vdID))
-            this.D.virtualDiskWorkerActions.removeLocalVirtualDisk(vdID);
+        if(this.servs.virtualDiskWorkerActions.getLocalVirtualDisk(vdID))
+            this.servs.virtualDiskWorkerActions.removeLocalVirtualDisk(vdID);
         else
-            this.D.virtualDiskWorkerActions.removeRemoteVirtualDisk(vdID);
+            this.servs.virtualDiskWorkerActions.removeRemoteVirtualDisk(vdID);
     }
 
     onWebRTCOfferReceived(sourceID: string, fingerprint: string, offer: string){
         // TODO check
-        this.D.webrtcWorkerActions.answerToOffer(fingerprint, sourceID, offer);
+        this.servs.webrtcWorkerActions.answerToOffer(fingerprint, sourceID, offer);
     }
 
     onWebRTCAnswerReceived(sourceID: string, fingerprint: string, answer: string){
         // TODO check
-        this.D.webrtcWorkerActions.setRemoteAnswer(sourceID, fingerprint, answer);
+        this.servs.webrtcWorkerActions.setRemoteAnswer(sourceID, fingerprint, answer);
     }
 
     onWebRTCCandidateReceived(sourceID: string, fingerprint: string, candidate: string){
         // TODO check
-        this.D.webrtcWorkerActions.setCandidate(sourceID, fingerprint, candidate);
+        this.servs.webrtcWorkerActions.setCandidate(sourceID, fingerprint, candidate);
     }
 }
 

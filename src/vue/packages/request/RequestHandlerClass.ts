@@ -8,7 +8,7 @@ import type {$AuthStore} from "@/packages/request/IAuthStorage";
 export default class RequestHandlerClass implements IRequestHandler{
     axiosInst: AxiosInstance
 
-    constructor(private D: $AuthStore) {
+    constructor(private servs: $AuthStore) {
         this.axiosInst = axios.create({
             baseURL: 'http://localhost:35000/',
             headers: {
@@ -25,7 +25,7 @@ export default class RequestHandlerClass implements IRequestHandler{
         const config: AxiosRequestConfig = {
             responseType: responseType
         }
-        const requestBody: AccessData & {refresh?: string} = {...this.D.authStore.getTokenData(), ...body}
+        const requestBody: AccessData & {refresh?: string} = {...this.servs.authStore.getTokenData(), ...body}
         if(!refresh) requestBody.refresh = undefined;
 
         console.log(requestBody);
@@ -62,7 +62,7 @@ export default class RequestHandlerClass implements IRequestHandler{
     }
 
     setTokens(tokens: RefreshData): void {
-        this.D.authStore.setTokenData(tokens);
+        this.servs.authStore.setTokenData(tokens);
     }
 
     async updateToken(): Promise<ResponseData<object>> {

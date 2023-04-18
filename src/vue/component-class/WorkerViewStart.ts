@@ -1,17 +1,17 @@
 import type {$OverlayStore} from "@/stores/overlayStore";
 
 export class WorkerViewStart {
-    constructor(private D: $OverlayStore) {
+    constructor(private servs: $OverlayStore) {
     }
 
     public openLoginOverlay(){
-        this.D.overlayStore.setOverlayName('login');
-        this.D.overlayStore.openOverlay();
+        this.servs.overlayStore.setOverlayName('login');
+        this.servs.overlayStore.openOverlay();
     }
 
     openRegistrationOverlay(){
-        this.D.overlayStore.setOverlayName('registration');
-        this.D.overlayStore.openOverlay();
+        this.servs.overlayStore.setOverlayName('registration');
+        this.servs.overlayStore.openOverlay();
     }
 }
 
