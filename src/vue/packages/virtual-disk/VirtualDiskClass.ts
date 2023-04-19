@@ -1,14 +1,25 @@
 import type {VirtualDiskConfig} from "@/types/VirtualDisksTypes";
-import type {Ref} from "vue";
+import {ref} from "vue";
 
 export abstract class VirtualDiskClass<A extends VirtualDiskConfig>{
     webrtc = undefined;
+    isChecking = ref(false);
+    hasCheckError = ref(false);
+    checkError = ref("");
+    isCheckSuccess = ref(false);
 
-    protected constructor(private config: Ref<A>) {
+    protected constructor(private config: A) {
         // TODO
     }
 
     getConfig(): A {
-        return this.config.value
+        return this.config
     }
+
+    setConfig(config: A) {
+        this.config = config;
+        this.check();
+    }
+
+    abstract check(): Promise<void>;
 }

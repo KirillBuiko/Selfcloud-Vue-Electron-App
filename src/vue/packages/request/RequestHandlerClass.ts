@@ -28,15 +28,12 @@ export default class RequestHandlerClass implements IRequestHandler{
         const requestBody: AccessData & {refresh?: string} = {...this.deps.authStore.getTokenData(), ...body}
         if(!refresh) requestBody.refresh = undefined;
 
-        console.log(requestBody);
-
         if (method == "GET") config.params = requestBody;
         const req = method === "GET" ? this.axiosInst.get<ResponseData<K>>(url, config) :
             this.axiosInst.post<ResponseData<K>>(url, requestBody, config)
 
         try {
             const response = await req;
-            console.log(response)
             if(response.data.code == ResultCode.OK)
                 return response.data;
 

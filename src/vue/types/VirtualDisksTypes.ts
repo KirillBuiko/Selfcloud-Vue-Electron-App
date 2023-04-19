@@ -10,8 +10,7 @@ export interface VirtualDiskConfig{
     name: string,
     totalSizeBytes: number,
     remainedSizeBytes: number,
-    localPath: string,
-    readyForConnection: boolean,
+    localPath: string
 }
 
 export interface LocalVirtualDiskConfig extends VirtualDiskConfig{

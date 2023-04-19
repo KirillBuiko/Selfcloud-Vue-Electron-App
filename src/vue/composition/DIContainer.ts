@@ -1,10 +1,10 @@
 import type {$WebRTCStore} from "@/packages/webrtc/interfaces/IWebRTCStore";
 import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
-import type {$VirtualDiskStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStore";
+import type {$VirtualDisksStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStore";
 import type {$OverlayStore} from "@/stores/OverlayStore";
 import type {$NotificationStore} from "@/stores/notificationsStore";
 import type {$ConfigStore} from "@/stores/configStore";
-import type {$Socket} from "@/stores/SoketStore";
+import type {$SocketStore} from "@/stores/SoketStore";
 import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirtualDiskWorkerActions";
 import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 import type {$SocketListenersHandlers} from "@/packages/socket/SocketListenersHandlers";
@@ -17,8 +17,8 @@ import type {$WorkerOverlayWindowLogin} from "@/component-class/WorkerOverlayWin
 import type {$WorkerOverlayWindowRegistration} from "@/component-class/WorkerOverlayWindowRegistration";
 import type {$WorkerViewStart} from "@/component-class/WorkerViewStart";
 
-type StoresType = $OverlayStore & $NotificationStore & $WebRTCStore & $VirtualDiskStore & $ConfigStore & $AuthStore &
-    $Socket;
+type StoresType = $OverlayStore & $NotificationStore & $WebRTCStore & $VirtualDisksStore & $ConfigStore & $AuthStore &
+    $SocketStore;
 
 type ActionsType = $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions & $SocketListenersHandlers&
     $WorkerOverlay & $WorkerOverlayWindowLogin & $WorkerOverlayWindowRegistration & $WorkerViewStart;

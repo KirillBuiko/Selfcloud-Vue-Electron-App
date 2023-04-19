@@ -17,7 +17,6 @@ export default class AccountRequestClass extends AbstractRequest{
             method: "POST",
             body: loginData,
         });
-        console.log(response);
         if(response.code == ResultCode.OK && response.result !== undefined){
             const tokens = response.result;
             this.deps.requestHandler.setTokens(tokens);
@@ -30,7 +29,6 @@ export default class AccountRequestClass extends AbstractRequest{
             // TODO: set URL
             url: this.REQUEST_PREFIX + "/loginToken/"
         });
-        console.log(response);
         if(response.code == ResultCode.OK && response.result !== undefined){
             const tokens = response.result;
             this.deps.requestHandler.setTokens(tokens);

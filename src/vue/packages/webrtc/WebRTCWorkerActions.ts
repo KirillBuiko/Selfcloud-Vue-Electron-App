@@ -12,8 +12,8 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
     async createConnection(fingerprint: string, socketID: string): Promise<void> {
         // TODO check
         const conn = this.deps.webrtcStore.createRTCConnectionToRemote(fingerprint, socketID)
-        const offer = await conn.createOffer();
-        await conn.setLocalDescription(offer);
+        const offer = await conn.connection.createOffer();
+        await conn.connection.setLocalDescription(offer);
         if (offer.sdp)
             this.deps.socketEmitActions.connectToDevice(socketID, fingerprint, offer.sdp);
     }
@@ -44,12 +44,12 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
     async answerToOffer(fingerprint: string, socketID: string, offer: string): Promise<void> {
         // TODO check
         const conn = this.deps.webrtcStore.createRTCConnectionToLocal(fingerprint, socketID)
-        await conn.setLocalDescription({
+        await conn.connection.setLocalDescription({
             sdp: offer,
             type: "offer"
         });
-        const answer = await conn.createOffer();
-        await conn.setRemoteDescription(answer);
+        const answer = await conn.connection.createOffer();
+        await conn.connection.setRemoteDescription(answer);
         if (answer.sdp)
             this.deps.socketEmitActions.acceptConnectionToDevice(socketID, fingerprint, answer.sdp);
     }
@@ -60,11 +60,11 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
     async setCandidate(socketID: string, fingerprint: string, candidate: string): Promise<void>{
         let conn = this.deps.webrtcStore.getRTCConnectionToLocal(fingerprint);
         if (conn)
-            await conn.addIceCandidate({candidate: candidate});
+            await conn.connection.addIceCandidate({candidate: candidate});
         else{
             conn = this.deps.webrtcStore.getRTCConnectionToRemote(fingerprint);
             if (conn)
-                await conn.addIceCandidate({candidate: candidate});
+                await conn.connection.addIceCandidate({candidate: candidate});
         }
     }
 

@@ -1,14 +1,18 @@
 import type {LocalVirtualDiskConfig} from "@/types/VirtualDisksTypes";
 import {VirtualDiskClass} from "@/packages/virtual-disk/VirtualDiskClass";
-import type {Ref} from "vue";
 
 export class LocalVirtualDiskClass extends VirtualDiskClass<LocalVirtualDiskConfig>{
-    constructor(config: Ref<LocalVirtualDiskConfig>) {
+    constructor(config: LocalVirtualDiskConfig) {
         super(config);
     }
 
-    check(): boolean{
-        // TODO
-        return true;
+    async check(): Promise<void>{
+        // TODO: Add FileSystem check, if check successful - provide
+        this.isChecking.value = true;
+
+        await (new Promise<void>(resolve => setTimeout(resolve, 1000)))
+
+        this.isCheckSuccess.value = true;
+        this.isChecking.value = false;
     }
 }

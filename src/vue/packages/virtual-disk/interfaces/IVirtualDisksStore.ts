@@ -5,8 +5,8 @@ import type {RemoteVirtualDiskConfig} from "@/types/VirtualDisksTypes";
 import type {Ref} from "vue";
 
 export interface IVirtualDisksStore {
-    remoteVirtualDisksConfig: Ref<RemoteVirtualDiskConfig[]>;
-    localVirtualDisksConfig: Ref<LocalVirtualDiskConfig[]>;
+    remoteVirtualDisksConfig: Ref<{ [ind: string]: RemoteVirtualDiskConfig }>;
+    localVirtualDisksConfig: Ref<{ [ind: string]: LocalVirtualDiskConfig }>;
     remoteVirtualDisks: Ref<Map<string, RemoteVirtualDiskClass>>;
     localVirtualDisks: Ref<Map<string, LocalVirtualDiskClass>>;
 
@@ -14,9 +14,9 @@ export interface IVirtualDisksStore {
 
     getLocalVirtualDisk(vdID: string): LocalVirtualDiskClass | undefined,
 
-    getAllRemoteVirtualDisks(): RemoteVirtualDiskClass[],
+    getAllRemoteVirtualDisks(): Map<string, RemoteVirtualDiskClass>,
 
-    getAllLocalVirtualDisks(): LocalVirtualDiskClass[],
+    getAllLocalVirtualDisks(): Map<string, LocalVirtualDiskClass>,
 
     addRemoteVirtualDisk(vd: VirtualDiskData): void,
 
@@ -24,7 +24,11 @@ export interface IVirtualDisksStore {
 
     removeLocalVirtualDisk(vdID: string): void,
 
-    removeRemoteVirtualDisk(vdID: string): void
+    removeRemoteVirtualDisk(vdID: string): void,
+
+    editLocalVDConfig(vdID: string, editObject: Partial<LocalVirtualDiskConfig>): void,
+
+    editRemoteVDConfig(vdID: string, editObject: Partial<RemoteVirtualDiskConfig>): void,
 }
 
-export type $VirtualDiskStore = {virtualDiskStore: IVirtualDisksStore}
+export type $VirtualDisksStore = {virtualDiskStore: IVirtualDisksStore}

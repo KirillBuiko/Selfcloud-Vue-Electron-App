@@ -1,19 +1,20 @@
 import type {Ref} from "vue";
+import type {WebRTCConnectionData} from "@/types/WebRTCTypes";
 
 export interface IWebRTCStore {
-    webrtcConnectionsToRemote: Ref<Map<string, RTCPeerConnection>>,
-    webrtcConnectionsToLocal: Ref<Map<string, RTCPeerConnection>>,
-    getRTCConnectionToRemote(fingerprint: string): RTCPeerConnection | undefined,
+    webrtcConnectionsToRemote: Ref<Map<string, WebRTCConnectionData>>,
+    webrtcConnectionsToLocal: Ref<Map<string, WebRTCConnectionData>>,
+    getRTCConnectionToRemote(fingerprint: string): WebRTCConnectionData | undefined,
 
-    getRTCConnectionToLocal(fingerprint: string): RTCPeerConnection | undefined,
+    getRTCConnectionToLocal(fingerprint: string): WebRTCConnectionData | undefined,
 
-    getAllRTCConnectionsToRemote(): Map<string, RTCPeerConnection>,
+    getAllRTCConnectionsToRemote(): Map<string, WebRTCConnectionData>,
 
-    getAllRTCConnectionsToLocal(): Map<string, RTCPeerConnection>,
+    getAllRTCConnectionsToLocal(): Map<string, WebRTCConnectionData>,
 
-    createRTCConnectionToRemote(fingerprint: string, socketID: string): RTCPeerConnection,
+    createRTCConnectionToRemote(fingerprint: string, socketID: string): WebRTCConnectionData,
 
-    createRTCConnectionToLocal(fingerprint: string, socketID: string): RTCPeerConnection,
+    createRTCConnectionToLocal(fingerprint: string, socketID: string): WebRTCConnectionData,
 
     removeRTCConnectionToLocal(fingerprint: string): void,
 

@@ -2,11 +2,10 @@ import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirt
 import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
 import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
-import type {$AuthStore} from "@/packages/request/IAuthStorage";
 
 
 export class SocketListenersHandlers{
-    constructor(private deps: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions & $AuthStore) {}
+    constructor(private deps: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions) {}
 
     /**
      * Get virtual disks from socket, set online to them,
@@ -14,22 +13,15 @@ export class SocketListenersHandlers{
      * */
     onConnected(){
         // TODO check
-        this.deps.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) => {
-            vds.forEach((vd: VirtualDiskData) => {
-                if(this.deps.virtualDiskWorkerActions.getLocalVirtualDisk(vd.vdID) ||
-                    vd.fingerprint === this.deps.authStore.fingerprint.value) return;
-                this.deps.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
-                if(vd.isOnline)
-                    this.deps.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(vd.socketID, vd.fingerprint, [vd.vdID]);
-            })
-        }).catch(() => {
+        this.deps.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) =>
+            this.deps.virtualDiskWorkerActions.syncVirtualDisks(vds)
+        ).catch(() => {
             // TODO: Exception handle
         });
         const readyList: string[] = [];
         this.deps.virtualDiskWorkerActions.getAllLocalVirtualDisks().forEach((vd) => {
-            const config = vd.getConfig();
-            if(config.readyForConnection)
-                readyList.push(config.vdID);
+            if(vd.isCheckSuccess)
+                readyList.push(vd.getConfig().vdID);
         });
         this.deps.socketEmitActions.provideVirtualDisks(readyList);
     }
@@ -57,7 +49,7 @@ export class SocketListenersHandlers{
      * */
     onProvideVirtualDisks(socketID: string, fingerprint: string, vdIDs: string[]){
         // TODO check
-        this.deps.virtualDiskWorkerActions.setRemoteVirtualDisksOnline(socketID, fingerprint, vdIDs);
+        this.deps.virtualDiskWorkerActions.setRemoteVirtualDisksProvided(socketID, fingerprint, vdIDs);
     }
 
     /**
