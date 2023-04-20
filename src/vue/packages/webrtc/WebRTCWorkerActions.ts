@@ -39,7 +39,10 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * Set remote answer to connection
      * */
     async setRemoteAnswer(fingerprint: string, answer: string): Promise<void> {
-        // TODO
+        this.deps.webrtcStore.getToRemote(fingerprint)?.connectionHandle.setRemoteDescription({
+            type: "answer",
+            sdp: answer
+        })
     }
 
     /**
@@ -48,12 +51,12 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
     async answerToOffer(fingerprint: string, offer: string): Promise<void> {
         // TODO check
         const conn = this.deps.webrtcStore.createToLocal(fingerprint)
-        await conn.connectionHandle.setLocalDescription({
+        await conn.connectionHandle.setRemoteDescription({
             sdp: offer,
             type: "offer"
         });
-        const answer = await conn.connectionHandle.createOffer();
-        await conn.connectionHandle.setRemoteDescription(answer);
+        const answer = await conn.connectionHandle.createAnswer();
+        await conn.connectionHandle.setLocalDescription(answer);
         if (answer.sdp)
             this.deps.socketEmitActions.acceptConnectionToDevice(fingerprint, answer.sdp);
     }
