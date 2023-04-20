@@ -1,6 +1,5 @@
 export interface VirtualDiskData{
     vdID: string,
-    socketID: string
     fingerprint: string,
     isOnline: boolean,
 }
@@ -13,8 +12,7 @@ export interface VirtualDiskConfig{
     localPath: string
 }
 
-export interface LocalVirtualDiskConfig extends VirtualDiskConfig{
-}
+export type LocalVirtualDiskConfig = VirtualDiskConfig;
 
 export interface RemoteVirtualDiskConfig extends VirtualDiskConfig, VirtualDiskData{
 }

@@ -1,17 +1,19 @@
 export interface IWebRTCWorkerActions {
-    createConnection(fingerprint: string, socketID: string): Promise<void>,
+    createConnection(fingerprint: string): Promise<void>,
 
-    answerToOffer(fingerprint: string, socketID: string, offer: string): Promise<void>,
+    createConnection(fingerprint: string): Promise<void>,
+
+    answerToOffer(fingerprint: string, offer: string): Promise<void>,
 
     removeConnectionToRemote(fingerprint: string): void,
 
     removeConnectionToLocal(fingerprint: string): void,
 
-    setRemoteAnswer(socketID: string, fingerprint: string, answer: string): void,
+    setRemoteAnswer(fingerprint: string, answer: string): Promise<void>,
 
-    setCandidate(socketID: string, fingerprint: string, candidate: string): Promise<void>,
+    setCandidate(fingerprint: string, candidate: string): Promise<void>,
 
-    sendCandidate(socketID: string, fingerprint: string, candidate: string): void,
+    sendCandidate(fingerprint: string, candidate: string): void,
 }
 
 export type $WebRTCWorkerActions = {webrtcWorkerActions: IWebRTCWorkerActions}

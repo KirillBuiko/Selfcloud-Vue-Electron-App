@@ -16,12 +16,15 @@ import type {$WorkerOverlay} from "@/component-class/WorkerOverlay";
 import type {$WorkerOverlayWindowLogin} from "@/component-class/WorkerOverlayWindowLogin";
 import type {$WorkerOverlayWindowRegistration} from "@/component-class/WorkerOverlayWindowRegistration";
 import type {$WorkerViewStart} from "@/component-class/WorkerViewStart";
+import type {$WebRTCListenersHandlersToLocal} from "@/packages/webrtc/WebRTCListenersHandlersToLocal";
+import type {$WebRTCListenersHandlersToRemote} from "@/packages/webrtc/WebRTCListenersHandlersToRemote";
 
 type StoresType = $OverlayStore & $NotificationStore & $WebRTCStore & $VirtualDisksStore & $ConfigStore & $AuthStore &
     $SocketStore;
 
-type ActionsType = $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions & $SocketListenersHandlers&
-    $WorkerOverlay & $WorkerOverlayWindowLogin & $WorkerOverlayWindowRegistration & $WorkerViewStart;
+type ActionsType = $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions & $SocketListenersHandlers &
+    $WorkerOverlay & $WorkerOverlayWindowLogin & $WorkerOverlayWindowRegistration & $WorkerViewStart &
+    $WebRTCListenersHandlersToLocal & $WebRTCListenersHandlersToRemote;
 
 type RequestsType = $AccountRequestActions & $RequestHandler & $UserInfoRequestActions;
 

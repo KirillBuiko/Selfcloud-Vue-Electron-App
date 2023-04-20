@@ -12,7 +12,7 @@ export class LocalVirtualDiskClass extends VirtualDiskClass<LocalVirtualDiskConf
 
         await (new Promise<void>(resolve => setTimeout(resolve, 1000)))
 
-        this.isCheckSuccess.value = true;
+        this.checkStatus.value = true;
         this.isChecking.value = false;
     }
 }

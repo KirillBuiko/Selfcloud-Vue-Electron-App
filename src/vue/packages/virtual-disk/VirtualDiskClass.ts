@@ -4,9 +4,8 @@ import {ref} from "vue";
 export abstract class VirtualDiskClass<A extends VirtualDiskConfig>{
     webrtc = undefined;
     isChecking = ref(false);
-    hasCheckError = ref(false);
     checkError = ref("");
-    isCheckSuccess = ref(false);
+    checkStatus = ref(false);
 
     protected constructor(private config: A) {
         // TODO

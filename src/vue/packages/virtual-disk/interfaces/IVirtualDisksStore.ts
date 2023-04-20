@@ -10,25 +10,25 @@ export interface IVirtualDisksStore {
     remoteVirtualDisks: Ref<Map<string, RemoteVirtualDiskClass>>;
     localVirtualDisks: Ref<Map<string, LocalVirtualDiskClass>>;
 
-    getRemoteVirtualDisk(vdID: string): RemoteVirtualDiskClass | undefined,
+    getRemote(vdID: string): RemoteVirtualDiskClass | undefined,
 
-    getLocalVirtualDisk(vdID: string): LocalVirtualDiskClass | undefined,
+    getLocal(vdID: string): LocalVirtualDiskClass | undefined,
 
-    getAllRemoteVirtualDisks(): Map<string, RemoteVirtualDiskClass>,
+    getAllRemote(): Map<string, RemoteVirtualDiskClass>,
 
-    getAllLocalVirtualDisks(): Map<string, LocalVirtualDiskClass>,
+    getAllLocal(): Map<string, LocalVirtualDiskClass>,
 
-    addRemoteVirtualDisk(vd: VirtualDiskData): void,
+    addRemote(vd: VirtualDiskData): void,
 
-    addLocalVirtualDisk(vd: LocalVirtualDiskConfig): void,
+    addLocal(vd: LocalVirtualDiskConfig): void,
 
-    removeLocalVirtualDisk(vdID: string): void,
+    removeLocal(vdID: string): void,
 
-    removeRemoteVirtualDisk(vdID: string): void,
+    removeRemote(vdID: string): void,
 
-    editLocalVDConfig(vdID: string, editObject: Partial<LocalVirtualDiskConfig>): void,
+    editLocalConfig(vdID: string, editObject: Partial<LocalVirtualDiskConfig>): void,
 
-    editRemoteVDConfig(vdID: string, editObject: Partial<RemoteVirtualDiskConfig>): void,
+    editRemoteConfig(vdID: string, editObject: Partial<RemoteVirtualDiskConfig>): void,
 }
 
 export type $VirtualDisksStore = {virtualDiskStore: IVirtualDisksStore}

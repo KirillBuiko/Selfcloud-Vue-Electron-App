@@ -27,6 +27,14 @@ import type {DIContainerType} from "@/composition/DIContainer";
 import {container} from "@/composition/DIContainer";
 import {AuthStore} from "@/stores/AuthStore";
 import {VirtualDisksStore} from "@/stores/VirtualDisksStore";
+import {
+    type $WebRTCListenersHandlersToLocal,
+    WebRTCListenersHandlersToLocal
+} from "@/packages/webrtc/WebRTCListenersHandlersToLocal";
+import {
+    type $WebRTCListenersHandlersToRemote,
+    WebRTCListenersHandlersToRemote
+} from "@/packages/webrtc/WebRTCListenersHandlersToRemote";
 
 export const prodContainerInit = () => {
     const _: DIContainerType = {
@@ -34,7 +42,6 @@ export const prodContainerInit = () => {
         overlayStore: container.overlayStore = new OverlayStore(),
         notificationStore: container.notificationStore = useNotificationsStore(),
         virtualDiskStore: container.virtualDiskStore = new VirtualDisksStore(),
-        webrtcStore: container.webrtcStore = new WebRTCStore(),
         authStore: container.authStore = new AuthStore(),
 
         webrtcWorkerActions: container.webrtcWorkerActions =
@@ -46,13 +53,22 @@ export const prodContainerInit = () => {
         virtualDiskWorkerActions: container.virtualDiskWorkerActions =
             new VirtualDiskWorkerActions(container as
                 $WebRTCWorkerActions & $VirtualDisksStore & $SocketEmitActions & $AuthStore),
+
+        webrtcListenersHandlersToLocal: container.webrtcListenersHandlersToLocal =
+            new WebRTCListenersHandlersToLocal(container as
+                $WebRTCWorkerActions & $VirtualDiskWorkerActions),
+        webrtcListenersHandlersToRemote: container.webrtcListenersHandlersToRemote =
+            new WebRTCListenersHandlersToRemote(container as
+                $WebRTCWorkerActions & $VirtualDiskWorkerActions),
+        webrtcStore: container.webrtcStore =
+            new WebRTCStore(container as $WebRTCListenersHandlersToRemote & $WebRTCListenersHandlersToLocal),
+
         socketListenersHandlers: container.socketListenersHandlers =
             new SocketListenersHandlers(container as
                 $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions),
-
         socketStore: container.socketStore =
             new SocketStore(container as
-            $SocketListenersHandlers),
+                $SocketListenersHandlers),
 
         requestHandler: container.requestHandler =
             new RequestHandlerClass(container as

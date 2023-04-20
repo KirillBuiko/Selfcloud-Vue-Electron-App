@@ -9,13 +9,17 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * Create new connection to remote if there is not,
      * get offer and send it, return connection
      * */
-    async createConnection(fingerprint: string, socketID: string): Promise<void> {
+    async createConnection(fingerprint: string): Promise<void> {
         // TODO check
-        const conn = this.deps.webrtcStore.createRTCConnectionToRemote(fingerprint, socketID)
-        const offer = await conn.connection.createOffer();
-        await conn.connection.setLocalDescription(offer);
+        const conn = this.deps.webrtcStore.createToRemote(fingerprint)
+        await this.createConnectionOffer(fingerprint, conn.connectionHandle);
+    }
+
+    async createConnectionOffer(fingerprint: string, connection: RTCPeerConnection) {
+        const offer = await connection.createOffer();
+        await connection.setLocalDescription(offer);
         if (offer.sdp)
-            this.deps.socketEmitActions.connectToDevice(socketID, fingerprint, offer.sdp);
+            this.deps.socketEmitActions.connectToDevice(fingerprint, offer.sdp);
     }
 
     /**
@@ -23,56 +27,56 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * */
     removeConnectionToRemote(fingerprint: string): void {
         // TODO check
-        this.deps.webrtcStore.removeRTCConnectionToRemote(fingerprint);
+        this.deps.webrtcStore.removeToRemote(fingerprint);
     }
 
     removeConnectionToLocal(fingerprint: string): void {
         // TODO check
-        this.deps.webrtcStore.removeRTCConnectionToLocal(fingerprint);
+        this.deps.webrtcStore.removeToLocal(fingerprint);
     }
 
     /**
      * Set remote answer to connection
      * */
-    setRemoteAnswer(socketID: string, fingerprint: string, answer: string): void {
+    async setRemoteAnswer(fingerprint: string, answer: string): Promise<void> {
         // TODO
     }
 
     /**
      * Create new connection to local, set remote offer and send answer
      * */
-    async answerToOffer(fingerprint: string, socketID: string, offer: string): Promise<void> {
+    async answerToOffer(fingerprint: string, offer: string): Promise<void> {
         // TODO check
-        const conn = this.deps.webrtcStore.createRTCConnectionToLocal(fingerprint, socketID)
-        await conn.connection.setLocalDescription({
+        const conn = this.deps.webrtcStore.createToLocal(fingerprint)
+        await conn.connectionHandle.setLocalDescription({
             sdp: offer,
             type: "offer"
         });
-        const answer = await conn.connection.createOffer();
-        await conn.connection.setRemoteDescription(answer);
+        const answer = await conn.connectionHandle.createOffer();
+        await conn.connectionHandle.setRemoteDescription(answer);
         if (answer.sdp)
-            this.deps.socketEmitActions.acceptConnectionToDevice(socketID, fingerprint, answer.sdp);
+            this.deps.socketEmitActions.acceptConnectionToDevice(fingerprint, answer.sdp);
     }
 
     /**
      * Add ICE Candidate to connection
      * */
-    async setCandidate(socketID: string, fingerprint: string, candidate: string): Promise<void>{
-        let conn = this.deps.webrtcStore.getRTCConnectionToLocal(fingerprint);
+    async setCandidate(fingerprint: string, candidate: string): Promise<void>{
+        let conn = this.deps.webrtcStore.getToLocal(fingerprint);
         if (conn)
-            await conn.connection.addIceCandidate({candidate: candidate});
+            await conn.connectionHandle.addIceCandidate({candidate: candidate});
         else{
-            conn = this.deps.webrtcStore.getRTCConnectionToRemote(fingerprint);
+            conn = this.deps.webrtcStore.getToRemote(fingerprint);
             if (conn)
-                await conn.connection.addIceCandidate({candidate: candidate});
+                await conn.connectionHandle.addIceCandidate({candidate: candidate});
         }
     }
 
     /**
      * Send ICE Candidate
      * */
-    sendCandidate(socketID: string, fingerprint: string, candidate: string): void{
+    sendCandidate(fingerprint: string, candidate: string): void{
         // TODO
-        this.deps.socketEmitActions.sendWebRTCCandidate(socketID, fingerprint, candidate);
+        this.deps.socketEmitActions.sendWebRTCCandidate(fingerprint, candidate);
     }
 }

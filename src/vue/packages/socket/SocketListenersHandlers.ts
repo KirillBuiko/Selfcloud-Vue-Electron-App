@@ -2,11 +2,32 @@ import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirt
 import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
 import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
+import type {SCSocket} from "@/types/SocketTypes";
 
 
 export class SocketListenersHandlers{
+    socket: SCSocket | undefined;
+    
     constructor(private deps: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions) {}
 
+    initSocketListeners(socket: SCSocket) {
+        socket.on("connect", this.onConnected.bind(this));
+        socket.on("disconnect", this.onDisconnected.bind(this));
+
+        socket.on("device-disconnected", this.onDeviceDisconnected.bind(this));
+        socket.on("device-connected", this.onDeviceConnected.bind(this));
+
+        socket.on("provide-virtual-disks", this.onProvideVirtualDisks.bind(this));
+        socket.on("revoke-virtual-disk", this.onRevokeVirtualDisk.bind(this));
+
+        socket.on("create-virtual-disk", this.onCreateVirtualDisk.bind(this));
+        socket.on("remove-virtual-disk", this.onRemoveVirtualDisk.bind(this));
+
+        socket.on("webrtc-offer-received", this.onWebRTCOfferReceived.bind(this));
+        socket.on("webrtc-answer-received", this.onWebRTCAnswerReceived.bind(this));
+        socket.on("webrtc-candidate-received", this.onWebRTCCandidateReceived.bind(this));
+    }
+    
     /**
      * Get virtual disks from socket, set online to them,
      * provide all ready local virtual disks
@@ -20,7 +41,7 @@ export class SocketListenersHandlers{
         });
         const readyList: string[] = [];
         this.deps.virtualDiskWorkerActions.getAllLocalVirtualDisks().forEach((vd) => {
-            if(vd.isCheckSuccess)
+            if(vd.checkStatus)
                 readyList.push(vd.getConfig().vdID);
         });
         this.deps.socketEmitActions.provideVirtualDisks(readyList);
@@ -40,16 +61,16 @@ export class SocketListenersHandlers{
 
     /**
      * Nothing*/
-    onDeviceConnected(socketID: string, fingerprint: string){
-        // TODO check
+    onDeviceConnected(fingerprint: string){
+        //
     }
 
     /**
      * Set online to all provided virtual disks
      * */
-    onProvideVirtualDisks(socketID: string, fingerprint: string, vdIDs: string[]){
+    onProvideVirtualDisks(fingerprint: string, vdIDs: string[]){
         // TODO check
-        this.deps.virtualDiskWorkerActions.setRemoteVirtualDisksProvided(socketID, fingerprint, vdIDs);
+        this.deps.virtualDiskWorkerActions.setRemoteVirtualDisksProvided(fingerprint, vdIDs);
     }
 
     /**
@@ -73,26 +94,25 @@ export class SocketListenersHandlers{
      * */
     onRemoveVirtualDisk(vdID: string){
         // TODO check
-        // remove vd by worker
         if(this.deps.virtualDiskWorkerActions.getLocalVirtualDisk(vdID))
             this.deps.virtualDiskWorkerActions.removeLocalVirtualDisk(vdID);
         else
             this.deps.virtualDiskWorkerActions.removeRemoteVirtualDisk(vdID);
     }
 
-    onWebRTCOfferReceived(sourceID: string, fingerprint: string, offer: string){
+    onWebRTCOfferReceived(fingerprint: string, offer: string){
         // TODO check
-        this.deps.webrtcWorkerActions.answerToOffer(fingerprint, sourceID, offer);
+        this.deps.webrtcWorkerActions.answerToOffer(fingerprint, offer);
     }
 
-    onWebRTCAnswerReceived(sourceID: string, fingerprint: string, answer: string){
+    onWebRTCAnswerReceived(fingerprint: string, answer: string){
         // TODO check
-        this.deps.webrtcWorkerActions.setRemoteAnswer(sourceID, fingerprint, answer);
+        this.deps.webrtcWorkerActions.setRemoteAnswer(fingerprint, answer);
     }
 
-    onWebRTCCandidateReceived(sourceID: string, fingerprint: string, candidate: string){
+    onWebRTCCandidateReceived(fingerprint: string, candidate: string){
         // TODO check
-        this.deps.webrtcWorkerActions.setCandidate(sourceID, fingerprint, candidate);
+        this.deps.webrtcWorkerActions.setCandidate(fingerprint, candidate);
     }
 }
 

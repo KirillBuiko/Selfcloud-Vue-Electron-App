@@ -34,23 +34,24 @@ export class VirtualDisksStore implements IVirtualDisksStore{
         }
     }
 
-    getRemoteVirtualDisk(vdID: string): RemoteVirtualDiskClass | undefined {
+    getRemote(vdID: string): RemoteVirtualDiskClass | undefined {
         return this.remoteVirtualDisks.value.get(vdID);
     }
-    getLocalVirtualDisk(vdID: string): LocalVirtualDiskClass | undefined {
+
+    getLocal(vdID: string): LocalVirtualDiskClass | undefined {
         return this.localVirtualDisks.value.get(vdID);
     }
 
-    getAllRemoteVirtualDisks(): Map<string, RemoteVirtualDiskClass> {
+    getAllRemote(): Map<string, RemoteVirtualDiskClass> {
         return this.remoteVirtualDisks.value;
     }
 
-    getAllLocalVirtualDisks(): Map<string, LocalVirtualDiskClass> {
+    getAllLocal(): Map<string, LocalVirtualDiskClass> {
         return this.localVirtualDisks.value;
     }
 
-    addRemoteVirtualDisk(vdData: VirtualDiskData): void {
-        if(this.getRemoteVirtualDisk(vdData.vdID)) {
+    addRemote(vdData: VirtualDiskData): void {
+        if(this.getRemote(vdData.vdID)) {
             Object.assign(this.remoteVirtualDisksConfig.value[vdData.vdID], vdData)
             this.remoteVirtualDisks.value.get(vdData.vdID)?.setConfig(this.remoteVirtualDisksConfig.value[vdData.vdID]);
         }
@@ -69,30 +70,30 @@ export class VirtualDisksStore implements IVirtualDisksStore{
         }
     }
 
-    addLocalVirtualDisk(vdConfig: LocalVirtualDiskConfig): void {
-        if(this.getRemoteVirtualDisk(vdConfig.vdID))
-            this.removeLocalVirtualDisk(vdConfig.vdID);
+    addLocal(vdConfig: LocalVirtualDiskConfig): void {
+        if(this.getRemote(vdConfig.vdID))
+            this.removeLocal(vdConfig.vdID);
         const vd = new LocalVirtualDiskClass(vdConfig);
         vd.check();
         this.localVirtualDisks.value.set(vdConfig.vdID, vd);
     }
 
-    removeLocalVirtualDisk(vdID: string): void {
+    removeLocal(vdID: string): void {
         this.localVirtualDisks.value.delete(vdID);
         delete this.localVirtualDisksConfig.value[vdID];
     }
 
-    removeRemoteVirtualDisk(vdID: string): void {
+    removeRemote(vdID: string): void {
         this.remoteVirtualDisks.value.delete(vdID);
         delete this.remoteVirtualDisksConfig.value[vdID];
     }
 
-    editLocalVDConfig(vdID: string, editObject: Partial<LocalVirtualDiskConfig>): void {
+    editLocalConfig(vdID: string, editObject: Partial<LocalVirtualDiskConfig>): void {
         Object.assign(this.remoteVirtualDisksConfig.value[vdID], editObject)
         this.remoteVirtualDisks.value.get(vdID)?.setConfig(this.remoteVirtualDisksConfig.value[vdID]);
     }
 
-    editRemoteVDConfig(vdID: string, editObject: Partial<RemoteVirtualDiskConfig>): void {
+    editRemoteConfig(vdID: string, editObject: Partial<RemoteVirtualDiskConfig>): void {
         Object.assign(this.remoteVirtualDisksConfig.value[vdID], editObject)
         this.remoteVirtualDisks.value.get(vdID)?.setConfig(this.remoteVirtualDisksConfig.value[vdID]);
     }

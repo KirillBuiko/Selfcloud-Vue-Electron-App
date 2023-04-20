@@ -4,21 +4,21 @@ import type {WebRTCConnectionData} from "@/types/WebRTCTypes";
 export interface IWebRTCStore {
     webrtcConnectionsToRemote: Ref<Map<string, WebRTCConnectionData>>,
     webrtcConnectionsToLocal: Ref<Map<string, WebRTCConnectionData>>,
-    getRTCConnectionToRemote(fingerprint: string): WebRTCConnectionData | undefined,
+    getToRemote(fingerprint: string): WebRTCConnectionData | undefined,
 
-    getRTCConnectionToLocal(fingerprint: string): WebRTCConnectionData | undefined,
+    getToLocal(fingerprint: string): WebRTCConnectionData | undefined,
 
-    getAllRTCConnectionsToRemote(): Map<string, WebRTCConnectionData>,
+    getAllToRemote(): Map<string, WebRTCConnectionData>,
 
-    getAllRTCConnectionsToLocal(): Map<string, WebRTCConnectionData>,
+    getAllToLocal(): Map<string, WebRTCConnectionData>,
 
-    createRTCConnectionToRemote(fingerprint: string, socketID: string): WebRTCConnectionData,
+    createToRemote(fingerprint: string): WebRTCConnectionData,
 
-    createRTCConnectionToLocal(fingerprint: string, socketID: string): WebRTCConnectionData,
+    createToLocal(fingerprint: string): WebRTCConnectionData,
 
-    removeRTCConnectionToLocal(fingerprint: string): void,
+    removeToLocal(fingerprint: string): void,
 
-    removeRTCConnectionToRemote(fingerprint: string): void
+    removeToRemote(fingerprint: string): void
 }
 
 export type $WebRTCStore = {webrtcStore: IWebRTCStore}

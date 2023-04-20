@@ -6,7 +6,7 @@ export interface IVirtualDiskWorkerActions{
     addRemoteVirtualDisk(vd: VirtualDiskData): void,
     createLocalVirtualDisk(vdConfig: Omit<LocalVirtualDiskConfig, "vdID">): void,
     syncVirtualDisks(vds: VirtualDiskData[]): void,
-    setRemoteVirtualDisksProvided(socketID: string, fingerprint: string, vdIDs: string[]): void,
+    setRemoteVirtualDisksProvided(fingerprint: string, vdIDs: string[]): void,
     setRemoteVirtualDiskOffline(fingerprint: string, vdID: string): void,
     setRemoteDeviceOffline(fingerprint: string): void,
     provideLocalVirtualDisk(vdID: string): void,

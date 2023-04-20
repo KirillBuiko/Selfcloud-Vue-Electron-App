@@ -66,25 +66,25 @@ export class SocketEmitActions {
     /**
      * Connect webrtc
      * */
-    connectToDevice(targetID: string, fingerprint: string, offer: string){
+    connectToDevice(fingerprint: string, offer: string){
         // TODO check
-        this.deps.socketStore.socket.emit("connect-webrtc", targetID, fingerprint, offer);
+        this.deps.socketStore.socket.emit("connect-webrtc", fingerprint, offer);
     }
 
     /**
      * Send webrtc answer
      * */
-    acceptConnectionToDevice(targetID: string, fingerprint: string, answer: string){
+    acceptConnectionToDevice(fingerprint: string, answer: string){
         // TODO check
-        this.deps.socketStore.socket.emit("connect-webrtc-answer", targetID, fingerprint, answer);
+        this.deps.socketStore.socket.emit("connect-webrtc-answer", fingerprint, answer);
     }
 
     /**
      * Send webrtc candidate
      * */
-    sendWebRTCCandidate(targetID: string, fingerprint: string, candidate: string){
+    sendWebRTCCandidate(fingerprint: string, candidate: string){
         // TODO check
-        this.deps.socketStore.socket.emit("send-webrtc-candidate", targetID, fingerprint, candidate);
+        this.deps.socketStore.socket.emit("send-webrtc-candidate", fingerprint, candidate);
     }
 }
 

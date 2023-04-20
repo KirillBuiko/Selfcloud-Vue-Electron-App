@@ -4,7 +4,7 @@ import {ref} from "vue";
 
 export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskConfig>{
     readonly isRemoteReady = ref(false);
-    readonly isRemoteConnected = ref(false);
+    readonly remoteConnectionStatus = ref(false);
 
     constructor(config: RemoteVirtualDiskConfig) {
         super(config);
@@ -16,7 +16,7 @@ export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskCo
 
         await (new Promise<void>(resolve => setTimeout(resolve, 1000)))
 
-        this.isCheckSuccess.value = true;
+        this.checkStatus.value = true;
         this.isChecking.value = false;
         this.getRemoteFileSystemInfo();
     }
@@ -29,12 +29,12 @@ export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskCo
 
     setRemoteConnected(isConnected: boolean): void {
         // TODO: Add actions (get dile system info and other)
-        this.isRemoteConnected.value = isConnected;
+        this.remoteConnectionStatus.value = isConnected;
         this.getRemoteFileSystemInfo();
     }
 
     getRemoteFileSystemInfo() {
-        if(!this.isRemoteConnected.value || !this.isCheckSuccess.value || !this.isRemoteReady.value) return;
+        if(!this.remoteConnectionStatus.value || !this.checkStatus.value || !this.isRemoteReady.value) return;
         // TODO: Do dome things with WebRTC, set configs
     }
 }
