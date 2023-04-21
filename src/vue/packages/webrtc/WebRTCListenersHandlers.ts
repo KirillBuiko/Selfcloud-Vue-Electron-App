@@ -1,36 +1,37 @@
 import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
 import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirtualDiskWorkerActions";
+import type {WebRTCConnectionData} from "@/types/WebRTCTypes";
 
 export abstract class WebRTCListenersHandlers{
     protected constructor(private deps: $WebRTCWorkerActions & $VirtualDiskWorkerActions){}
 
-    attachListeners(connection: RTCPeerConnection, fingerprint: string){
+    attachListeners(connection: WebRTCConnectionData){
         // Added DataChannel to connection
-        connection.addEventListener("datachannel", (event) =>
+        connection.connectionHandle.addEventListener("datachannel", (event) =>
             this.onDataChannelHandler(event));
         // Connection state changed
-        connection.addEventListener("connectionstatechange", (event) =>
+        connection.connectionHandle.addEventListener("connectionstatechange", (event) =>
             this.onConnectionStateChangeHandler(event));
         // ?
-        connection.addEventListener("track", (event) =>
+        connection.connectionHandle.addEventListener("track", (event) =>
             this.onTrackHandler(event));
         // ?
-        connection.addEventListener("iceconnectionstatechange", (event) =>
+        connection.connectionHandle.addEventListener("iceconnectionstatechange", (event) =>
             this.onIceConnectionStateChangeHandler(event));
         // ?
-        connection.addEventListener("icegatheringstatechange", (event) =>
+        connection.connectionHandle.addEventListener("icegatheringstatechange", (event) =>
             this.onIceGatheringStateChangeHandler(event));
         // New candidate has added
-        connection.addEventListener("icecandidate", (event) =>
+        connection.connectionHandle.addEventListener("icecandidate", (event) =>
             this.onIceCandidateHandler(event));
         // Ice negotiation error
-        connection.addEventListener("icecandidateerror", (event) =>
+        connection.connectionHandle.addEventListener("icecandidateerror", (event) =>
             this.onIceCandidateErrorHandler(event));
         // Need to send new offer
-        connection.addEventListener("negotiationneeded", (event) =>
+        connection.connectionHandle.addEventListener("negotiationneeded", (event) =>
             this.onNegotiationNeededHandler(event));
         // Signaling state changed
-        connection.addEventListener("signalingstatechange", (event) =>
+        connection.connectionHandle.addEventListener("signalingstatechange", (event) =>
             this.onSignalingStateChangeHandler(event));
     }
 

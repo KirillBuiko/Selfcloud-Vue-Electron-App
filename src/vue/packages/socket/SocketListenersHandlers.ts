@@ -25,7 +25,8 @@ export class SocketListenersHandlers{
 
         socket.on("webrtc-offer-received", this.onWebRTCOfferReceived.bind(this));
         socket.on("webrtc-answer-received", this.onWebRTCAnswerReceived.bind(this));
-        socket.on("webrtc-candidate-received", this.onWebRTCCandidateReceived.bind(this));
+        socket.on("to-local-ice-candidate-received", this.onToLocalIceCandidateReceived.bind(this));
+        socket.on("to-remote-ice-candidate-received", this.onToRemoteIceCandidateReceived.bind(this));
     }
     
     /**
@@ -110,9 +111,16 @@ export class SocketListenersHandlers{
         this.deps.webrtcWorkerActions.setRemoteAnswer(fingerprint, answer);
     }
 
-    onWebRTCCandidateReceived(fingerprint: string, candidate: string){
+    onToLocalIceCandidateReceived(fingerprint: string, candidate: string){
         // TODO check
-        this.deps.webrtcWorkerActions.setCandidate(fingerprint, candidate);
+        // Reverse toLocal and toRemote
+        this.deps.webrtcWorkerActions.setCandidate(fingerprint, candidate, false);
+    }
+
+    onToRemoteIceCandidateReceived(fingerprint: string, candidate: string){
+        // TODO check
+        // Reverse toLocal and toRemote
+        this.deps.webrtcWorkerActions.setCandidate(fingerprint, candidate, true);
     }
 }
 

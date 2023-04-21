@@ -1,41 +1,33 @@
 import {type Ref, ref} from "vue";
 import type {IWebRTCStore} from "@/packages/webrtc/interfaces/IWebRTCStore";
-import type {WebRTCConnectionData} from "@/types/WebRTCTypes";
+import type {WebRTCConnectionData, WebRTCStoreObject} from "@/types/WebRTCTypes";
 import type {$WebRTCListenersHandlersToRemote} from "@/packages/webrtc/WebRTCListenersHandlersToRemote";
 import type {$WebRTCListenersHandlersToLocal} from "@/packages/webrtc/WebRTCListenersHandlersToLocal";
 
 export class WebRTCStore implements IWebRTCStore{
-    webrtcConnectionsToRemote = ref(new Map<string, WebRTCConnectionData>());
-    webrtcConnectionsToLocal = ref(new Map<string, WebRTCConnectionData>());
+    webrtcConnections: Ref<WebRTCStoreObject> = ref([]);
 
     constructor(private deps: $WebRTCListenersHandlersToRemote & $WebRTCListenersHandlersToLocal) {}
 
-    private createRTCConnection(fingerprint: string,
-                                webrtcMap: Ref<Map<string, WebRTCConnectionData>>): WebRTCConnectionData {
+    private createRTCConnection(fingerprint: string, isToLocal: boolean): WebRTCConnectionData {
         const conn: WebRTCConnectionData = {
-            connectionHandle: this.createPeerConnection()
+            fingerprint: fingerprint,
+            connectionHandle: this.createPeerConnection(),
+            isToLocal: isToLocal
         }
-        webrtcMap.value.set(fingerprint, conn);
+        this.webrtcConnections.value.push(conn);
         return conn;
     }
 
-    createToLocal(fingerprint: string): WebRTCConnectionData {
-        const conn = this.getToLocal(fingerprint);
+    createConnection(fingerprint: string, isToLocal: boolean): WebRTCConnectionData {
+        const conn = this.get(fingerprint, isToLocal);
         if (conn)
-            this.removeToLocal(fingerprint);
-        const newConnection = this.createRTCConnection(fingerprint, this.webrtcConnectionsToLocal);
-        this.deps.webrtcListenersHandlersToLocal.attachListeners(newConnection.connectionHandle, fingerprint);
-        return newConnection;
-    }
-
-    createToRemote(fingerprint: string): WebRTCConnectionData {
-        const conn = this.getToRemote(fingerprint);
-        if (conn && conn.connectionHandle.connectionState === "connected")
-            return conn;
-        else if (conn)
-            this.removeToRemote(fingerprint);
-        const newConnection = this.createRTCConnection(fingerprint, this.webrtcConnectionsToRemote);
-        this.deps.webrtcListenersHandlersToRemote.attachListeners(newConnection.connectionHandle, fingerprint);
+            this.remove(fingerprint, isToLocal);
+        const newConnection = this.createRTCConnection(fingerprint, isToLocal);
+        if (isToLocal)
+            this.deps.webrtcListenersHandlersToLocal.attachListeners(newConnection);
+        else
+            this.deps.webrtcListenersHandlersToRemote.attachListeners(newConnection)
         return newConnection;
     }
 
@@ -43,43 +35,28 @@ export class WebRTCStore implements IWebRTCStore{
         return new RTCPeerConnection();
     }
 
-    private getAll(webrtcMap: Ref<Map<string, WebRTCConnectionData>>): Map<string, WebRTCConnectionData> {
-        return webrtcMap.value;
+    getAll(isToLocal: boolean): WebRTCConnectionData[] {
+        const resList: WebRTCConnectionData[] = [];
+        this.webrtcConnections.value.forEach((val) => {
+            if (val.isToLocal == isToLocal) resList.push(val)
+        });
+        return resList;
     }
 
-    getAllToLocal() {
-        return this.getAll(this.webrtcConnectionsToLocal);
+    get(fingerprint: string, isToLocal: boolean): WebRTCConnectionData | undefined  {
+        return this.webrtcConnections.value[this.getIndex(fingerprint, isToLocal)];
     }
 
-    getAllToRemote() {
-        return this.getAll(this.webrtcConnectionsToRemote);
+    getIndex(fingerprint: string, isToLocal: boolean): number {
+        return this.webrtcConnections.value.findIndex((val) =>
+            val.fingerprint == fingerprint && val.isToLocal == isToLocal);
     }
 
-    private get(fingerprint: string, webrtcMap: Ref<Map<string, WebRTCConnectionData>>) {
-        return webrtcMap.value.get(fingerprint);
-    }
-
-    getToLocal(fingerprint: string) {
-        return this.get(fingerprint, this.webrtcConnectionsToLocal);
-    }
-
-    getToRemote(fingerprint: string) {
-        return this.get(fingerprint, this.webrtcConnectionsToRemote);
-    }
-
-    private remove(fingerprint: string, webrtcMap: Ref<Map<string, WebRTCConnectionData>>) {
-        const conn = webrtcMap.value.get(fingerprint);
-        if(conn) {
-            conn.connectionHandle.close();
-            webrtcMap.value.delete(fingerprint);
+    remove(fingerprint: string, isToLocal: boolean): void {
+        const ind = this.getIndex(fingerprint, isToLocal);
+        if(ind >= 0) {
+            this.webrtcConnections.value[ind].connectionHandle.close();
+            this.webrtcConnections.value.splice(ind, 1);
         }
-    }
-
-    removeToLocal(fingerprint: string) {
-        this.remove(fingerprint, this.webrtcConnectionsToLocal);
-    }
-
-    removeToRemote(fingerprint: string) {
-        this.remove(fingerprint, this.webrtcConnectionsToRemote);
     }
 }

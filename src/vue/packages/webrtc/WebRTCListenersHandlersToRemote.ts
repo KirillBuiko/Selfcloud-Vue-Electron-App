@@ -9,7 +9,7 @@ export class WebRTCListenersHandlersToRemote extends WebRTCListenersHandlers{
 
     onConnectionStateChangeHandler(event: Event): void {
         // TODO: Set connection status to remote vds
-        // Close Data Channel
+        // Open/Close Data Channel
     }
 
     onDataChannelHandler(event: RTCDataChannelEvent): void {

@@ -11,7 +11,7 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * */
     async createConnection(fingerprint: string): Promise<void> {
         // TODO check
-        const conn = this.deps.webrtcStore.createToRemote(fingerprint)
+        const conn = this.deps.webrtcStore.createConnection(fingerprint, true);
         await this.createConnectionOffer(fingerprint, conn.connectionHandle);
     }
 
@@ -27,19 +27,19 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * */
     removeConnectionToRemote(fingerprint: string): void {
         // TODO check
-        this.deps.webrtcStore.removeToRemote(fingerprint);
+        this.deps.webrtcStore.remove(fingerprint, true);
     }
 
     removeConnectionToLocal(fingerprint: string): void {
         // TODO check
-        this.deps.webrtcStore.removeToLocal(fingerprint);
+        this.deps.webrtcStore.remove(fingerprint, true);
     }
 
     /**
      * Set remote answer to connection
      * */
     async setRemoteAnswer(fingerprint: string, answer: string): Promise<void> {
-        this.deps.webrtcStore.getToRemote(fingerprint)?.connectionHandle.setRemoteDescription({
+        this.deps.webrtcStore.get(fingerprint, false)?.connectionHandle.setRemoteDescription({
             type: "answer",
             sdp: answer
         })
@@ -50,7 +50,7 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
      * */
     async answerToOffer(fingerprint: string, offer: string): Promise<void> {
         // TODO check
-        const conn = this.deps.webrtcStore.createToLocal(fingerprint)
+        const conn = this.deps.webrtcStore.createConnection(fingerprint, true);
         await conn.connectionHandle.setRemoteDescription({
             sdp: offer,
             type: "offer"
@@ -64,22 +64,9 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
     /**
      * Add ICE Candidate to connection
      * */
-    async setCandidate(fingerprint: string, candidate: string): Promise<void>{
-        let conn = this.deps.webrtcStore.getToLocal(fingerprint);
-        if (conn)
-            await conn.connectionHandle.addIceCandidate({candidate: candidate});
-        else{
-            conn = this.deps.webrtcStore.getToRemote(fingerprint);
-            if (conn)
-                await conn.connectionHandle.addIceCandidate({candidate: candidate});
-        }
-    }
-
-    /**
-     * Send ICE Candidate
-     * */
-    sendCandidate(fingerprint: string, candidate: string): void{
-        // TODO
-        this.deps.socketEmitActions.sendWebRTCCandidate(fingerprint, candidate);
+    async setCandidate(fingerprint: string, candidate: string, isToLocal: boolean): Promise<void>{
+        const conn = this.deps.webrtcStore.get(fingerprint, isToLocal);
+        if(!conn || !conn.connectionHandle) return;
+        await conn.connectionHandle.addIceCandidate({candidate: candidate});
     }
 }

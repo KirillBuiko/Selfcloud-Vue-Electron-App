@@ -80,11 +80,19 @@ export class SocketEmitActions {
     }
 
     /**
-     * Send webrtc candidate
+     * Send webrtc ice candidate from "to local"
      * */
-    sendWebRTCCandidate(fingerprint: string, candidate: string){
+    toLocalIceCandidateReady(fingerprint: string, candidate: string){
         // TODO check
-        this.deps.socketStore.socket.emit("send-webrtc-candidate", fingerprint, candidate);
+        this.deps.socketStore.socket.emit("to-local-ice-candidate-ready", fingerprint, candidate);
+    }
+
+    /**
+     * Send webrtc ice candidate from "to remote"
+     * */
+    toRemoteIceCandidateReady(fingerprint: string, candidate: string){
+        // TODO check
+        this.deps.socketStore.socket.emit("to-remote-ice-candidate-ready", fingerprint, candidate);
     }
 }
 
