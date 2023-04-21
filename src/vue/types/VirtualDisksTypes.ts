@@ -1,3 +1,15 @@
+import type {VirtualDiskClass} from "@/packages/virtual-disk/VirtualDiskClass";
+
+export type VirtualDiskStoreObject = VirtualDiskClass<VirtualDiskConfig>;
+
+export type VirtualDiskConfigStoreObject =
+    { [ind: string]:
+        {
+            isRemote: false
+            config: VirtualDiskConfig,
+        }
+    }
+
 export interface VirtualDiskData{
     vdID: string,
     fingerprint: string,

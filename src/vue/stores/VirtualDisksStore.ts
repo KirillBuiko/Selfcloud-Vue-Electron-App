@@ -1,59 +1,52 @@
 import {RemoteVirtualDiskClass} from "@/packages/virtual-disk/RemoteVirtualDiskClass";
 import {LocalVirtualDiskClass} from "@/packages/virtual-disk/LocalVirtualDiskClass";
-import type {LocalVirtualDiskConfig, RemoteVirtualDiskConfig} from "@/types/VirtualDisksTypes";
+import type {LocalVirtualDiskConfig, RemoteVirtualDiskConfig, VirtualDiskStoreObject} from "@/types/VirtualDisksTypes";
 import type {IVirtualDisksStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStore";
 import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
 import {useLocalStorage} from "@vueuse/core";
 import {ref} from "vue";
+import type {VirtualDiskConfigStoreObject} from "@/types/VirtualDisksTypes";
 
 export class VirtualDisksStore implements IVirtualDisksStore{
-    readonly remoteVirtualDisksConfig =
-        useLocalStorage<{ [ind: string]: RemoteVirtualDiskConfig }>("remoteVirtualDisksConfig", {});
-    readonly localVirtualDisksConfig =
-        useLocalStorage<{ [ind: string]: LocalVirtualDiskConfig }>("localVirtualDisksConfig", {});
-    readonly remoteVirtualDisks = ref(new Map<string, RemoteVirtualDiskClass>());
-    readonly localVirtualDisks = ref(new Map<string, LocalVirtualDiskClass>());
+    readonly virtualDisksConfig =
+        useLocalStorage<VirtualDiskConfigStoreObject>("virtualDisksConfig", {});
+    readonly virtualDisks = ref(new Map<string, VirtualDiskStoreObject>());
 
     constructor(){
         this.initVirtualDisks();
     }
 
     initVirtualDisks() {
-        for(const key in this.localVirtualDisksConfig.value) {
-            const config = this.localVirtualDisksConfig.value[key];
-            const vd = new LocalVirtualDiskClass(config);
+        for(const key in this.virtualDisksConfig.value) {
+            const configObject = this.virtualDisksConfig.value[key];
+            const vd = configObject.isRemote
+                ? new LocalVirtualDiskClass(configObject.config as LocalVirtualDiskConfig)
+                : new RemoteVirtualDiskClass(configObject.config as RemoteVirtualDiskConfig);
             vd.check();
-            this.localVirtualDisks.value.set(config.vdID, vd);
-        }
-
-        for(const key in this.remoteVirtualDisksConfig.value) {
-            const config = this.remoteVirtualDisksConfig.value[key];
-            const vd = new RemoteVirtualDiskClass(config);
-            vd.check();
-            this.remoteVirtualDisks.value.set(config.vdID, vd);
+            this.virtualDisks.value.set(configObject.config.vdID, vd);
         }
     }
 
-    getRemote(vdID: string): RemoteVirtualDiskClass | undefined {
-        return this.remoteVirtualDisks.value.get(vdID);
+    get<R extends boolean, T extends R extends false ? LocalVirtualDiskClass : RemoteVirtualDiskClass>
+    (vdID: string, isRemote: R): T | undefined {
+        const vd = this.virtualDisks.value.get(vdID);
+        if( !vd || (isRemote !== vd instanceof RemoteVirtualDiskClass)) return undefined;
+        return vd as T;
     }
 
-    getLocal(vdID: string): LocalVirtualDiskClass | undefined {
-        return this.localVirtualDisks.value.get(vdID);
-    }
-
-    getAllRemote(): Map<string, RemoteVirtualDiskClass> {
-        return this.remoteVirtualDisks.value;
-    }
-
-    getAllLocal(): Map<string, LocalVirtualDiskClass> {
-        return this.localVirtualDisks.value;
+    getAll<R extends boolean, T extends R extends false ? LocalVirtualDiskClass : RemoteVirtualDiskClass>(isRemote: R):
+        Map<string, T> {
+        const resMap = new Map<string, T>();
+        this.virtualDisks.value.forEach((value, key) => {
+            if(isRemote == (value instanceof RemoteVirtualDiskClass))
+                resMap.set(key, value as T);
+        })
+        return resMap;
     }
 
     addRemote(vdData: VirtualDiskData): void {
-        if(this.getRemote(vdData.vdID)) {
-            Object.assign(this.remoteVirtualDisksConfig.value[vdData.vdID], vdData)
-            this.remoteVirtualDisks.value.get(vdData.vdID)?.setConfig(this.remoteVirtualDisksConfig.value[vdData.vdID]);
+        if(this.get(vdData.vdID, true)) {
+            this.editConfig(vdData.vdID, vdData, true);
         }
         else {
             // TODO: Get default configs from FileWorker
@@ -66,35 +59,29 @@ export class VirtualDisksStore implements IVirtualDisksStore{
             }
             const newVD = new RemoteVirtualDiskClass(config);
             newVD.check();
-            this.localVirtualDisks.value.set(config.vdID, newVD);
+            this.virtualDisks.value.set(config.vdID, newVD);
         }
     }
 
     addLocal(vdConfig: LocalVirtualDiskConfig): void {
-        if(this.getRemote(vdConfig.vdID))
-            this.removeLocal(vdConfig.vdID);
+        if(this.get(vdConfig.vdID, false))
+            this.remove(vdConfig.vdID);
         const vd = new LocalVirtualDiskClass(vdConfig);
         vd.check();
-        this.localVirtualDisks.value.set(vdConfig.vdID, vd);
+        this.virtualDisks.value.set(vdConfig.vdID, vd);
     }
 
-    removeLocal(vdID: string): void {
-        this.localVirtualDisks.value.delete(vdID);
-        delete this.localVirtualDisksConfig.value[vdID];
+    remove(vdID: string): void {
+        this.virtualDisks.value.delete(vdID);
+        delete this.virtualDisksConfig.value[vdID];
     }
 
-    removeRemote(vdID: string): void {
-        this.remoteVirtualDisks.value.delete(vdID);
-        delete this.remoteVirtualDisksConfig.value[vdID];
-    }
-
-    editLocalConfig(vdID: string, editObject: Partial<LocalVirtualDiskConfig>): void {
-        Object.assign(this.remoteVirtualDisksConfig.value[vdID], editObject)
-        this.remoteVirtualDisks.value.get(vdID)?.setConfig(this.remoteVirtualDisksConfig.value[vdID]);
-    }
-
-    editRemoteConfig(vdID: string, editObject: Partial<RemoteVirtualDiskConfig>): void {
-        Object.assign(this.remoteVirtualDisksConfig.value[vdID], editObject)
-        this.remoteVirtualDisks.value.get(vdID)?.setConfig(this.remoteVirtualDisksConfig.value[vdID]);
+    editConfig<R extends boolean, T extends R extends false ? LocalVirtualDiskConfig : RemoteVirtualDiskConfig>
+    (vdID: string, editObject: Partial<T>, isRemote: R): void {
+        if (!this.virtualDisksConfig.value[vdID]) return;
+        if(isRemote == this.virtualDisksConfig.value[vdID].isRemote) {
+            Object.assign(this.virtualDisksConfig.value[vdID].config, editObject);
+            this.virtualDisks.value.get(vdID)?.setConfig(this.virtualDisksConfig.value[vdID].config);
+        }
     }
 }
