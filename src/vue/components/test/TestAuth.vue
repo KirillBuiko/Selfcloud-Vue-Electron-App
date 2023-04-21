@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import AccountRequestClass from "@/packages/request/AccountRequestClass";
 import type {ResponseData} from "@/types/Objects";
 import {ref} from "vue";
 import {ResultCode} from "@/types/ResultCode";
@@ -56,13 +55,6 @@ async function registrationWrong(){
 async function logout(){
   requestResult.value = "";
   setResult(await accountHandler.logout());
-}
-
-function openOverlay(){
-  isLoading.value = true;
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 1000);
 }
 
 function setResult(response: ResponseData<object>){

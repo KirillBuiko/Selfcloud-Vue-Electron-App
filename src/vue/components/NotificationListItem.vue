@@ -20,7 +20,6 @@
 <script setup lang="ts">
 import {defineProps} from "vue";
 import type {Notification} from "@/stores/notificationsStore";
-import {useNotificationsStore} from "@/stores/notificationsStore";
 import {container} from "@/composition/DIContainer";
 
 const notificationStore = container.notificationStore;

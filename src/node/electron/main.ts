@@ -6,7 +6,7 @@ function createWindow() {
         width: 1000,
         height: 600,
         center: true,
-        title: "Selfcloud",
+        title: "SelfCloud",
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
         }
