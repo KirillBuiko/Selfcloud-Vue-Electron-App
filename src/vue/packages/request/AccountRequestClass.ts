@@ -13,7 +13,7 @@ export default class AccountRequestClass extends AbstractRequest{
     async loginPassword(loginData: LoginData): Promise<ResponseData<object>>{
         const response = await this.deps.requestHandler.makeRequest<RefreshData>({
             // TODO: set URL
-            url: this.REQUEST_PREFIX + "/login/",
+            url: this.REQUEST_PREFIX + "/login_password",
             method: "POST",
             body: loginData,
         });
@@ -27,7 +27,8 @@ export default class AccountRequestClass extends AbstractRequest{
     async loginToken(): Promise<ResponseData<object>>{
         const response = await this.deps.requestHandler.makeRequest<RefreshData>({
             // TODO: set URL
-            url: this.REQUEST_PREFIX + "/loginToken/"
+            url: this.REQUEST_PREFIX + "/login_token",
+            method: "POST"
         });
         if(response.code == ResultCode.OK && response.result !== undefined){
             const tokens = response.result;
@@ -38,7 +39,7 @@ export default class AccountRequestClass extends AbstractRequest{
 
     async registration(regData: RegData): Promise<ResponseData<object>>{
         return await this.deps.requestHandler.makeRequest({
-            url: this.REQUEST_PREFIX + "/registration/",
+            url: this.REQUEST_PREFIX + "/registration",
             method: "POST",
             body: regData,
         });
@@ -62,7 +63,7 @@ export default class AccountRequestClass extends AbstractRequest{
     async logout(): Promise<ResponseData<object>>{
         this.deps.requestHandler.setTokens({access: "", refresh: ""});
         return await this.deps.requestHandler.makeRequest({
-            url: this.REQUEST_PREFIX + "/log_out/",
+            url: this.REQUEST_PREFIX + "/logout",
         });
     }
 }

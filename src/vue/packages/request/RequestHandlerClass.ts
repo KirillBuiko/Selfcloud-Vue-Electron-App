@@ -63,7 +63,7 @@ export default class RequestHandlerClass implements IRequestHandler{
     }
 
     async updateToken(): Promise<ResponseData<object>> {
-        const request: RequestData = {url: "/request/update_all_tokens"};
+        const request: RequestData = {url: "/request/refresh", method: "POST"};
         const response = await this.makeRequest<RefreshData>(request, true);
         if(response.code == ResultCode.OK && response.result !== undefined){
             const tokens = response.result;
