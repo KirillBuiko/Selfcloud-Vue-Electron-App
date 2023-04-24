@@ -1,11 +1,24 @@
 <template>
-  <div class="logo_rotating">
-    <img src="/src/vue/assets/Logo.svg" alt="">
+  <div class="logo_rotating" ref="logo">
+    <img src="/src/vue/assets/SC-Logo-Hollow.svg" alt="">
   </div>
 </template>
 
 <script setup lang="ts">
+import {ref} from "vue";
 
+const logo = ref<HTMLElement>();
+const width = ref<string>("0px");
+const maxWidth = ref("unset");
+
+setTimeout(() => {
+  if (logo.value && logo.value.parentElement) {
+    const parent = logo.value.parentElement;
+    console.log(parent.getBoundingClientRect());
+    width.value = Math.min(parent.clientHeight, parent.clientWidth) * 0.6 + 'px';
+    maxWidth.value = "200px";
+  }
+}, 10)
 </script>
 
 <style scoped lang="scss">
@@ -13,58 +26,17 @@
   0%{
     transform: rotate3d(0,1,0,0);
   }
-  6.25%{
+  45%{
     transform: rotate3d(0,1,0,180deg);
   }
-  12.5%{
+  90%{
     transform: rotate3d(0,1,0,0);
-  }
-  18.75%{
-    transform: rotate3d(1,1,0,180deg);
-  }
-  25%{
-    transform: rotate3d(1,1,0,0);
-  }
-  31.25%{
-    transform: rotate3d(1,0,0,180deg);
-  }
-  37.5%{
-    transform: rotate3d(1,0,0,0);
-  }
-  43.75%{
-    transform: rotate3d(1,-1,0,180deg);
-  }
-  50%{
-    transform: rotate3d(1,-1,0,0);
-  }
-  56.25%{
-    transform: rotate3d(0,-1,0,180deg);
-  }
-  62.5%{
-    transform: rotate3d(0,-1,0,0);
-  }
-  68.75%{
-    transform: rotate3d(-1,-1,0,180deg);
-  }
-  75%{
-    transform: rotate3d(-1,-1,0,0);
-  }
-  81.25%{
-    transform: rotate3d(-1,0,0,180deg);
-  }
-  87.5%{
-    transform: rotate3d(-1,0,0,0);
-  }
-  93.75%{
-    transform: rotate3d(-1,1,0,180deg);
-  }
-  100%{
-    transform: rotate3d(-1,1,0,0);
   }
 }
 
 .logo_rotating{
-  width: 200px;
+  max-width: v-bind("maxWidth");
+  width: v-bind("width");
   height: 100%;
   display: flex;
   align-items: center;
@@ -73,8 +45,13 @@
 
   animation-name: logoRounding;
   animation-timing-function: cubic-bezier(.47,.1,.52,.85);
-  animation-duration: 12s;
+  animation-duration: 2s;
   animation-iteration-count: infinite;
+
+  img{
+    width: 100%;
+    height: 100%;
+  }
 }
 
 </style>

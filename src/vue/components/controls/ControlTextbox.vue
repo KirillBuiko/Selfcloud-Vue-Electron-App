@@ -16,7 +16,7 @@
 import {defineProps, defineEmits, withDefaults} from "vue";
 
 withDefaults(defineProps<{
-  inputType?: string,
+  inputType?: "button" | "checkbox" | "color" | "date" | "datetime-local" | "email" | "file" | "hidden" | "image" | "month" | "number" | "password" | "radio" | "range" | "reset" | "search" | "submit" | "tel" | "text" | "time" | "url" | "week",
   placeholder: string,
   errorText?: string,
   modelValue?: string | number,
@@ -69,7 +69,7 @@ defineEmits(['update:modelValue'])
     }
     input{
       font-size: 18px;
-      padding: 10px 0px 0 $left-padding;
+      padding: 10px 0 0 $left-padding;
       height: 100%;
       width: 100%;
       bottom: 0;

@@ -19,16 +19,19 @@ withDefaults(defineProps<{
 
 <style scoped lang="scss">
 .button-wrapper{
-  width: 200px;
-  height: 70px;
+  width: 100px;
+  height: 100px;
+  border-radius: 999px;
 }
 
 button{
   display: block;
   width: 100%;
   height: 100%;
-  border: 2px solid black;
-  background-color: white;
+  background-color: black;
+  border-radius: 999px;
+  border: 2px solid white;
+  color: white;
 
   &.enabled {
     &:hover {

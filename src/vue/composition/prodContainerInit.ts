@@ -17,7 +17,7 @@ import {SocketListenersHandlers} from "@/packages/socket/SocketListenersHandlers
 import type {$AuthStore} from "@/packages/request/IAuthStorage";
 import type {$RequestHandler} from "@/packages/request/IRequestHandler";
 import RequestHandlerClass from "@/packages/request/RequestHandlerClass";
-import AccountRequestClass from "@/packages/request/AccountRequestClass";
+import AccountRequestClass, {type $AccountRequestActions} from "@/packages/request/AccountRequestClass";
 import UserInfoRequestClass from "@/packages/request/UserInfoRequestClass";
 import {WorkerOverlay} from "@/component-class/WorkerOverlay";
 import {WorkerOverlayWindowLogin} from "@/component-class/WorkerOverlayWindowLogin";
@@ -44,6 +44,16 @@ export const prodContainerInit = () => {
         virtualDiskStore: container.virtualDiskStore = new VirtualDisksStore(),
         authStore: container.authStore = new AuthStore(),
 
+        requestHandler: container.requestHandler =
+            new RequestHandlerClass(container as
+                $AuthStore),
+        accountRequestActions: container.accountRequestActions =
+            new AccountRequestClass(container as
+                $RequestHandler),
+        userInfoRequestActions: container.userInfoRequestActions =
+            new UserInfoRequestClass(container as
+                $RequestHandler),
+
         webrtcWorkerActions: container.webrtcWorkerActions =
             new WebRTCWorkerActions(container as
                 $WebRTCStore & $SocketEmitActions),
@@ -65,20 +75,10 @@ export const prodContainerInit = () => {
 
         socketListenersHandlers: container.socketListenersHandlers =
             new SocketListenersHandlers(container as
-                $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions),
+                $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions & $AccountRequestActions),
         socketStore: container.socketStore =
             new SocketStore(container as
                 $SocketListenersHandlers),
-
-        requestHandler: container.requestHandler =
-            new RequestHandlerClass(container as
-                $AuthStore),
-        accountRequestActions: container.accountRequestActions =
-            new AccountRequestClass(container as
-                $RequestHandler),
-        userInfoRequestActions: container.userInfoRequestActions =
-            new UserInfoRequestClass(container as
-                $RequestHandler),
 
         workerOverlay: container.workerOverlay =
             new WorkerOverlay(container as

@@ -20,11 +20,13 @@ export class AuthStore implements IAuthStorage {
         this.refresh.value = token;
     }
     setTokenData(tokens: RefreshData) {
-        if (tokens.access)
-            this.setAccessToken(tokens.access);
         if (tokens.fingerprint)
             this.setFingerprint(tokens.fingerprint);
-        if (tokens.refresh)
-            this.setRefreshToken(tokens.refresh);
+        if(!navigator.cookieEnabled) {
+            if (tokens.access)
+                this.setAccessToken(tokens.access);
+            if (tokens.refresh)
+                this.setRefreshToken(tokens.refresh);
+        }
     }
 }

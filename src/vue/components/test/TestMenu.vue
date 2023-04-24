@@ -14,9 +14,15 @@
       <RouterLink to="/test/notifications" custom v-slot="{ navigate }">
         <ControlButton @click="navigate(); isSelected=true;" role="link"> Тест уведомлений </ControlButton>
       </RouterLink>
+      <RouterLink to="/test/socket" custom v-slot="{ navigate }">
+        <ControlButton @click="navigate(); isSelected=true;" role="link"> Тест сокета </ControlButton>
+      </RouterLink>
     </nav>
     <main v-show="isSelected">
-      <ControlButton @click="isSelected=false">Назад</ControlButton>
+      <RouterLink to="/test" custom v-slot="{ navigate }">
+        <ControlButton @click="isSelected=false; navigate();" role="link">Назад</ControlButton>
+      </RouterLink>
+
       <router-view v-slot="{ Component }">
         <component :is="Component" ></component>
       </router-view>
@@ -29,6 +35,7 @@
   import ControlButton from "@/components/controls/ControlButton.vue";
 
   const isSelected = ref(false)
+  isSelected.value = !window.location.href.endsWith("/test");
 </script>
 
 <style scoped lang="scss">
