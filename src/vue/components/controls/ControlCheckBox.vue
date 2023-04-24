@@ -1,5 +1,5 @@
 <template>
-  <div class="checkbox-wrapper" >
+  <div class="checkbox-wrapper">
     <input :id="id"
            class="checkbox-input"
            type="checkbox"
@@ -29,17 +29,17 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.checkbox-wrapper{
+.checkbox-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
   user-select: none;
 
-  *{
+  * {
     cursor: pointer;
   }
 
-  .checkbox-input{
+  .checkbox-input {
     display: none;
   }
 
@@ -65,7 +65,7 @@ onMounted(() => {
       margin-left: 5px;
     }
 
-    &:hover{
+    &:hover {
       .checkbox-mark {
         border-color: #000;
       }

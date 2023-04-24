@@ -12,7 +12,8 @@ export class SocketListenersHandlers {
     socket: SCSocket | undefined;
 
     constructor(private deps: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions &
-        $AccountRequestActions) {}
+        $AccountRequestActions) {
+    }
 
     initSocketListeners(socket: SCSocket) {
         this.socket = socket;

@@ -10,11 +10,14 @@ export class SocketStore {
 
     constructor(deps: $SocketListenersHandlers) {
         this.socket = io(Configs.SOCKET_URI, {autoConnect: false, withCredentials: true});
-        this.socket.on("connect", () => {this.state.connected = true});
-        this.socket.on("disconnect", () => {this.state.connected = false});
+        this.socket.on("connect", () => {
+            this.state.connected = true
+        });
+        this.socket.on("disconnect", () => {
+            this.state.connected = false
+        });
         deps.socketListenersHandlers.initSocketListeners(this.socket);
     }
-
 
 
     connect() {
@@ -26,4 +29,4 @@ export class SocketStore {
     }
 }
 
-export type $SocketStore = {socketStore: SocketStore}
+export type $SocketStore = { socketStore: SocketStore }
