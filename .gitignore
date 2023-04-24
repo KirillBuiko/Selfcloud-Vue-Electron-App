@@ -30,3 +30,5 @@ coverage
 #TS files
 *.js.map
 *.js
+
+*.ai
