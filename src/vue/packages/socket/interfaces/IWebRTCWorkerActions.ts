@@ -14,4 +14,4 @@ export interface IWebRTCWorkerActions {
     setCandidate(fingerprint: string, candidate: string, isToLocal: boolean): Promise<void>
 }
 
-export type $WebRTCWorkerActions = {webrtcWorkerActions: IWebRTCWorkerActions}
+export type $WebRTCWorkerActions = { webrtcWorkerActions: IWebRTCWorkerActions }

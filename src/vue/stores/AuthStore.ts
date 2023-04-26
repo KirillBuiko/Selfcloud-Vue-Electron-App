@@ -10,19 +10,23 @@ export class AuthStore implements IAuthStorage {
     getTokenData(): RefreshData {
         return {} as RefreshData;
     }
+
     setAccessToken(token: string): void {
         this.access.value = token;
     }
+
     setFingerprint(key: string): void {
         this.fingerprint.value = key;
     }
+
     setRefreshToken(token: string): void {
         this.refresh.value = token;
     }
+
     setTokenData(tokens: RefreshData) {
         if (tokens.fingerprint)
             this.setFingerprint(tokens.fingerprint);
-        if(!navigator.cookieEnabled) {
+        if (!navigator.cookieEnabled) {
             if (tokens.access)
                 this.setAccessToken(tokens.access);
             if (tokens.refresh)

@@ -3,20 +3,21 @@ import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWor
 import type {$SocketStore} from "@/stores/SoketStore";
 
 export class SocketEmitActions {
-    constructor(private deps: $WebRTCWorkerActions & $SocketStore) {}
+    constructor(private deps: $WebRTCWorkerActions & $SocketStore) {
+    }
 
-    initConnection(){
+    initConnection() {
         // connected
     }
 
     /**
      * Get and return virtual disks
      * */
-    async getVirtualDisks(): Promise<VirtualDiskData[]>{
+    async getVirtualDisks(): Promise<VirtualDiskData[]> {
         // TODO check
         return new Promise((resolve, reject) => {
             this.deps.socketStore.socket.timeout(5000).emit("get-virtual-disks", (err, vds) => {
-                if(err){
+                if (err) {
                     reject(err);
                 }
                 resolve(vds);
@@ -27,7 +28,7 @@ export class SocketEmitActions {
     /**
      * Provide virtual disks
      * */
-    provideVirtualDisks(vdIDs: string[]){
+    provideVirtualDisks(vdIDs: string[]) {
         // TODO check
         this.deps.socketStore.socket.emit("provide-virtual-disks", vdIDs);
     }
@@ -35,7 +36,7 @@ export class SocketEmitActions {
     /**
      * Revoke virtual disks
      * */
-    revokeVirtualDisk(vdID: string){
+    revokeVirtualDisk(vdID: string) {
         // TODO check
         this.deps.socketStore.socket.emit("revoke-virtual-disk", vdID);
     }
@@ -43,11 +44,11 @@ export class SocketEmitActions {
     /**
      * Create virtual disk and return virtual disk data
      * */
-    createVirtualDisk(): Promise<VirtualDiskData>{
+    createVirtualDisk(): Promise<VirtualDiskData> {
         // TODO check
         return new Promise((resolve, reject) => {
             this.deps.socketStore.socket.timeout(5000).emit("create-virtual-disk", (err, vd) => {
-                if(err){
+                if (err) {
                     reject(err);
                 }
                 resolve(vd);
@@ -58,7 +59,7 @@ export class SocketEmitActions {
     /**
      * Remove virtual disk
      * */
-    removeVirtualDisk(vdID: string){
+    removeVirtualDisk(vdID: string) {
         // TODO check
         this.deps.socketStore.socket.emit("remove-virtual-disk", vdID);
     }
@@ -66,7 +67,7 @@ export class SocketEmitActions {
     /**
      * Connect webrtc
      * */
-    connectToDevice(fingerprint: string, offer: string){
+    connectToDevice(fingerprint: string, offer: string) {
         // TODO check
         this.deps.socketStore.socket.emit("connect-webrtc", fingerprint, offer);
     }
@@ -74,7 +75,7 @@ export class SocketEmitActions {
     /**
      * Send webrtc answer
      * */
-    acceptConnectionToDevice(fingerprint: string, answer: string){
+    acceptConnectionToDevice(fingerprint: string, answer: string) {
         // TODO check
         this.deps.socketStore.socket.emit("connect-webrtc-answer", fingerprint, answer);
     }
@@ -82,7 +83,7 @@ export class SocketEmitActions {
     /**
      * Send webrtc ice candidate from "to local"
      * */
-    toLocalIceCandidateReady(fingerprint: string, candidate: string){
+    toLocalIceCandidateReady(fingerprint: string, candidate: string) {
         // TODO check
         this.deps.socketStore.socket.emit("to-local-ice-candidate-ready", fingerprint, candidate);
     }
@@ -90,10 +91,10 @@ export class SocketEmitActions {
     /**
      * Send webrtc ice candidate from "to remote"
      * */
-    toRemoteIceCandidateReady(fingerprint: string, candidate: string){
+    toRemoteIceCandidateReady(fingerprint: string, candidate: string) {
         // TODO check
         this.deps.socketStore.socket.emit("to-remote-ice-candidate-ready", fingerprint, candidate);
     }
 }
 
-export type $SocketEmitActions = {socketEmitActions: SocketEmitActions}
+export type $SocketEmitActions = { socketEmitActions: SocketEmitActions }

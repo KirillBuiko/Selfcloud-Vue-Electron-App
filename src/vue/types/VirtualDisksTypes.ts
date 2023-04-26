@@ -3,20 +3,21 @@ import type {VirtualDiskClass} from "@/packages/virtual-disk/VirtualDiskClass";
 export type VirtualDiskStoreObject = VirtualDiskClass<VirtualDiskConfig>;
 
 export type VirtualDiskConfigStoreObject =
-    { [ind: string]:
-        {
-            isRemote: false
-            config: VirtualDiskConfig,
-        }
+    {
+        [ind: string]:
+            {
+                isRemote: false
+                config: VirtualDiskConfig,
+            }
     }
 
-export interface VirtualDiskData{
+export interface VirtualDiskData {
     vdID: string,
     fingerprint: string,
     isOnline: boolean,
 }
 
-export interface VirtualDiskConfig{
+export interface VirtualDiskConfig {
     vdID: string,
     name: string,
     totalSizeBytes: number,
@@ -26,5 +27,5 @@ export interface VirtualDiskConfig{
 
 export type LocalVirtualDiskConfig = VirtualDiskConfig;
 
-export interface RemoteVirtualDiskConfig extends VirtualDiskConfig, VirtualDiskData{
+export interface RemoteVirtualDiskConfig extends VirtualDiskConfig, VirtualDiskData {
 }

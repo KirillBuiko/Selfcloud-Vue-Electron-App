@@ -4,10 +4,11 @@ import type {WebRTCConnectionData, WebRTCStoreObject} from "@/types/WebRTCTypes"
 import type {$WebRTCListenersHandlersToRemote} from "@/packages/webrtc/WebRTCListenersHandlersToRemote";
 import type {$WebRTCListenersHandlersToLocal} from "@/packages/webrtc/WebRTCListenersHandlersToLocal";
 
-export class WebRTCStore implements IWebRTCStore{
+export class WebRTCStore implements IWebRTCStore {
     webrtcConnections: Ref<WebRTCStoreObject> = ref([]);
 
-    constructor(private deps: $WebRTCListenersHandlersToRemote & $WebRTCListenersHandlersToLocal) {}
+    constructor(private deps: $WebRTCListenersHandlersToRemote & $WebRTCListenersHandlersToLocal) {
+    }
 
     private createRTCConnection(fingerprint: string, isToLocal: boolean): WebRTCConnectionData {
         const conn: WebRTCConnectionData = {
@@ -31,7 +32,7 @@ export class WebRTCStore implements IWebRTCStore{
         return newConnection;
     }
 
-    createPeerConnection(): RTCPeerConnection{
+    createPeerConnection(): RTCPeerConnection {
         return new RTCPeerConnection();
     }
 
@@ -43,7 +44,7 @@ export class WebRTCStore implements IWebRTCStore{
         return resList;
     }
 
-    get(fingerprint: string, isToLocal: boolean): WebRTCConnectionData | undefined  {
+    get(fingerprint: string, isToLocal: boolean): WebRTCConnectionData | undefined {
         return this.webrtcConnections.value[this.getIndex(fingerprint, isToLocal)];
     }
 
@@ -54,7 +55,7 @@ export class WebRTCStore implements IWebRTCStore{
 
     remove(fingerprint: string, isToLocal: boolean): void {
         const ind = this.getIndex(fingerprint, isToLocal);
-        if(ind >= 0) {
+        if (ind >= 0) {
             this.webrtcConnections.value[ind].connectionHandle.close();
             this.webrtcConnections.value.splice(ind, 1);
         }

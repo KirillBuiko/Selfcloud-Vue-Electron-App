@@ -19,12 +19,14 @@
     body: 'Какое-то уведомление',
     type: 'notify'
     })">
-      Добавить предупреждение</ControlButton>
+      Добавить предупреждение
+    </ControlButton>
     <ControlButton @click="addNotification({
     header: randomString,
     body: '',
     type: 'notify'
-    })">Добавить нечто</ControlButton>
+    })">Добавить нечто
+    </ControlButton>
     <ControlButton @click="hideAllNotifications()">Очистить</ControlButton>
     <ControlTextbox class="duration-input"
                     input-type="number"
@@ -47,7 +49,7 @@ const randomString = ref("qwe")
 </script>
 
 <style scoped lang="scss">
-.duration-input{
+.duration-input {
   width: 300px;
 }
 </style>

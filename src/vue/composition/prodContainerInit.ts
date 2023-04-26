@@ -66,10 +66,10 @@ export const prodContainerInit = () => {
 
         webrtcListenersHandlersToLocal: container.webrtcListenersHandlersToLocal =
             new WebRTCListenersHandlersToLocal(container as
-                $WebRTCWorkerActions & $VirtualDiskWorkerActions),
+                $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions),
         webrtcListenersHandlersToRemote: container.webrtcListenersHandlersToRemote =
             new WebRTCListenersHandlersToRemote(container as
-                $WebRTCWorkerActions & $VirtualDiskWorkerActions),
+                $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions),
         webrtcStore: container.webrtcStore =
             new WebRTCStore(container as $WebRTCListenersHandlersToRemote & $WebRTCListenersHandlersToLocal),
 

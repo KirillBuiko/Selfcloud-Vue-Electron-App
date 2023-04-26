@@ -2,7 +2,7 @@ import type {RemoteVirtualDiskConfig} from "@/types/VirtualDisksTypes";
 import {VirtualDiskClass} from "@/packages/virtual-disk/VirtualDiskClass";
 import {ref} from "vue";
 
-export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskConfig>{
+export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskConfig> {
     readonly isRemoteReady = ref(false);
     readonly remoteConnectionStatus = ref(false);
 
@@ -34,7 +34,7 @@ export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskCo
     }
 
     getRemoteFileSystemInfo() {
-        if(!this.remoteConnectionStatus.value || !this.checkStatus.value || !this.isRemoteReady.value) return;
+        if (!this.remoteConnectionStatus.value || !this.checkStatus.value || !this.isRemoteReady.value) return;
         // TODO: Do dome things with WebRTC, set configs
     }
 }

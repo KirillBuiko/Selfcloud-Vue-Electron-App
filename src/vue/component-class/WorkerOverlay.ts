@@ -21,4 +21,4 @@ export class WorkerOverlay {
     }
 }
 
-export type $WorkerOverlay = {workerOverlay: WorkerOverlay}
+export type $WorkerOverlay = { workerOverlay: WorkerOverlay }

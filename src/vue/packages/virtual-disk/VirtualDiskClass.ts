@@ -1,7 +1,7 @@
 import type {VirtualDiskConfig} from "@/types/VirtualDisksTypes";
 import {ref} from "vue";
 
-export abstract class VirtualDiskClass<A extends VirtualDiskConfig>{
+export abstract class VirtualDiskClass<A extends VirtualDiskConfig> {
     webrtc = undefined;
     isChecking = ref(false);
     checkError = ref("");

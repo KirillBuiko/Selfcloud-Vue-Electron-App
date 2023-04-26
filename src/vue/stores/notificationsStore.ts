@@ -1,13 +1,13 @@
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 
-export interface NotificationInput{
+export interface NotificationInput {
     header: string;
     body: string;
     type: "error" | "notify" | "warning";
     duration?: number;
 }
 
-export interface Notification extends NotificationInput{
+export interface Notification extends NotificationInput {
     id: number;
     isShow: boolean;
     isClosing: boolean;
@@ -16,75 +16,77 @@ export interface Notification extends NotificationInput{
 export const useNotificationsStore = defineStore('notificationsStore', {
     state: () => ({
         notificationsList: [] as Notification[],
-        timerList: {} as {[id: number]: number},
+        timerList: {} as { [id: number]: number },
         defaultDuration: 3000,
         id: 0
     }),
     getters: {
-        activeNotificationsList(state){
+        activeNotificationsList(state) {
             const list = [] as Notification[];
-            for(const note of state.notificationsList) {
-                if(note.isShow)
+            for (const note of state.notificationsList) {
+                if (note.isShow)
                     list.push(note);
             }
             return list;
         }
     },
     actions: {
-        addNotification(note: NotificationInput){
+        addNotification(note: NotificationInput) {
             const notification = note as Notification;
             notification.id = this.id++;
 
-            if(notification.duration === undefined) notification.duration = this.defaultDuration;
+            if (notification.duration === undefined) notification.duration = this.defaultDuration;
             this.notificationsList.push(notification);
 
             notification.isShow = true;
             notification.isClosing = false;
             this.startNotificationTimer(notification.id);
         },
-        getNotification(id: number){
-            for(const note of this.notificationsList){
-                if(note.id === id){
+        getNotification(id: number) {
+            for (const note of this.notificationsList) {
+                if (note.id === id) {
                     return note;
                 }
             }
             return undefined;
         },
-        showNotification(id: number){
+        showNotification(id: number) {
             const note = this.getNotification(id);
-            if(note) {
+            if (note) {
                 note.isShow = true;
                 this.stopNotificationTimer(id);
             }
         },
-        hideNotification(id: number){
+        hideNotification(id: number) {
             const note = this.getNotification(id);
-            if(note) this.hideNotificationByInst(note);
+            if (note) this.hideNotificationByInst(note);
         },
-        hideNotificationByInst(note: Notification){
+        hideNotificationByInst(note: Notification) {
             note.isShow = false;
             this.stopNotificationTimer(note.id);
         },
-        hideAllNotifications(){
-            this.notificationsList.forEach(note => {this.hideNotificationByInst(note)})
+        hideAllNotifications() {
+            this.notificationsList.forEach(note => {
+                this.hideNotificationByInst(note)
+            })
         },
-        startNotificationTimer(id: number){
+        startNotificationTimer(id: number) {
             const note = this.getNotification(id);
-            if(note === undefined || this.timerList[id] !== undefined) return;
+            if (note === undefined || this.timerList[id] !== undefined) return;
             this.timerList[id] = setTimeout(() => {
                 this.stopNotificationTimer(id);
                 this.hideNotification(id);
             }, note.duration) as unknown as number;
         },
-        startHideNotificationTimerAll(){
+        startHideNotificationTimerAll() {
             //
         },
-        stopNotificationTimer(id: number){
-            if(this.timerList[id] === undefined) return;
+        stopNotificationTimer(id: number) {
+            if (this.timerList[id] === undefined) return;
             clearTimeout(this.timerList[id]);
             delete this.timerList[id]
         }
     }
 })
 
-export type $NotificationStore = {notificationStore: ReturnType<typeof useNotificationsStore>}
+export type $NotificationStore = { notificationStore: ReturnType<typeof useNotificationsStore> }

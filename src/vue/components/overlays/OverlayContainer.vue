@@ -7,18 +7,18 @@
 </template>
 
 <script setup lang="ts">
-  import * as overlays from "@/components/overlays/index"
-  import {container} from "@/composition/DIContainer";
+import * as overlays from "@/components/overlays/index"
+import {container} from "@/composition/DIContainer";
 
-  const overlayStore = container.overlayStore;
-  const {overlayName, isOpen} = overlayStore
+const overlayStore = container.overlayStore;
+const {overlayName, isOpen} = overlayStore
 
-  function backgroundClick(e: Event){
-    if(e.target === e.currentTarget) overlayStore.closeOverlay();
-    console.log("CLICK")
-  }
+function backgroundClick(e: Event) {
+  if (e.target === e.currentTarget) overlayStore.closeOverlay();
+  console.log("CLICK")
+}
 
-  console.log("CONTAINER")
+console.log("CONTAINER")
 </script>
 
 <style scoped lang="scss">
@@ -31,24 +31,24 @@
   pointer-events: none;
   z-index: 100;
 
-  .background-wrapper{
+  .background-wrapper {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     transition: all 0.6s;
     clip-path: circle(0% at 105% -5%);
   }
 }
 
-.overlay-container-wrapper.active{
+.overlay-container-wrapper.active {
   pointer-events: all;
 
-  .background-wrapper{
+  .background-wrapper {
     clip-path: circle(100%);
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
   }
 }
 </style>

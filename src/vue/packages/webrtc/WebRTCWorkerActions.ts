@@ -2,8 +2,9 @@ import type {IWebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWor
 import type {$WebRTCStore} from "@/packages/webrtc/interfaces/IWebRTCStore";
 import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 
-export class WebRTCWorkerActions implements IWebRTCWorkerActions{
-    constructor(private deps: $WebRTCStore & $SocketEmitActions) {}
+export class WebRTCWorkerActions implements IWebRTCWorkerActions {
+    constructor(private deps: $WebRTCStore & $SocketEmitActions) {
+    }
 
     /**
      * Create new connection to remote if there is not,
@@ -64,9 +65,9 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions{
     /**
      * Add ICE Candidate to connection
      * */
-    async setCandidate(fingerprint: string, candidate: string, isToLocal: boolean): Promise<void>{
+    async setCandidate(fingerprint: string, candidate: string, isToLocal: boolean): Promise<void> {
         const conn = this.deps.webrtcStore.get(fingerprint, isToLocal);
-        if(!conn || !conn.connectionHandle) return;
+        if (!conn || !conn.connectionHandle) return;
         await conn.connectionHandle.addIceCandidate({candidate: candidate});
     }
 }

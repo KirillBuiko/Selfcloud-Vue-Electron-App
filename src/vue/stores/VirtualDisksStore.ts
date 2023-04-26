@@ -1,23 +1,27 @@
 import {RemoteVirtualDiskClass} from "@/packages/virtual-disk/RemoteVirtualDiskClass";
 import {LocalVirtualDiskClass} from "@/packages/virtual-disk/LocalVirtualDiskClass";
-import type {LocalVirtualDiskConfig, RemoteVirtualDiskConfig, VirtualDiskStoreObject} from "@/types/VirtualDisksTypes";
+import type {
+    LocalVirtualDiskConfig,
+    RemoteVirtualDiskConfig,
+    VirtualDiskConfigStoreObject,
+    VirtualDiskData,
+    VirtualDiskStoreObject
+} from "@/types/VirtualDisksTypes";
 import type {IVirtualDisksStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStore";
-import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
 import {useLocalStorage} from "@vueuse/core";
 import {ref} from "vue";
-import type {VirtualDiskConfigStoreObject} from "@/types/VirtualDisksTypes";
 
-export class VirtualDisksStore implements IVirtualDisksStore{
+export class VirtualDisksStore implements IVirtualDisksStore {
     readonly virtualDisksConfig =
         useLocalStorage<VirtualDiskConfigStoreObject>("virtualDisksConfig", {});
     readonly virtualDisks = ref(new Map<string, VirtualDiskStoreObject>());
 
-    constructor(){
+    constructor() {
         this.initVirtualDisks();
     }
 
     initVirtualDisks() {
-        for(const key in this.virtualDisksConfig.value) {
+        for (const key in this.virtualDisksConfig.value) {
             const configObject = this.virtualDisksConfig.value[key];
             const vd = configObject.isRemote
                 ? new LocalVirtualDiskClass(configObject.config as LocalVirtualDiskConfig)
@@ -30,7 +34,7 @@ export class VirtualDisksStore implements IVirtualDisksStore{
     get<R extends boolean, T extends R extends false ? LocalVirtualDiskClass : RemoteVirtualDiskClass>
     (vdID: string, isRemote: R): T | undefined {
         const vd = this.virtualDisks.value.get(vdID);
-        if( !vd || (isRemote !== vd instanceof RemoteVirtualDiskClass)) return undefined;
+        if (!vd || (isRemote !== vd instanceof RemoteVirtualDiskClass)) return undefined;
         return vd as T;
     }
 
@@ -38,17 +42,16 @@ export class VirtualDisksStore implements IVirtualDisksStore{
         Map<string, T> {
         const resMap = new Map<string, T>();
         this.virtualDisks.value.forEach((value, key) => {
-            if(isRemote == (value instanceof RemoteVirtualDiskClass))
+            if (isRemote == (value instanceof RemoteVirtualDiskClass))
                 resMap.set(key, value as T);
         })
         return resMap;
     }
 
     addRemote(vdData: VirtualDiskData): void {
-        if(this.get(vdData.vdID, true)) {
+        if (this.get(vdData.vdID, true)) {
             this.editConfig(vdData.vdID, vdData, true);
-        }
-        else {
+        } else {
             // TODO: Get default configs from FileWorker
             const config: RemoteVirtualDiskConfig = {
                 ...vdData,
@@ -64,7 +67,7 @@ export class VirtualDisksStore implements IVirtualDisksStore{
     }
 
     addLocal(vdConfig: LocalVirtualDiskConfig): void {
-        if(this.get(vdConfig.vdID, false))
+        if (this.get(vdConfig.vdID, false))
             this.remove(vdConfig.vdID);
         const vd = new LocalVirtualDiskClass(vdConfig);
         vd.check();
@@ -79,7 +82,7 @@ export class VirtualDisksStore implements IVirtualDisksStore{
     editConfig<R extends boolean, T extends R extends false ? LocalVirtualDiskConfig : RemoteVirtualDiskConfig>
     (vdID: string, editObject: Partial<T>, isRemote: R): void {
         if (!this.virtualDisksConfig.value[vdID]) return;
-        if(isRemote == this.virtualDisksConfig.value[vdID].isRemote) {
+        if (isRemote == this.virtualDisksConfig.value[vdID].isRemote) {
             Object.assign(this.virtualDisksConfig.value[vdID].config, editObject);
             this.virtualDisks.value.get(vdID)?.setConfig(this.virtualDisksConfig.value[vdID].config);
         }

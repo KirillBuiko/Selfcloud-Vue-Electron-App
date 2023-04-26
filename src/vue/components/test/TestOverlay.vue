@@ -9,6 +9,7 @@
 import {WorkerViewStart} from "@/component-class/WorkerViewStart";
 import ControlButton from "@/components/controls/ControlButton.vue";
 import {container} from "@/composition/DIContainer";
+
 const workerViewStart = new WorkerViewStart(container)
 </script>
 

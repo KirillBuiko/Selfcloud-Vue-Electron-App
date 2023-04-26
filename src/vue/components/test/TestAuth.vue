@@ -3,7 +3,7 @@
     <div>
       <div v-if="!isCookieEnabled()">Куки недоступны! Всё в локале</div>
       <div v-else>Куки доступны</div>
-      <div>Ответ: {{requestResult}}</div>
+      <div>Ответ: {{ requestResult }}</div>
       <ControlButton @click="loginPassword()">Логин (пароль)</ControlButton>
       <ControlButton @click="loginToken()">Логин (токен)</ControlButton>
       <ControlButton @click="registration()">Регистрация</ControlButton>
@@ -30,36 +30,36 @@ const accountHandler = container.accountRequestActions;
 let requestResult = ref("0");
 let isLoading = ref(false);
 
-async function loginPassword(){
-    requestResult.value = "";
-    setResult(await accountHandler.loginPassword({login: "k.buiko04@mail.ru", password: password}));
+async function loginPassword() {
+  requestResult.value = "";
+  setResult(await accountHandler.loginPassword({login: "k.buiko04@mail.ru", password: password}));
 }
 
-async function loginToken(){
-    requestResult.value = "";
-    setResult(await accountHandler.loginToken());
+async function loginToken() {
+  requestResult.value = "";
+  setResult(await accountHandler.loginToken());
 }
 
-async function registration(){
+async function registration() {
   requestResult.value = "";
   setResult(await accountHandler
       .registration({email: "k.buiko04@mail.ru", phone: "79137428483", password: password}));
 }
 
-async function registrationWrong(){
+async function registrationWrong() {
   requestResult.value = "";
   setResult(await accountHandler
       .registration({email: "k.buiko05@mail.ru", phone: "70137428483", password: passwordWrong}));
 }
 
-async function logout(){
+async function logout() {
   requestResult.value = "";
   setResult(await accountHandler.logout());
 }
 
-function setResult(response: ResponseData<object>){
+function setResult(response: ResponseData<object>) {
   let res;
-  switch(response.code){
+  switch (response.code) {
     case ResultCode.OK:
       res = "ОК";
       break;
@@ -75,7 +75,7 @@ function setResult(response: ResponseData<object>){
   requestResult.value = res;
 }
 
-function isCookieEnabled(){
+function isCookieEnabled() {
   return navigator.cookieEnabled;
 }
 </script>

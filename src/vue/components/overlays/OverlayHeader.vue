@@ -5,7 +5,7 @@
     </span>
     <button class="close-button" @click="overlayStore.closeOverlay()"></button>
   </header>
-<!--  TODO: make header-->
+  <!--  TODO: make header-->
 </template>
 
 <script setup lang="ts">
@@ -16,13 +16,13 @@ const overlayStore = container.overlayStore;
 
 <style scoped lang="scss">
 $headerHeight: 50px;
-header{
+header {
   display: flex;
   flex-direction: row;
   height: $headerHeight;
   position: relative;
 
-  .header-text{
+  .header-text {
     font-size: 30px;
     height: 100%;
     line-height: $headerHeight;
@@ -31,7 +31,7 @@ header{
     text-align: center;
   }
 
-  .close-button{
+  .close-button {
     position: absolute;
     right: 0;
     top: 0;

@@ -4,7 +4,7 @@ import TestOverlay from "../components/test/TestOverlay.vue";
 import TestMenu from "../components/test/TestMenu.vue";
 import TestNotifications from "../components/test/TestNotifications.vue";
 import type {RouteRecordRaw} from "vue-router";
-import TestSocket from "@/components/test/TestSocket.vue";
+import TestSocket from "@/components/test/TestVD.vue";
 
 export const testRoutes: RouteRecordRaw[] = [
     {
@@ -22,10 +22,10 @@ export const testRoutes: RouteRecordRaw[] = [
             {
                 path: '/test/overlay',
                 component: TestOverlay
-            },{
+            }, {
                 path: '/test/notifications',
                 component: TestNotifications
-            },{
+            }, {
                 path: '/test/socket',
                 component: TestSocket
             },

@@ -1,7 +1,7 @@
 import type {Socket} from "socket.io-client";
 import type {VirtualDiskData} from "@/types/VirtualDisksTypes"
 
-interface SocketEmitEvents{
+interface SocketEmitEvents {
     "get-virtual-disks": (callback: (vds: VirtualDiskData[]) => void) => void,
     "provide-virtual-disks": (vdIDs: string[]) => void,
     "revoke-virtual-disk": (vdID: string) => void,
@@ -13,7 +13,7 @@ interface SocketEmitEvents{
     "connect-webrtc-answer": (fingerprint: string, answer: string) => void
 }
 
-interface SocketListenEvents{
+interface SocketListenEvents {
     "device-disconnected": (fingerprint: string) => void,
     "device-connected": (fingerprint: string) => void,
     "provide-virtual-disks": (fingerprint: string, vdIDs: string[]) => void,

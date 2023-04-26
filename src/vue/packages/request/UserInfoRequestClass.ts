@@ -2,12 +2,12 @@ import AbstractRequest from "@/packages/request/AbstractRequest";
 import type {ResponseData, UserData} from "@/types/Objects";
 import type {$RequestHandler} from "@/packages/request/IRequestHandler";
 
-export default class UserInfoRequestClass extends AbstractRequest{
+export default class UserInfoRequestClass extends AbstractRequest {
     constructor(private deps: $RequestHandler) {
         super();
     }
 
-    async getUserInfo(): Promise<ResponseData<UserData>>{
+    async getUserInfo(): Promise<ResponseData<UserData>> {
         // TODO: set URL
         return await this.deps.requestHandler.makeRequest<UserData>({
             url: "",
@@ -15,7 +15,7 @@ export default class UserInfoRequestClass extends AbstractRequest{
         });
     }
 
-    async updateUserInfo(userData: UserData): Promise<ResponseData<object>>{
+    async updateUserInfo(userData: UserData): Promise<ResponseData<object>> {
         return await this.deps.requestHandler.makeRequest({
             url: "",
             method: "POST",
@@ -24,4 +24,4 @@ export default class UserInfoRequestClass extends AbstractRequest{
     }
 }
 
-export type $UserInfoRequestActions = {userInfoRequestActions: UserInfoRequestClass}
+export type $UserInfoRequestActions = { userInfoRequestActions: UserInfoRequestClass }

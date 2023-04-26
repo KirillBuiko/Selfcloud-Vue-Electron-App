@@ -6,8 +6,7 @@ export const useConfigStore = defineStore('configStore', {
         darkMode: useLocalStorage('config-dark-mode', false),
         isLogin: useLocalStorage('config-is-login', false),
     }),
-    getters: {
-    },
+    getters: {},
     actions: {
         setIsLogin(val: boolean) {
             this.isLogin = val;
@@ -18,4 +17,4 @@ export const useConfigStore = defineStore('configStore', {
     },
 })
 
-export type $ConfigStore = {configStore: ReturnType<typeof useConfigStore>}
+export type $ConfigStore = { configStore: ReturnType<typeof useConfigStore> }

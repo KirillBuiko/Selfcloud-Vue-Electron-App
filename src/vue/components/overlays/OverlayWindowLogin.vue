@@ -14,7 +14,8 @@
       </div>
       <ControlButton
           class="submit"
-          @click="worker.login()">Подтвердить</ControlButton>
+          @click="worker.login()">Подтвердить
+      </ControlButton>
     </main>
   </OverlayTemplateDecorated>
 </template>
@@ -36,26 +37,26 @@ console.log("LOGIN WINDOW")
 </script>
 
 <style scoped lang="scss">
-.overlay-window-wrapper{
-  width:450px;
+.overlay-window-wrapper {
+  width: 450px;
 }
 
-main{
+main {
   height: 450px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  header{
+  header {
     font-size: 40px;
     margin-top: 30px;
   }
 
-  .input-block{
+  .input-block {
     width: 300px;
   }
 
-  .submit{
+  .submit {
     font-size: 22px;
     margin-top: 20px;
     width: 200px;

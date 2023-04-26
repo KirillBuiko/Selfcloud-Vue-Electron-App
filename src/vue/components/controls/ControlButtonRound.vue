@@ -18,13 +18,13 @@ withDefaults(defineProps<{
 </script>
 
 <style scoped lang="scss">
-.button-wrapper{
+.button-wrapper {
   width: 100px;
   height: 100px;
   border-radius: 999px;
 }
 
-button{
+button {
   display: block;
   width: 100%;
   height: 100%;
@@ -37,6 +37,7 @@ button{
     &:hover {
       border-width: 3px;
     }
+
     &:active {
       border-width: 2px;
     }

@@ -8,11 +8,11 @@
 import {defineProps} from "vue";
 import LogoRotating from "@/components/icon/LogoRotating.vue";
 
-defineProps<{isLoading: boolean}>()
+defineProps<{ isLoading: boolean }>()
 </script>
 
 <style scoped lang="scss">
-.loader{
+.loader {
   background-color: black;
   position: absolute;
   display: flex;
@@ -20,15 +20,15 @@ defineProps<{isLoading: boolean}>()
   justify-content: center;
   height: 100%;
   width: 100%;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   z-index: 10;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   opacity: 0;
   transition: 0.3s;
   pointer-events: none;
 
-  &.active{
+  &.active {
     pointer-events: all;
     opacity: 1;
   }

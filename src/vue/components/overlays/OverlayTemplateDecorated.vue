@@ -17,7 +17,7 @@ defineProps<{
 </script>
 
 <style scoped lang="scss">
-.decorate-wrapper{
+.decorate-wrapper {
   background-color: white;
 }
 </style>

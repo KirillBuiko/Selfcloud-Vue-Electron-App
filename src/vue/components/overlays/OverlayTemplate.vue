@@ -1,7 +1,7 @@
 <template>
   <div class="template-wrapper" ref="templateWrapper">
     <OverlayPreloader :is-loading="isLoading"/>
-    <OverlayHeader class="header">{{headerText}}</OverlayHeader>
+    <OverlayHeader class="header">{{ headerText }}</OverlayHeader>
     <div class="main-wrapper">
       <slot/>
     </div>
@@ -24,14 +24,14 @@ console.log("TEMPLATE")
 </script>
 
 <style scoped lang="scss">
-.template-wrapper{
+.template-wrapper {
   position: relative;
 
-  .header{
+  .header {
     width: 100%;
   }
 
-  .main-wrapper{
+  .main-wrapper {
 
   }
 }

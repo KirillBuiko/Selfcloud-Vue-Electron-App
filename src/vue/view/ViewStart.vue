@@ -1,5 +1,5 @@
 <template>
-<RouterLink :to="{name: 'workspace', params: {appName: 'Test-App'}}"> ПЕРЕХОД В РАБОЧУЮ ОБЛАСТЬ </RouterLink>
+  <RouterLink :to="{name: 'workspace', params: {appName: 'Test-App'}}"> ПЕРЕХОД В РАБОЧУЮ ОБЛАСТЬ</RouterLink>
 </template>
 
 <script setup lang="ts">

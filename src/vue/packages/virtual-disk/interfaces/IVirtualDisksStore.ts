@@ -2,11 +2,11 @@ import type {RemoteVirtualDiskClass} from "@/packages/virtual-disk/RemoteVirtual
 import type {LocalVirtualDiskClass} from "@/packages/virtual-disk/LocalVirtualDiskClass";
 import type {
     LocalVirtualDiskConfig,
+    RemoteVirtualDiskConfig,
     VirtualDiskConfigStoreObject,
     VirtualDiskData,
     VirtualDiskStoreObject
 } from "@/types/VirtualDisksTypes";
-import type {RemoteVirtualDiskConfig} from "@/types/VirtualDisksTypes";
 import type {Ref} from "vue";
 
 export interface IVirtualDisksStore {
@@ -29,4 +29,4 @@ export interface IVirtualDisksStore {
     (vdID: string, editObject: Partial<T>, isRemote: R): void,
 }
 
-export type $VirtualDisksStore = {virtualDiskStore: IVirtualDisksStore}
+export type $VirtualDisksStore = { virtualDiskStore: IVirtualDisksStore }

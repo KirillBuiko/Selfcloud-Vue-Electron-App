@@ -1,4 +1,4 @@
-export const enum ResultCode{
+export const enum ResultCode {
     // SERVER PART
     OK = 0,
     FAIL = 1,

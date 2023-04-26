@@ -1,6 +1,5 @@
 import type {Ref} from "vue";
-import type {WebRTCConnectionData} from "@/types/WebRTCTypes";
-import type {WebRTCStoreObject} from "@/types/WebRTCTypes";
+import type {WebRTCConnectionData, WebRTCStoreObject} from "@/types/WebRTCTypes";
 
 export interface IWebRTCStore {
     webrtcConnections: Ref<WebRTCStoreObject>;
@@ -18,4 +17,4 @@ export interface IWebRTCStore {
     remove(fingerprint: string, isToLocal: boolean): void;
 }
 
-export type $WebRTCStore = {webrtcStore: IWebRTCStore}
+export type $WebRTCStore = { webrtcStore: IWebRTCStore }

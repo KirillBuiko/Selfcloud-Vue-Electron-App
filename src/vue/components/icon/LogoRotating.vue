@@ -23,18 +23,18 @@ setTimeout(() => {
 
 <style scoped lang="scss">
 @keyframes logoRounding {
-  0%{
-    transform: rotate3d(0,1,0,0);
+  0% {
+    transform: rotate3d(0, 1, 0, 0);
   }
-  45%{
-    transform: rotate3d(0,1,0,180deg);
+  45% {
+    transform: rotate3d(0, 1, 0, 180deg);
   }
-  90%{
-    transform: rotate3d(0,1,0,0);
+  90% {
+    transform: rotate3d(0, 1, 0, 0);
   }
 }
 
-.logo_rotating{
+.logo_rotating {
   max-width: v-bind("maxWidth");
   width: v-bind("width");
   height: 100%;
@@ -44,11 +44,11 @@ setTimeout(() => {
   transition: opacity 0.3s ease-in;
 
   animation-name: logoRounding;
-  animation-timing-function: cubic-bezier(.47,.1,.52,.85);
+  animation-timing-function: cubic-bezier(.47, .1, .52, .85);
   animation-duration: 2s;
   animation-iteration-count: infinite;
 
-  img{
+  img {
     width: 100%;
     height: 100%;
   }

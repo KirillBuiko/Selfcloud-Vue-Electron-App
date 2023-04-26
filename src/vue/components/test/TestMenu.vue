@@ -1,6 +1,6 @@
 <template>
   <div class="menu-wrapper ml-10">
-    {{$route.path}}
+    {{ $route.path }}
     <nav v-show="!isSelected">
       <RouterLink to="/test/auth" custom v-slot="{ navigate }">
         <ControlButton @click="navigate(); isSelected=true;" role="link">Тест авторизации</ControlButton>
@@ -12,10 +12,10 @@
         <ControlButton @click="navigate(); isSelected=true;" role="link">Тест элементов управления</ControlButton>
       </RouterLink>
       <RouterLink to="/test/notifications" custom v-slot="{ navigate }">
-        <ControlButton @click="navigate(); isSelected=true;" role="link"> Тест уведомлений </ControlButton>
+        <ControlButton @click="navigate(); isSelected=true;" role="link"> Тест уведомлений</ControlButton>
       </RouterLink>
       <RouterLink to="/test/socket" custom v-slot="{ navigate }">
-        <ControlButton @click="navigate(); isSelected=true;" role="link"> Тест сокета </ControlButton>
+        <ControlButton @click="navigate(); isSelected=true;" role="link"> Тест сокета</ControlButton>
       </RouterLink>
     </nav>
     <main v-show="isSelected">
@@ -24,18 +24,18 @@
       </RouterLink>
 
       <router-view v-slot="{ Component }">
-        <component :is="Component" ></component>
+        <component :is="Component"></component>
       </router-view>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-  import {ref} from "vue";
-  import ControlButton from "@/components/controls/ControlButton.vue";
+import {ref} from "vue";
+import ControlButton from "@/components/controls/ControlButton.vue";
 
-  const isSelected = ref(false)
-  isSelected.value = !window.location.href.endsWith("/test");
+const isSelected = ref(false)
+isSelected.value = !window.location.href.endsWith("/test");
 </script>
 
 <style scoped lang="scss">

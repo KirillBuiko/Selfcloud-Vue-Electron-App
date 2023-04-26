@@ -4,15 +4,15 @@ export class WorkerViewStart {
     constructor(private deps: $OverlayStore) {
     }
 
-    public openLoginOverlay(){
+    public openLoginOverlay() {
         this.deps.overlayStore.setOverlayName('login');
         this.deps.overlayStore.openOverlay();
     }
 
-    openRegistrationOverlay(){
+    openRegistrationOverlay() {
         this.deps.overlayStore.setOverlayName('registration');
         this.deps.overlayStore.openOverlay();
     }
 }
 
-export type $WorkerViewStart = {workerViewStart: WorkerViewStart}
+export type $WorkerViewStart = { workerViewStart: WorkerViewStart }

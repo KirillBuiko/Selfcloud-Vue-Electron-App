@@ -24,14 +24,14 @@ const {activeNotificationsList} = storeToRefs(notificationsStore);
 const {hideAllNotifications} = notificationsStore;
 
 
-function noteLog(){
+function noteLog() {
   console.log(activeNotificationsList.value)
 }
 
 </script>
 
 <style scoped lang="scss">
-.notification-list-wrapper{
+.notification-list-wrapper {
   position: absolute;
   display: inline-flex;
   align-content: center;
@@ -48,7 +48,7 @@ function noteLog(){
   pointer-events: none;
 }
 
-.clear-button{
+.clear-button {
   width: 50px;
   height: 50px;
   margin-right: 10px;
@@ -59,22 +59,22 @@ function noteLog(){
   background-color: #FFF;
   transition: opacity 0.3s ease;
 
-  &.active{
+  &.active {
     pointer-events: all;
     opacity: 1;
   }
 
-  &:hover{
+  &:hover {
     border-width: 3px;
   }
 
-  &:active{
+  &:active {
     border-width: 1px;
   }
 
 }
 
-.list{
+.list {
   width: 600px;
   height: 100%;
   display: block;
@@ -84,6 +84,7 @@ function noteLog(){
 .list-leave-active {
   transition: all 0.3s ease;
 }
+
 .list-enter-from,
 .list-leave-to {
   height: 0;

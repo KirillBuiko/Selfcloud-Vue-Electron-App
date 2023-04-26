@@ -1,26 +1,27 @@
 <template>
   <div class="textbox-wrapper">
-    <span :class="{active: error}" class="error-text">{{errorText}}</span>
+    <span :class="{active: error}" class="error-text">{{ errorText }}</span>
     <div class="input-block">
       <input
           :type="inputType"
           :value="modelValue"
           @input="$emit('update:modelValue', $event.target.value)"
           placeholder=" "/>
-      <label class="placeholder">{{placeholder}}</label>
+      <label class="placeholder">{{ placeholder }}</label>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {defineProps, defineEmits, withDefaults} from "vue";
+import {defineEmits, defineProps, withDefaults} from "vue";
 
 withDefaults(defineProps<{
   inputType?: "button" | "checkbox" | "color" | "date" | "datetime-local" | "email" | "file" | "hidden" | "image" | "month" | "number" | "password" | "radio" | "range" | "reset" | "search" | "submit" | "tel" | "text" | "time" | "url" | "week",
   placeholder: string,
   errorText?: string,
   modelValue?: string | number,
-  error?: boolean}>(), {
+  error?: boolean
+}>(), {
   inputType: "text",
   errorText: "",
   error: false
@@ -31,13 +32,13 @@ defineEmits(['update:modelValue'])
 
 <style scoped lang="scss">
 
-.textbox-wrapper{
+.textbox-wrapper {
   height: fit-content;
   display: block;
   margin: 0;
   $left-padding: 12px;
 
-  .error-text{
+  .error-text {
     font-size: 17px;
     color: crimson;
     font-style: italic;
@@ -46,18 +47,19 @@ defineEmits(['update:modelValue'])
     margin-left: 5px;
     visibility: hidden;
 
-    &.active{
+    &.active {
       visibility: visible;
     }
   }
-  .input-block{
+
+  .input-block {
     position: relative;
     height: 50px;
     margin-top: 2px;
     width: 100%;
     box-sizing: border-box;
 
-    .placeholder{
+    .placeholder {
       position: absolute;
       top: 0;
       left: $left-padding+5;
@@ -67,7 +69,8 @@ defineEmits(['update:modelValue'])
       transition: .1s;
       color: #555;
     }
-    input{
+
+    input {
       font-size: 18px;
       padding: 10px 0 0 $left-padding;
       height: 100%;
@@ -79,10 +82,11 @@ defineEmits(['update:modelValue'])
       box-sizing: border-box;
       transition: border-width 0.1s linear, border-color 0.1s linear;
 
-      &:focus{
+      &:focus {
         border-color: #111;
       }
-      &:focus+.placeholder, &:not(:placeholder-shown)+.placeholder{
+
+      &:focus + .placeholder, &:not(:placeholder-shown) + .placeholder {
         font-size: 13px;
       }
     }

@@ -10,20 +10,24 @@ export class OverlayStore {
     setOverlayName(name: string) {
         this.overlayName.value = name;
     }
-    openOverlay(){
+
+    openOverlay() {
         this.isOpen.value = true;
     }
-    closeOverlay(){
-        if(!this.isLoading.value)
+
+    closeOverlay() {
+        if (!this.isLoading.value)
             this.isOpen.value = false;
     }
-    startLoading(){
-        if(this.isOpen.value)
+
+    startLoading() {
+        if (this.isOpen.value)
             this.isLoading.value = true;
     }
-    stopLoading(){
+
+    stopLoading() {
         this.isLoading.value = false;
     }
 }
 
-export type $OverlayStore = {overlayStore: OverlayStore}
+export type $OverlayStore = { overlayStore: OverlayStore }

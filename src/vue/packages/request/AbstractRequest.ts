@@ -1,2 +1,2 @@
-export default abstract class AbstractRequest{
+export default abstract class AbstractRequest {
 }

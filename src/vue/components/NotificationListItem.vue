@@ -7,12 +7,12 @@
     <div class="vertical-separator"/>
     <main>
       <div class="header-wrapper">
-        <div class="header-text">{{note.header}}</div>
+        <div class="header-text">{{ note.header }}</div>
         <button class="hide-button"
                 @click="hideNotification(note.id)"/>
       </div>
       <div class="horizontal-separator"/>
-      <div class="body-text">{{note.body}}</div>
+      <div class="body-text">{{ note.body }}</div>
     </main>
   </div>
 </template>
@@ -35,29 +35,29 @@ const typeToColor = {
   'notify': '#09F'
 }
 
-function mouseEnterFunc(){
+function mouseEnterFunc() {
   showNotification(props.note.id);
 }
 
-function mouseLeaveFunc(){
+function mouseLeaveFunc() {
   startNotificationTimer(props.note.id);
 }
 </script>
 
 <style scoped lang="scss">
-.vertical-separator{
+.vertical-separator {
   height: 100%;
   width: 1px;
   background-color: black;
 }
 
-.horizontal-separator{
+.horizontal-separator {
   height: 1px;
   width: 100%;
   background-color: black;
 }
 
-.notification-list-item-wrapper{
+.notification-list-item-wrapper {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -69,11 +69,12 @@ function mouseLeaveFunc(){
   opacity: 1;
   pointer-events: all;
 
-  .type-icon{
+  .type-icon {
     width: 20px;
     height: 100%;
   }
-  main{
+
+  main {
     margin-left: 20px;
     flex-grow: 1;
     text-align: left;
@@ -84,7 +85,8 @@ function mouseLeaveFunc(){
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      .hide-button{
+
+      .hide-button {
         width: 20px;
         height: 20px;
         background-color: black;
