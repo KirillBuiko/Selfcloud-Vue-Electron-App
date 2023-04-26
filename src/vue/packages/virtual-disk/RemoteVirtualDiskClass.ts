@@ -28,7 +28,7 @@ export class RemoteVirtualDiskClass extends VirtualDiskClass<RemoteVirtualDiskCo
     }
 
     setRemoteConnected(isConnected: boolean): void {
-        // TODO: Add actions (get dile system info and other)
+        // TODO: Add actions (get file system info and other)
         this.remoteConnectionStatus.value = isConnected;
         this.getRemoteFileSystemInfo();
     }

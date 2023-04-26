@@ -14,6 +14,11 @@ export class WebRTCListenersHandlersToRemote extends WebRTCListenersHandlers {
         // Open/Close Data Channel
         console.log(`Connection state with connection to remote ${connection.fingerprint}: 
         ${connection.connectionHandle.connectionState}`);
+
+        this.deps.virtualDiskWorkerActions.getAllRemoteVirtualDisks().forEach(vd => {
+            if(vd.getConfig().fingerprint === connection.fingerprint)
+                vd.setRemoteConnected(connection.connectionHandle.connectionState === "connected");
+        })
     }
 
     onDataChannelHandler(event: RTCDataChannelEvent, connection: WebRTCConnectionData): void {
