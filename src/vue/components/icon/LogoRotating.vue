@@ -1,6 +1,6 @@
 <template>
   <div class="logo_rotating" ref="logo">
-    <img src="/src/vue/assets/SC-Logo-Hollow.svg" alt="">
+    <img src="/src/vue/assets/icons/SC-Logo-Hollow.svg" alt="">
   </div>
 </template>
 

@@ -1,10 +1,13 @@
 <template>
-  <VirtualDiskItemContainer @delete="emit('delete')">
-    <template v-slot:header>
-      {{vd.getConfig().name}}
-      <span class="vd-id-text">{{vd.getConfig().vdID}}</span>
-    </template>
-    <template v-slot:main>
+  <div class="list-item-wrapper">
+    <header>
+      <div class="header-text">
+        {{ vd.getConfig().name }}
+        <span class="vd-id-text">{{ vd.getConfig().vdID }}</span>
+      </div>
+      <ControlButton @click="emit('delete')" class="delete-button">Удалить</ControlButton>
+    </header>
+    <main>
       <div class="property-grid">
         <div class="property-text">ID устройства:</div>
         <div class="property-value">{{ vd.getConfig().fingerprint }}</div>
@@ -19,14 +22,14 @@
         <div class="property-text">Подключён:</div>
         <div class="property-indicator" :class="{active: vd.remoteConnectionStatus.value}"/>
       </div>
-    </template>
-  </VirtualDiskItemContainer>
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">
-import VirtualDiskItemContainer from "@/components/virtual-disks/VirtualDiskItemContainer.vue";
 import {defineEmits, defineProps} from "vue";
 import {RemoteVirtualDiskClass} from "@/packages/virtual-disk/RemoteVirtualDiskClass";
+import ControlButton from "@/components/controls/ControlButton.vue";
 
 defineProps<{
   vd: RemoteVirtualDiskClass
@@ -39,7 +42,11 @@ const emit = defineEmits<{
 </script>
 
 <style lang="scss">
-.vd-id-text{
+@use "@/assets/styles/ListItemStylesheet.scss" with (
+  $border-color: brown
+);
+
+.vd-id-text {
   color: #BBB;
   font-weight: normal;
   font-style: italic;

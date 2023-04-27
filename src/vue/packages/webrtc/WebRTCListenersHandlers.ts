@@ -1,13 +1,13 @@
 import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
 import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirtualDiskWorkerActions";
-import type {WebRTCConnectionData} from "@/types/WebRTCTypes";
 import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
+import type {WebRTCConnectionClass} from "@/packages/webrtc/WebRTCConnectionClass";
 
 export abstract class WebRTCListenersHandlers {
     protected constructor(protected deps: $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions) {
     }
 
-    attachListeners(connection: WebRTCConnectionData) {
+    attachListeners(connection: WebRTCConnectionClass) {
         // Added DataChannel to connection
         connection.connectionHandle.addEventListener("datachannel", (event) =>
             this.onDataChannelHandler(event, connection));
@@ -37,27 +37,28 @@ export abstract class WebRTCListenersHandlers {
             this.onSignalingStateChangeHandler(event, connection));
     }
 
-    abstract onDataChannelHandler(event: RTCDataChannelEvent, connection: WebRTCConnectionData): void;
+    abstract onDataChannelHandler(event: RTCDataChannelEvent, connection: WebRTCConnectionClass): void;
 
-    abstract onConnectionStateChangeHandler(event: Event, connection: WebRTCConnectionData): void;
+    abstract onConnectionStateChangeHandler(event: Event, connection: WebRTCConnectionClass): void;
 
-    abstract onIceConnectionStateChangeHandler(event: Event, connection: WebRTCConnectionData): void;
+    abstract onIceConnectionStateChangeHandler(event: Event, connection: WebRTCConnectionClass): void;
 
-    abstract onIceGatheringStateChangeHandler(event: Event, connection: WebRTCConnectionData): void;
+    abstract onIceGatheringStateChangeHandler(event: Event, connection: WebRTCConnectionClass): void;
 
-    abstract onNegotiationNeededHandler(event: Event, connection: WebRTCConnectionData): void;
+    abstract onNegotiationNeededHandler(event: Event, connection: WebRTCConnectionClass): void;
 
-    abstract onIceCandidateHandler(event: RTCPeerConnectionIceEvent, connection: WebRTCConnectionData): void;
+    abstract onIceCandidateHandler(event: RTCPeerConnectionIceEvent, connection: WebRTCConnectionClass): void;
 
-    onTrackHandler(event: Event, connection: WebRTCConnectionData): void {
+    onTrackHandler(event: Event, connection: WebRTCConnectionClass): void {
         console.log(`Track with connection ${connection.fingerprint}`);
     }
 
-    onIceCandidateErrorHandler(event: Event, connection: WebRTCConnectionData): void {
+    onIceCandidateErrorHandler(event: Event, connection: WebRTCConnectionClass): void {
         console.log(`Error with ice candidate with connection ${connection.fingerprint}`);
     }
 
-    onSignalingStateChangeHandler(event: Event, connection: WebRTCConnectionData): void {
+    onSignalingStateChangeHandler(event: Event, connection: WebRTCConnectionClass): void {
+        connection.states.signalingState = connection.connectionHandle.signalingState;
         console.log(`Signalling state with connection ${connection.fingerprint}: 
         ${connection.connectionHandle.signalingState}`);
     }

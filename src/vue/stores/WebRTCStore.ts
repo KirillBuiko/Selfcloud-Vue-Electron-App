@@ -1,8 +1,9 @@
 import {type Ref, ref} from "vue";
 import type {IWebRTCStore} from "@/packages/webrtc/interfaces/IWebRTCStore";
-import type {WebRTCConnectionData, WebRTCStoreObject} from "@/types/WebRTCTypes";
+import type {WebRTCStoreObject} from "@/types/WebRTCTypes";
 import type {$WebRTCListenersHandlersToRemote} from "@/packages/webrtc/WebRTCListenersHandlersToRemote";
 import type {$WebRTCListenersHandlersToLocal} from "@/packages/webrtc/WebRTCListenersHandlersToLocal";
+import {WebRTCConnectionClass} from "@/packages/webrtc/WebRTCConnectionClass";
 
 export class WebRTCStore implements IWebRTCStore {
     webrtcConnections: Ref<WebRTCStoreObject> = ref([]);
@@ -10,17 +11,13 @@ export class WebRTCStore implements IWebRTCStore {
     constructor(private deps: $WebRTCListenersHandlersToRemote & $WebRTCListenersHandlersToLocal) {
     }
 
-    private createRTCConnection(fingerprint: string, isToLocal: boolean): WebRTCConnectionData {
-        const conn: WebRTCConnectionData = {
-            fingerprint: fingerprint,
-            connectionHandle: this.createPeerConnection(),
-            isToLocal: isToLocal
-        }
+    private createRTCConnection(fingerprint: string, isToLocal: boolean): WebRTCConnectionClass {
+        const conn = new WebRTCConnectionClass(fingerprint, isToLocal, this.createPeerConnection());
         this.webrtcConnections.value.push(conn);
         return conn;
     }
 
-    createConnection(fingerprint: string, isToLocal: boolean): WebRTCConnectionData {
+    createConnection(fingerprint: string, isToLocal: boolean): WebRTCConnectionClass {
         const conn = this.get(fingerprint, isToLocal);
         if (conn)
             this.remove(fingerprint, isToLocal);
@@ -36,15 +33,15 @@ export class WebRTCStore implements IWebRTCStore {
         return new RTCPeerConnection();
     }
 
-    getAll(isToLocal: boolean): WebRTCConnectionData[] {
-        const resList: WebRTCConnectionData[] = [];
+    getAll(isToLocal: boolean): WebRTCConnectionClass[] {
+        const resList: WebRTCConnectionClass[] = [];
         this.webrtcConnections.value.forEach((val) => {
             if (val.isToLocal == isToLocal) resList.push(val)
         });
         return resList;
     }
 
-    get(fingerprint: string, isToLocal: boolean): WebRTCConnectionData | undefined {
+    get(fingerprint: string, isToLocal: boolean): WebRTCConnectionClass | undefined {
         return this.webrtcConnections.value[this.getIndex(fingerprint, isToLocal)];
     }
 

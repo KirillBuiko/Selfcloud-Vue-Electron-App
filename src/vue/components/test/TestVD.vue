@@ -14,19 +14,21 @@
         <ControlButton @click="onVDAdd()" class="button">Добавить ВД</ControlButton>
       </div>
     </div>
-    <div class="actions-wrapper vd-wrapper">
+    <div class="actions-wrapper list-item-wrapper">
       <b>Локальные виртуальные диски:</b>
-      <VirtualDiskLocalList/>
+      <VirtualDiskList :is-local="true"/>
     </div>
-    <div class="actions-wrapper vd-wrapper">
+    <div class="actions-wrapper list-item-wrapper">
       <b>Удалённые виртуальные диски:</b>
-      <VirtualDiskRemoteList/>
+      <VirtualDiskList :is-local="false"/>
     </div>
     <div class="actions-wrapper rtc-wrapper">
       <b>Подключения WebRTC к локальному устройству</b>
+      <WebRTCList :is-to-local="true"/>
     </div>
     <div class="actions-wrapper rtc-wrapper">
       <b>Подключения WebRTC к удалённому устройству</b>
+      <WebRTCList :is-to-local="false"/>
     </div>
   </div>
 </template>
@@ -34,8 +36,8 @@
 <script setup lang="ts">
 import ControlButton from "@/components/controls/ControlButton.vue";
 import {container} from "@/composition/DIContainer";
-import VirtualDiskLocalList from "@/components/virtual-disks/VirtualDiskLocalList.vue";
-import VirtualDiskRemoteList from "@/components/virtual-disks/VirtualDiskRemoteList.vue";
+import VirtualDiskList from "@/components/virtual-disks/VirtualDiskList.vue";
+import WebRTCList from "@/components/webrtc-connections/WebRTCList.vue";
 
 const socketStore = container.socketStore;
 
@@ -88,7 +90,7 @@ async function onVDAdd() {
       }
     }
 
-    &.vd-wrapper {
+    &.list-item-wrapper {
       min-height: 100px;
     }
 

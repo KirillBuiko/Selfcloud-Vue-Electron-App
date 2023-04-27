@@ -1,7 +1,3 @@
-export type WebRTCStoreObject = WebRTCConnectionData[];
+import type {WebRTCConnectionClass} from "@/packages/webrtc/WebRTCConnectionClass";
 
-export interface WebRTCConnectionData {
-    isToLocal: boolean,
-    fingerprint: string,
-    connectionHandle: RTCPeerConnection
-}
+export type WebRTCStoreObject = WebRTCConnectionClass[];

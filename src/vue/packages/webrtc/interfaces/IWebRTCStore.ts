@@ -1,16 +1,17 @@
 import type {Ref} from "vue";
-import type {WebRTCConnectionData, WebRTCStoreObject} from "@/types/WebRTCTypes";
+import type {WebRTCStoreObject} from "@/types/WebRTCTypes";
+import type {WebRTCConnectionClass} from "@/packages/webrtc/WebRTCConnectionClass";
 
 export interface IWebRTCStore {
     webrtcConnections: Ref<WebRTCStoreObject>;
 
-    createConnection(fingerprint: string, isToRemote: boolean): WebRTCConnectionData;
+    createConnection(fingerprint: string, isToRemote: boolean): WebRTCConnectionClass;
 
     createPeerConnection(): RTCPeerConnection;
 
-    getAll(isToLocal: boolean): WebRTCConnectionData[];
+    getAll(isToLocal: boolean): WebRTCConnectionClass[];
 
-    get(fingerprint: string, isToLocal: boolean): WebRTCConnectionData | undefined;
+    get(fingerprint: string, isToLocal: boolean): WebRTCConnectionClass | undefined;
 
     getIndex(fingerprint: string, isToLocal: boolean): number;
 
