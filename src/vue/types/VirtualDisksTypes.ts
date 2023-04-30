@@ -6,7 +6,7 @@ export type VirtualDiskConfigStoreObject =
     {
         [ind: string]:
             {
-                isRemote: false
+                isRemote: boolean
                 config: VirtualDiskConfig,
             }
     }
@@ -14,6 +14,7 @@ export type VirtualDiskConfigStoreObject =
 export interface VirtualDiskData {
     vdID: string,
     fingerprint: string,
+    name: string,
     isOnline: boolean,
 }
 

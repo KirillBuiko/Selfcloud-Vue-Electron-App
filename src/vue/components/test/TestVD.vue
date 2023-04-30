@@ -16,11 +16,11 @@
     </div>
     <div class="actions-wrapper list-item-wrapper">
       <b>Локальные виртуальные диски:</b>
-      <VirtualDiskList :is-local="true"/>
+      <VirtualDiskList :is-remote="false"/>
     </div>
     <div class="actions-wrapper list-item-wrapper">
       <b>Удалённые виртуальные диски:</b>
-      <VirtualDiskList :is-local="false"/>
+      <VirtualDiskList :is-remote="true"/>
     </div>
     <div class="actions-wrapper rtc-wrapper">
       <b>Подключения WebRTC к локальному устройству</b>
@@ -51,7 +51,16 @@ async function onDisconnectClick() {
 
 async function onVDAdd() {
   // TODO: put here add vd code
+  container.virtualDiskWorkerActions.createLocalVirtualDisk({
+    localPath: "C:\\SelfCloud\\Storage",
+    name: "Виртуальный диск " + Math.round(Math.random()*100).toString(),
+    totalSizeBytes: 10000,
+    remainedSizeBytes: 1000
+  });
 }
+
+// onConnectClick();
+
 </script>
 
 <style scoped lang="scss">

@@ -47,7 +47,7 @@ export class WebRTCListenersHandlersToRemote extends WebRTCListenersHandlers {
     onIceCandidateHandler(event: RTCPeerConnectionIceEvent, connection: WebRTCConnectionClass): void {
         console.log(`Ice candidate with connection to remote ${connection.fingerprint}`);
         if (event.candidate)
-            this.deps.socketEmitActions.toRemoteIceCandidateReady(connection.fingerprint, event.candidate.candidate);
+            this.deps.socketEmitActions.toRemoteIceCandidateReady(connection.fingerprint, event.candidate);
     }
 }
 

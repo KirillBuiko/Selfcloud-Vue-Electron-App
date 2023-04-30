@@ -26,7 +26,7 @@ export class VirtualDiskWorkerActions implements IVirtualDiskWorkerActions {
     async createLocalVirtualDisk(vdConfig: Omit<LocalVirtualDiskConfig, "vdID">): Promise<void> {
         // TODO check
         try {
-            const vd = await this.deps.socketEmitActions.createVirtualDisk();
+            const vd = await this.deps.socketEmitActions.createVirtualDisk(vdConfig.name);
             const config: LocalVirtualDiskConfig = {
                 vdID: vd.vdID,
                 ...vdConfig
@@ -56,7 +56,7 @@ export class VirtualDiskWorkerActions implements IVirtualDiskWorkerActions {
      * */
     setRemoteDeviceOffline(fingerprint: string): void {
         // TODO check
-        this.deps.virtualDiskStore.getAll(true).forEach((vd) => {
+        this.deps.virtualDiskStore.getAll(true).value.forEach((vd) => {
             if (vd.getConfig().fingerprint === fingerprint) {
                 vd.setRemoteConnected(false);
                 vd.setRemoteReady(false);
@@ -108,18 +108,21 @@ export class VirtualDiskWorkerActions implements IVirtualDiskWorkerActions {
     /**
      * Remove local virtual disk and send message to socket
      * */
-    removeLocalVirtualDisk(vdID: string): void {
+    removeLocalVirtualDisk(vdID: string, doSocketEmit = true): void {
         // TODO check
         this.deps.virtualDiskStore.remove(vdID);
-        this.deps.socketEmitActions.removeVirtualDisk(vdID);
+        if (doSocketEmit)
+            this.deps.socketEmitActions.removeVirtualDisk(vdID);
     }
 
     /**
      * Remove webrtc connection and remote virtual disk
      * */
-    removeRemoteVirtualDisk(vdID: string): void {
+    removeRemoteVirtualDisk(vdID: string, doSocketEmit = true): void {
         // TODO check
         const vd = this.deps.virtualDiskStore.get(vdID, true);
+        if (doSocketEmit)
+            this.deps.socketEmitActions.removeVirtualDisk(vdID);
         if (vd) {
             this.deps.virtualDiskStore.remove(vdID);
             if (this.countReadyVDsOnDevice(vd.getConfig().fingerprint) == 0)
@@ -128,11 +131,11 @@ export class VirtualDiskWorkerActions implements IVirtualDiskWorkerActions {
     }
 
     getAllLocalVirtualDisks(): Map<string, LocalVirtualDiskClass> {
-        return this.deps.virtualDiskStore.getAll(true);
+        return this.deps.virtualDiskStore.getAll(false).value;
     }
 
     getAllRemoteVirtualDisks(): Map<string, RemoteVirtualDiskClass> {
-        return this.deps.virtualDiskStore.getAll(true);
+        return this.deps.virtualDiskStore.getAll(true).value;
     }
 
     getLocalVirtualDisk(vdID: string): LocalVirtualDiskClass | undefined {
@@ -140,13 +143,13 @@ export class VirtualDiskWorkerActions implements IVirtualDiskWorkerActions {
     }
 
     getRemoteVirtualDisk(vdID: string): RemoteVirtualDiskClass | undefined {
-        return this.deps.virtualDiskStore.get(vdID, false);
+        return this.deps.virtualDiskStore.get(vdID, true);
     }
 
     countReadyVDsOnDevice(fingerprint: string): number {
         let count = 0;
         this.getAllRemoteVirtualDisks().forEach(vd => {
-            if (vd.getConfig().fingerprint === fingerprint && vd.isRemoteReady) count++
+            if (vd.getConfig().fingerprint === fingerprint && vd.remoteStates.isRemoteReady) count++
         })
         return count;
     }

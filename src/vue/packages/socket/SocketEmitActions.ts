@@ -44,10 +44,10 @@ export class SocketEmitActions {
     /**
      * Create virtual disk and return virtual disk data
      * */
-    createVirtualDisk(): Promise<VirtualDiskData> {
+    createVirtualDisk(name: string): Promise<VirtualDiskData> {
         // TODO check
         return new Promise((resolve, reject) => {
-            this.deps.socketStore.socket.timeout(5000).emit("create-virtual-disk", (err, vd) => {
+            this.deps.socketStore.socket.timeout(5000).emit("create-virtual-disk", name, (err, vd) => {
                 if (err) {
                     reject(err);
                 }
@@ -83,7 +83,7 @@ export class SocketEmitActions {
     /**
      * Send webrtc ice candidate from "to local"
      * */
-    toLocalIceCandidateReady(fingerprint: string, candidate: string) {
+    toLocalIceCandidateReady(fingerprint: string, candidate: RTCIceCandidate) {
         // TODO check
         this.deps.socketStore.socket.emit("to-local-ice-candidate-ready", fingerprint, candidate);
     }
@@ -91,7 +91,7 @@ export class SocketEmitActions {
     /**
      * Send webrtc ice candidate from "to remote"
      * */
-    toRemoteIceCandidateReady(fingerprint: string, candidate: string) {
+    toRemoteIceCandidateReady(fingerprint: string, candidate: RTCIceCandidate) {
         // TODO check
         this.deps.socketStore.socket.emit("to-remote-ice-candidate-ready", fingerprint, candidate);
     }

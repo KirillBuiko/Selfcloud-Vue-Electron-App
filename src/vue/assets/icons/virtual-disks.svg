@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="layer_x5F_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 201 230" style="enable-background:new 0 0 201 230;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#000099;stroke-width:10;stroke-miterlimit:10;}
+</style>
+<g id="disks">
+	<path class="st0" d="M196,32.5c0,15.2-42.8,27.5-95.5,27.5S5,47.7,5,32.5S47.8,5,100.5,5S196,17.3,196,32.5z"/>
+	<path class="st0" d="M196,32.5v55c0,15.2-42.8,27.5-95.5,27.5C47.8,115,5,102.7,5,87.5v-55C5,47.7,47.8,60,100.5,60
+		S196,47.7,196,32.5z"/>
+	<path class="st0" d="M196,87.5v55c0,15.2-42.8,27.5-95.5,27.5C47.8,170,5,157.7,5,142.5v-55c0,15.2,42.8,27.5,95.5,27.5
+		S196,102.7,196,87.5z"/>
+	<path class="st0" d="M196,142.5v55c0,15.2-42.8,27.5-95.5,27.5S5,212.7,5,197.5v-55c0,15.2,42.8,27.5,95.5,27.5
+		S196,157.7,196,142.5z"/>
+</g>
+</svg>

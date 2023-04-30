@@ -11,7 +11,7 @@ export interface IWebRTCWorkerActions {
 
     setRemoteAnswer(fingerprint: string, answer: string): Promise<void>,
 
-    setCandidate(fingerprint: string, candidate: string, isToLocal: boolean): Promise<void>
+    setCandidate(fingerprint: string, candidate: RTCIceCandidate, isToLocal: boolean): Promise<void>
 }
 
 export type $WebRTCWorkerActions = { webrtcWorkerActions: IWebRTCWorkerActions }

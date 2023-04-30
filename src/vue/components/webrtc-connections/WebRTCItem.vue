@@ -2,12 +2,12 @@
   <div class="list-item-wrapper">
     <header>
       <div class="header-text">
-        Подключение к устройству {{ connection.fingerprint }}
+        Подключение {{ isToLocal ? " от устройства " : " к устройству " }} {{ connection.fingerprint }}
       </div>
     </header>
     <main>
       <div class="property-grid">
-        <div class="property-text">Статус поделючения:</div>
+        <div class="property-text">Статус подключения:</div>
         <div class="property-value">{{ connection.states.connectionState }}</div>
         <div class="property-text">Статус сбора ICE кандидатов:</div>
         <div class="property-value">{{ connection.states.iceGatheringState }}</div>
@@ -25,7 +25,8 @@ import {defineProps} from "vue";
 import {WebRTCConnectionClass} from "@/packages/webrtc/WebRTCConnectionClass";
 
 defineProps<{
-  connection: WebRTCConnectionClass
+  connection: WebRTCConnectionClass,
+  isToLocal: boolean
 }>()
 </script>
 

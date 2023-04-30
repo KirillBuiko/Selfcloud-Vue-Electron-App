@@ -32,7 +32,8 @@ const props = defineProps<{
 const typeToColor = {
   'error': '#F21',
   'warning': '#FB0',
-  'notify': '#09F'
+  'notify': '#09F',
+  'success': '#8F8'
 }
 
 function mouseEnterFunc() {

@@ -18,8 +18,7 @@ export class SocketListenersHandlers {
     initSocketListeners(socket: SCSocket) {
         this.socket = socket;
 
-        // TODO: UNCOMMENT!
-        // socket.on("connect", this.onConnected.bind(this));
+        socket.on("connect", this.onConnected.bind(this));
         socket.on("disconnect", this.onDisconnected.bind(this));
         socket.on("connect_error", err =>
             this.onConnectionError(err as Error & { data: ResponseData<string> }));
@@ -44,7 +43,6 @@ export class SocketListenersHandlers {
      * provide all ready local virtual disks
      * */
     onConnected() {
-        // TODO check
         this.deps.socketEmitActions.getVirtualDisks().then((vds: VirtualDiskData[]) =>
             this.deps.virtualDiskWorkerActions.syncVirtualDisks(vds)
         ).catch(() => {
@@ -52,14 +50,15 @@ export class SocketListenersHandlers {
         });
         const readyList: string[] = [];
         this.deps.virtualDiskWorkerActions.getAllLocalVirtualDisks().forEach((vd) => {
-            if (vd.checkStatus)
+            if (vd.states.checkStatus)
                 readyList.push(vd.getConfig().vdID);
         });
-        this.deps.socketEmitActions.provideVirtualDisks(readyList);
+        if(readyList.length > 0)
+            this.deps.socketEmitActions.provideVirtualDisks(readyList);
     }
 
     onDisconnected() {
-        // TODO check
+        // Nothing
     }
 
     async onConnectionError(err: Error & { data: ResponseData<string> }) {
@@ -68,6 +67,8 @@ export class SocketListenersHandlers {
         if (err.data.code === ResultCode.TOKEN_EXPIRED) {
             await this.deps.accountRequestActions.loginToken();
             this.socket?.connect();
+        } else {
+            await this.deps.accountRequestActions.logout();
         }
     }
 
@@ -75,7 +76,6 @@ export class SocketListenersHandlers {
      * Set offline to all this device's vd
      * */
     onDeviceDisconnected(fingerprint: string) {
-        // TODO check
         this.deps.virtualDiskWorkerActions.setRemoteDeviceOffline(fingerprint);
     }
 
@@ -89,7 +89,6 @@ export class SocketListenersHandlers {
      * Set online to all provided virtual disks
      * */
     onProvideVirtualDisks(fingerprint: string, vdIDs: string[]) {
-        // TODO check
         this.deps.virtualDiskWorkerActions.setRemoteVirtualDisksProvided(fingerprint, vdIDs);
     }
 
@@ -97,7 +96,6 @@ export class SocketListenersHandlers {
      * Set remote virtual disk offline
      * */
     onRevokeVirtualDisk(fingerprint: string, vdID: string) {
-        // TODO check
         this.deps.virtualDiskWorkerActions.setRemoteVirtualDiskOffline(fingerprint, vdID);
     }
 
@@ -105,7 +103,6 @@ export class SocketListenersHandlers {
      * Add remote virtual disk
      * */
     onCreateVirtualDisk(vd: VirtualDiskData) {
-        // TODO check
         this.deps.virtualDiskWorkerActions.addRemoteVirtualDisk(vd);
     }
 
@@ -113,31 +110,26 @@ export class SocketListenersHandlers {
      * Remove remote or local virtual disk
      * */
     onRemoveVirtualDisk(vdID: string) {
-        // TODO check
         if (this.deps.virtualDiskWorkerActions.getLocalVirtualDisk(vdID))
-            this.deps.virtualDiskWorkerActions.removeLocalVirtualDisk(vdID);
-        else
-            this.deps.virtualDiskWorkerActions.removeRemoteVirtualDisk(vdID);
+            this.deps.virtualDiskWorkerActions.removeLocalVirtualDisk(vdID, false);
+        if (this.deps.virtualDiskWorkerActions.getRemoteVirtualDisk(vdID))
+            this.deps.virtualDiskWorkerActions.removeRemoteVirtualDisk(vdID, false);
     }
 
     onWebRTCOfferReceived(fingerprint: string, offer: string) {
-        // TODO check
         this.deps.webrtcWorkerActions.answerToOffer(fingerprint, offer);
     }
 
     onWebRTCAnswerReceived(fingerprint: string, answer: string) {
-        // TODO check
         this.deps.webrtcWorkerActions.setRemoteAnswer(fingerprint, answer);
     }
 
-    onToLocalIceCandidateReceived(fingerprint: string, candidate: string) {
-        // TODO check
+    onToLocalIceCandidateReceived(fingerprint: string, candidate: RTCIceCandidate) {
         // Reverse toLocal and toRemote
         this.deps.webrtcWorkerActions.setCandidate(fingerprint, candidate, false);
     }
 
-    onToRemoteIceCandidateReceived(fingerprint: string, candidate: string) {
-        // TODO check
+    onToRemoteIceCandidateReceived(fingerprint: string, candidate: RTCIceCandidate) {
         // Reverse toLocal and toRemote
         this.deps.webrtcWorkerActions.setCandidate(fingerprint, candidate, true);
     }

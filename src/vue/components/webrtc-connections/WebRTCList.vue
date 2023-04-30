@@ -1,27 +1,28 @@
 <template>
   <div class="vd-local-list">
     <WebRTCItem class="vd-local-item"
-                v-for="[fingerprint, connection] in connections"
+                v-for="(connection, ind) in connections"
                 :connection="connection"
-                :key="fingerprint"/>
+                :key="ind"
+                :is-to-local="isToLocal"/>
   </div>
 </template>
 
 <script setup lang="ts">
-import {defineProps} from "vue";
-import {WebRTCConnectionClass} from "@/packages/webrtc/WebRTCConnectionClass";
+import {defineProps, watch} from "vue";
 import WebRTCItem from "@/components/webrtc-connections/WebRTCItem.vue";
+import {container} from "@/composition/DIContainer";
 
 const props = defineProps<{
   isToLocal: boolean
 }>()
 
-// @ts-ignore
-const connection: WebRTCConnectionClass = new WebRTCConnectionClass("123123", props.isToLocal, undefined);
+const connections = container.webrtcStore.getAll(props.isToLocal)
+watch(connections, (v) => {
+  console.log(v);
+})
 
-// const connections = container.webrtcStore.getAll(props.isToLocal)
-const connections = new Map().set(connection.fingerprint, connection);
-connections.set("5667763", connection);
+
 </script>
 
 <style scoped lang="scss">

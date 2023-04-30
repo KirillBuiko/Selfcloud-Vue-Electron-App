@@ -1,13 +1,15 @@
 import type {VirtualDiskConfig} from "@/types/VirtualDisksTypes";
-import {ref} from "vue";
+import {reactive} from "vue";
+import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 
 export abstract class VirtualDiskClass<A extends VirtualDiskConfig> {
-    webrtc = undefined;
-    isChecking = ref(false);
-    checkError = ref("");
-    checkStatus = ref(false);
+    states = reactive({
+        isChecking: false,
+        checkError: "",
+        checkStatus: false
+    })
 
-    protected constructor(private config: A) {
+    protected constructor(protected deps: $SocketEmitActions, private config: A) {
         // TODO
     }
 

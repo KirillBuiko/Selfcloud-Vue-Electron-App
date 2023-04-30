@@ -28,9 +28,13 @@ button {
   width: 100%;
   height: 100%;
   border: 2px solid black;
+  border-radius: 10px;
   background-color: white;
+  color: #999;
 
   &.enabled {
+    color: black;
+
     &:hover {
       border-width: 3px;
     }

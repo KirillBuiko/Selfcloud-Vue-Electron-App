@@ -1,7 +1,7 @@
 <template>
   <div class="button-wrapper">
     <button @click="(e) => $emit('click', e)" :disabled="disabled" :class="{enabled: !disabled}">
-      <slot></slot>
+        <slot/>
     </button>
   </div>
 </template>
@@ -25,7 +25,9 @@ withDefaults(defineProps<{
 }
 
 button {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   background-color: white;

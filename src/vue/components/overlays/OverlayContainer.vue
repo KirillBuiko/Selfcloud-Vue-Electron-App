@@ -15,10 +15,8 @@ const {overlayName, isOpen} = overlayStore
 
 function backgroundClick(e: Event) {
   if (e.target === e.currentTarget) overlayStore.closeOverlay();
-  console.log("CLICK")
 }
 
-console.log("CONTAINER")
 </script>
 
 <style scoped lang="scss">

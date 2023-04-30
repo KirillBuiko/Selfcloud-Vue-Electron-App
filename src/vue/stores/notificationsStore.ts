@@ -1,9 +1,11 @@
 import {defineStore} from 'pinia'
 
+type NotificationType = "error" | "notify" | "warning" | "success";
+
 export interface NotificationInput {
     header: string;
     body: string;
-    type: "error" | "notify" | "warning";
+    type: NotificationType;
     duration?: number;
 }
 
@@ -85,7 +87,26 @@ export const useNotificationsStore = defineStore('notificationsStore', {
             if (this.timerList[id] === undefined) return;
             clearTimeout(this.timerList[id]);
             delete this.timerList[id]
-        }
+        },
+        addNotificationByDescription(desc: [string, string], type: NotificationType) {
+            this.addNotification({
+                header: desc[0],
+                body: desc[1],
+                type: type
+            })
+        },
+        addErrorNotification(message: [string, string]) {
+            this.addNotificationByDescription(message, "error");
+        },
+        addWarningNotification(message: [string, string]) {
+            this.addNotificationByDescription(message, "warning");
+        },
+        addSuccessNotification(message: [string, string]) {
+            this.addNotificationByDescription(message, "success");
+        },
+        addNotifyNotification(message: [string, string]) {
+            this.addNotificationByDescription(message, "notify");
+        },
     }
 })
 

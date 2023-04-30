@@ -32,8 +32,6 @@ const loginInput = ref("")
 const passwordInput = ref("")
 const worker = new WorkerOverlayWindowLogin(container)
 
-console.log("LOGIN WINDOW")
-
 </script>
 
 <style scoped lang="scss">

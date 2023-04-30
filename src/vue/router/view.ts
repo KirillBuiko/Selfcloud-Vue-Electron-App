@@ -1,13 +1,52 @@
 import type {RouteRecordRaw} from "vue-router";
 import ViewStart from "../view/ViewStart.vue";
 import ViewWorkspace from "../view/ViewWorkspace.vue";
+import TestMenu from "@/components/test/TestMenu.vue";
+import ViewStartRegistration from "@/components/views/ViewStartRegistration.vue";
+import ViewWorkspaceSectionPersonalAccounut from "@/components/view-workspace/ViewWorkspaceSectionPersonalAccounut.vue";
+import ViewWorkspaceSectionConnections from "@/components/view-workspace/ViewWorkspaceSectionConnections.vue";
+import ViewWorkspaceSectionVirtualDisks from "@/components/view-workspace/ViewWorkspaceSectionVirtualDisks.vue";
 
-export const viewRoutes: RouteRecordRaw[] = [{
-    path: '/',
-    component: ViewStart
-},
+const ViewStartLogin = await (() => import("@/components/views/ViewStartLogin.vue"))
+
+export const viewRoutes: RouteRecordRaw[] = [
+    {
+        path: '/',
+        component: ViewStart,
+        children: [
+            {
+                path: '/',
+                component: ViewStartLogin
+            },
+            {
+                path: '/registration',
+                component: ViewStartRegistration
+            }
+        ]
+    },
+    {
+        path: '/test',
+        component: TestMenu
+    },
     {
         name: 'workspace',
-        path: '/workspace/:appName',
-        component: ViewWorkspace
-    }];
+        path: '/workspace',
+        component: ViewWorkspace,
+        children: [
+            {
+                name: 'workspace-virtual-disks',
+                path: '',
+                component: ViewWorkspaceSectionVirtualDisks
+            },
+            {
+                name: 'workspace-connections',
+                path: 'connections',
+                component: ViewWorkspaceSectionConnections
+            },
+            {
+                name: 'workspace-personal-account',
+                path: 'personal-account',
+                component: ViewWorkspaceSectionPersonalAccounut
+            }]
+    }
+];

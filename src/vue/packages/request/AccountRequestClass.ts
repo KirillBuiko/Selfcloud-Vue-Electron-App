@@ -3,9 +3,10 @@ import type {LoginData, RefreshData, RegData, ResponseData} from "@/types/Object
 import {ResultCode} from "@/types/ResultCode";
 import type {$RequestHandler} from "@/packages/request/IRequestHandler";
 import {Configs} from "@/Configs";
+import type {$ConfigStore} from "@/stores/configStore";
 
 export default class AccountRequestClass extends AbstractRequest {
-    constructor(private deps: $RequestHandler) {
+    constructor(private deps: $RequestHandler & $ConfigStore) {
         super();
     }
 
@@ -17,7 +18,10 @@ export default class AccountRequestClass extends AbstractRequest {
             body: loginData,
         });
         if (response.code == ResultCode.OK && response.result !== undefined) {
+            this.deps.configStore.setIsLogin(true);
             this.deps.requestHandler.setTokens(response.result);
+        } else {
+            this.deps.configStore.setIsLogin(false);
         }
         return response;
     }
@@ -29,8 +33,11 @@ export default class AccountRequestClass extends AbstractRequest {
             method: "POST"
         });
         if (response.code == ResultCode.OK && response.result !== undefined) {
+            this.deps.configStore.setIsLogin(true);
             const tokens = response.result;
             this.deps.requestHandler.setTokens(tokens);
+        } else {
+            this.deps.configStore.setIsLogin(false);
         }
         return response;
     }
@@ -60,6 +67,7 @@ export default class AccountRequestClass extends AbstractRequest {
 
     async logout(): Promise<ResponseData<object>> {
         this.deps.requestHandler.setTokens({access: "", refresh: ""});
+        this.deps.configStore.setIsLogin(false);
         return await this.deps.requestHandler.makeRequest({
             url: Configs.REQUEST_PREFIX + "/logout",
         });

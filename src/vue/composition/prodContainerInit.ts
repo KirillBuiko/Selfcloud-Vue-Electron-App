@@ -41,7 +41,6 @@ export const prodContainerInit = () => {
         configStore: container.configStore = useConfigStore(),
         overlayStore: container.overlayStore = new OverlayStore(),
         notificationStore: container.notificationStore = useNotificationsStore(),
-        virtualDiskStore: container.virtualDiskStore = new VirtualDisksStore(),
         authStore: container.authStore = new AuthStore(),
 
         requestHandler: container.requestHandler =
@@ -79,6 +78,10 @@ export const prodContainerInit = () => {
         socketStore: container.socketStore =
             new SocketStore(container as
                 $SocketListenersHandlers),
+
+        virtualDiskStore: container.virtualDiskStore =
+            new VirtualDisksStore(container as
+                $SocketEmitActions),
 
         workerOverlay: container.workerOverlay =
             new WorkerOverlay(container as

@@ -19,9 +19,9 @@ export interface IVirtualDiskWorkerActions {
 
     revokeLocalVirtualDisk(vdID: string): void,
 
-    removeLocalVirtualDisk(vdID: string): void,
+    removeLocalVirtualDisk(vdID: string, doSocketEmit?: boolean): void,
 
-    removeRemoteVirtualDisk(vdID: string): void,
+    removeRemoteVirtualDisk(vdID: string, doSocketEmit?: boolean): void,
 
     getLocalVirtualDisk(vdID: string): LocalVirtualDiskClass | undefined,
 

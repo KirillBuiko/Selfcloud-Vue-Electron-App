@@ -1,15 +1,15 @@
-import type {Ref} from "vue";
+import type {ComputedRef, Ref} from "vue";
 import type {WebRTCStoreObject} from "@/types/WebRTCTypes";
 import type {WebRTCConnectionClass} from "@/packages/webrtc/WebRTCConnectionClass";
 
 export interface IWebRTCStore {
     webrtcConnections: Ref<WebRTCStoreObject>;
 
-    createConnection(fingerprint: string, isToRemote: boolean): WebRTCConnectionClass;
+    createConnection(fingerprint: string, isToLocal: boolean): WebRTCConnectionClass;
 
     createPeerConnection(): RTCPeerConnection;
 
-    getAll(isToLocal: boolean): WebRTCConnectionClass[];
+    getAll(isToLocal: boolean): ComputedRef<WebRTCConnectionClass[]>;
 
     get(fingerprint: string, isToLocal: boolean): WebRTCConnectionClass | undefined;
 

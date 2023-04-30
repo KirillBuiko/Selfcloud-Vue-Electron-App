@@ -7,7 +7,7 @@ import type {
     VirtualDiskData,
     VirtualDiskStoreObject
 } from "@/types/VirtualDisksTypes";
-import type {Ref} from "vue";
+import type {ComputedRef, Ref} from "vue";
 
 export interface IVirtualDisksStore {
     virtualDisksConfig: Ref<VirtualDiskConfigStoreObject>;
@@ -17,7 +17,7 @@ export interface IVirtualDisksStore {
     (vdID: string, isRemote: R): T | undefined,
 
     getAll<R extends boolean, T extends R extends false ? LocalVirtualDiskClass : RemoteVirtualDiskClass>
-    (isRemote: R): Map<string, T>,
+    (isRemote: R): ComputedRef<Map<string, T>>,
 
     addRemote(vd: VirtualDiskData): void,
 

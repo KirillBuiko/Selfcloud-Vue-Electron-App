@@ -20,7 +20,6 @@ defineProps<{
   headerText: string
 }>()
 
-console.log("TEMPLATE")
 </script>
 
 <style scoped lang="scss">

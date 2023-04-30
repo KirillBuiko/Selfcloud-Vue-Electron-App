@@ -20,9 +20,11 @@ defineProps<{ isLoading: boolean }>()
   justify-content: center;
   height: 100%;
   width: 100%;
+  max-height: 100vh;
+  max-width: 100vw;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 20;
   background-color: rgba(0, 0, 0, 0.8);
   opacity: 0;
   transition: 0.3s;

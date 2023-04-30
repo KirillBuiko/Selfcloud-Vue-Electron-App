@@ -9,6 +9,11 @@ export class WebRTCListenersHandlersToLocal extends WebRTCListenersHandlers {
         super(deps);
     }
 
+    onSignalingStateChangeHandler(event: Event, connection: WebRTCConnectionClass) {
+        super.onSignalingStateChangeHandler(event, connection);
+        console.log("Override");
+    }
+
     onConnectionStateChangeHandler(event: Event, connection: WebRTCConnectionClass): void {
         connection.states.connectionState = connection.connectionHandle.connectionState;
         console.log(`Connection state with connection to local ${connection.fingerprint}: 
@@ -41,7 +46,7 @@ export class WebRTCListenersHandlersToLocal extends WebRTCListenersHandlers {
     onIceCandidateHandler(event: RTCPeerConnectionIceEvent, connection: WebRTCConnectionClass): void {
         console.log(`Ice candidate with connection to local ${connection.fingerprint}`);
         if (event.candidate)
-            this.deps.socketEmitActions.toLocalIceCandidateReady(connection.fingerprint, event.candidate.candidate);
+            this.deps.socketEmitActions.toLocalIceCandidateReady(connection.fingerprint, event.candidate);
     }
 }
 

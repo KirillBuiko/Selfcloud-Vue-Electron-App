@@ -14,7 +14,6 @@ const maxWidth = ref("unset");
 setTimeout(() => {
   if (logo.value && logo.value.parentElement) {
     const parent = logo.value.parentElement;
-    console.log(parent.getBoundingClientRect());
     width.value = Math.min(parent.clientHeight, parent.clientWidth) * 0.6 + 'px';
     maxWidth.value = "200px";
   }
@@ -45,7 +44,7 @@ setTimeout(() => {
 
   animation-name: logoRounding;
   animation-timing-function: cubic-bezier(.47, .1, .52, .85);
-  animation-duration: 2s;
+  animation-duration: 1.5s;
   animation-iteration-count: infinite;
 
   img {

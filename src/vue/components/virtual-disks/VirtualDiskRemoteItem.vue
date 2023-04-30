@@ -5,7 +5,7 @@
         {{ vd.getConfig().name }}
         <span class="vd-id-text">{{ vd.getConfig().vdID }}</span>
       </div>
-      <ControlButton @click="emit('delete')" class="delete-button">Удалить</ControlButton>
+      <ControlButton @click="onDelete" class="delete-button">Удалить</ControlButton>
     </header>
     <main>
       <div class="property-grid">
@@ -14,13 +14,13 @@
         <div class="property-text">Путь к диску:</div>
         <div class="property-value">{{ vd.getConfig().localPath }}</div>
         <div class="property-text">Проверено:</div>
-        <div class="property-indicator" :class="{active: vd.checkStatus.value}"/>
+        <div class="property-indicator" :class="{active: vd.states.checkStatus}"/>
         <div class="property-text">Проверяется:</div>
-        <div class="property-indicator" :class="{active: vd.isChecking.value}"/>
+        <div class="property-indicator" :class="{active: vd.states.isChecking}"/>
         <div class="property-text">Готов к подключению:</div>
-        <div class="property-indicator" :class="{active: vd.isRemoteReady.value}"/>
+        <div class="property-indicator" :class="{active: vd.remoteStates.isRemoteReady}"/>
         <div class="property-text">Подключён:</div>
-        <div class="property-indicator" :class="{active: vd.remoteConnectionStatus.value}"/>
+        <div class="property-indicator" :class="{active: vd.remoteStates.remoteConnectionStatus}"/>
       </div>
     </main>
   </div>
@@ -38,6 +38,10 @@ defineProps<{
 const emit = defineEmits<{
   (e: 'delete'): void
 }>();
+
+function onDelete() {
+  emit("delete");
+}
 
 </script>
 

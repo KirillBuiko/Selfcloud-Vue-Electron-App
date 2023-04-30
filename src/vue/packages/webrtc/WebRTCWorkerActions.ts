@@ -12,7 +12,8 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions {
      * */
     async createConnection(fingerprint: string): Promise<void> {
         // TODO check
-        const conn = this.deps.webrtcStore.createConnection(fingerprint, true);
+        const conn = this.deps.webrtcStore.createConnection(fingerprint, false);
+        conn.connectionHandle.createDataChannel("FileDataChannel");
         await this.createConnectionOffer(fingerprint, conn.connectionHandle);
     }
 
@@ -28,7 +29,7 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions {
      * */
     removeConnectionToRemote(fingerprint: string): void {
         // TODO check
-        this.deps.webrtcStore.remove(fingerprint, true);
+        this.deps.webrtcStore.remove(fingerprint, false);
     }
 
     removeConnectionToLocal(fingerprint: string): void {
@@ -65,9 +66,9 @@ export class WebRTCWorkerActions implements IWebRTCWorkerActions {
     /**
      * Add ICE Candidate to connection
      * */
-    async setCandidate(fingerprint: string, candidate: string, isToLocal: boolean): Promise<void> {
+    async setCandidate(fingerprint: string, candidate: RTCIceCandidate, isToLocal: boolean): Promise<void> {
         const conn = this.deps.webrtcStore.get(fingerprint, isToLocal);
         if (!conn || !conn.connectionHandle) return;
-        await conn.connectionHandle.addIceCandidate({candidate: candidate});
+        await conn.connectionHandle.addIceCandidate(candidate);
     }
 }

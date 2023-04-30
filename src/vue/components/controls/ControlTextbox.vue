@@ -61,9 +61,9 @@ defineEmits(['update:modelValue'])
 
     .placeholder {
       position: absolute;
-      top: 0;
+      top: 5px;
       left: $left-padding+5;
-      font-size: 28px;
+      font-size: 24px;
       width: fit-content;
       pointer-events: none;
       transition: .1s;
@@ -88,6 +88,7 @@ defineEmits(['update:modelValue'])
 
       &:focus + .placeholder, &:not(:placeholder-shown) + .placeholder {
         font-size: 13px;
+        top: 0;
       }
     }
   }
