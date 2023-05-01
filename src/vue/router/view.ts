@@ -2,12 +2,12 @@ import type {RouteRecordRaw} from "vue-router";
 import ViewStart from "../view/ViewStart.vue";
 import ViewWorkspace from "../view/ViewWorkspace.vue";
 import TestMenu from "@/components/test/TestMenu.vue";
-import ViewStartRegistration from "@/components/views/ViewStartRegistration.vue";
+import ViewStartRegistration from "@/components/view-start/ViewStartRegistration.vue";
 import ViewWorkspaceSectionPersonalAccounut from "@/components/view-workspace/ViewWorkspaceSectionPersonalAccounut.vue";
 import ViewWorkspaceSectionConnections from "@/components/view-workspace/ViewWorkspaceSectionConnections.vue";
 import ViewWorkspaceSectionVirtualDisks from "@/components/view-workspace/ViewWorkspaceSectionVirtualDisks.vue";
 
-const ViewStartLogin = await (() => import("@/components/views/ViewStartLogin.vue"))
+const ViewStartLogin = await (() => import("@/components/view-start/ViewStartLogin.vue"))
 
 export const viewRoutes: RouteRecordRaw[] = [
     {

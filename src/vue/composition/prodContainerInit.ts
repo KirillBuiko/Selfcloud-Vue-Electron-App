@@ -5,8 +5,8 @@ import type {$OverlayStore} from "@/stores/OverlayStore";
 import {OverlayStore} from "@/stores/OverlayStore";
 import type {$SocketStore} from "@/stores/SoketStore";
 import {SocketStore} from "@/stores/SoketStore";
-import {useConfigStore} from "@/stores/configStore";
-import {useNotificationsStore} from "@/stores/notificationsStore";
+import {type $ConfigStore, useConfigStore} from "@/stores/configStore";
+import {type $NotificationStore, useNotificationsStore} from "@/stores/notificationsStore";
 import {WebRTCStore} from "@/stores/WebRTCStore";
 import {WebRTCWorkerActions} from "@/packages/webrtc/WebRTCWorkerActions";
 import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirtualDiskWorkerActions";
@@ -48,7 +48,7 @@ export const prodContainerInit = () => {
                 $AuthStore),
         accountRequestActions: container.accountRequestActions =
             new AccountRequestClass(container as
-                $RequestHandler),
+                $RequestHandler & $ConfigStore),
         userInfoRequestActions: container.userInfoRequestActions =
             new UserInfoRequestClass(container as
                 $RequestHandler),
@@ -88,12 +88,12 @@ export const prodContainerInit = () => {
                 $OverlayStore),
         workerOverlayWindowLogin: container.workerOverlayWindowLogin =
             new WorkerOverlayWindowLogin(container as
-                $OverlayStore),
+                $OverlayStore & $AccountRequestActions & $NotificationStore),
         workerViewStart: container.workerViewStart =
             new WorkerViewStart(container as
                 $OverlayStore),
         workerOverlayWindowRegistration: container.workerOverlayWindowRegistration =
             new WorkerOverlayWindowRegistration(container as
-                $OverlayStore),
+                $OverlayStore & $AccountRequestActions & $NotificationStore),
     }
 }

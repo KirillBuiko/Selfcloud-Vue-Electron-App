@@ -58,7 +58,7 @@ export class VirtualDisksStore implements IVirtualDisksStore {
             // TODO: Get default directory from FileWorker
             const config: RemoteVirtualDiskConfig = {
                 ...vdData,
-                localPath: "",
+                localPath: "C:\\SelfCloud\\Remote",
                 remainedSizeBytes: 0,
                 totalSizeBytes: 0
             }

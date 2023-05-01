@@ -8,8 +8,10 @@
     <main>
       <div class="header-wrapper">
         <div class="header-text">{{ note.header }}</div>
-        <button class="hide-button"
-                @click="hideNotification(note.id)"/>
+        <ControlButtonRoundWhite class="hide-button"
+                                 @click="hideNotification(note.id)">
+          <img src="src/vue/assets/icons/cross.png" alt="">
+        </ControlButtonRoundWhite>
       </div>
       <div class="horizontal-separator"/>
       <div class="body-text">{{ note.body }}</div>
@@ -21,6 +23,7 @@
 import {defineProps} from "vue";
 import type {Notification} from "@/stores/notificationsStore";
 import {container} from "@/composition/DIContainer";
+import ControlButtonRoundWhite from "@/components/controls/ControlButtonRoundWhite.vue";
 
 const notificationStore = container.notificationStore;
 const {showNotification, hideNotification, startNotificationTimer} = notificationStore;
@@ -88,10 +91,14 @@ function mouseLeaveFunc() {
       align-items: center;
 
       .hide-button {
-        width: 20px;
-        height: 20px;
+        width: 23px;
+        height: 23px;
         background-color: black;
         margin-right: 5px;
+
+        img {
+          width: 13px;
+        }
       }
     }
   }

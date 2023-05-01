@@ -47,13 +47,6 @@ function onDelete() {
 
 <style lang="scss">
 @use "@/assets/styles/ListItemStylesheet.scss" with (
-  $border-color: brown
+  $border-color: orange
 );
-
-.vd-id-text {
-  color: #BBB;
-  font-weight: normal;
-  font-style: italic;
-  font-size: 16px;
-}
 </style>

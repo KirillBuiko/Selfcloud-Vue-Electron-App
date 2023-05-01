@@ -25,7 +25,7 @@ import {LocalVirtualDiskClass} from "@/packages/virtual-disk/LocalVirtualDiskCla
 import {defineEmits, defineProps} from "vue";
 import ControlButton from "@/components/controls/ControlButton.vue";
 
-const props = defineProps<{
+defineProps<{
   vd: LocalVirtualDiskClass
 }>()
 
@@ -41,13 +41,6 @@ function onDelete() {
 
 <style scoped lang="scss">
 @use "@/assets/styles/ListItemStylesheet.scss" with (
-  $border-color: brown
+  $border-color: white
 );
-
-.vd-id-text {
-  color: #BBB;
-  font-weight: normal;
-  font-style: italic;
-  font-size: 16px;
-}
 </style>

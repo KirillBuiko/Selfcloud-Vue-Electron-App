@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import {container} from "@/composition/DIContainer";
-import {ref, watch} from "vue";
+import {ref, watch, WatchStopHandle} from "vue";
 import ComponentPreloader from "@/components/generals/ComponentPreloader.vue";
 import {useRouter} from "vue-router";
 import ViewWorkspaceHeader from "@/components/view-workspace/ViewWorkspaceHeader.vue";
@@ -22,12 +22,14 @@ import ViewWorkspaceLeftPanel from "@/components/view-workspace/ViewWorkspaceLef
 const router = useRouter();
 const isWindowShown = ref(false);
 
-watch(container.socketStore.state, (v) => {
+let unwatch: WatchStopHandle;
+unwatch = watch(container.socketStore.state, (v) => {
   console.log(container.socketStore.state);
   if (v.connected)
     isWindowShown.value = true;
   else if (v.connectionError)
     router.replace("/");
+  unwatch();
 })
 
 container.socketStore.connect()

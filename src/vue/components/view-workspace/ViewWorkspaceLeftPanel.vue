@@ -8,15 +8,16 @@
       <ControlButtonRoundWhite class="section-button"
                                v-for="n in sectionsList"
                                :key="n.path"
-                               @click="router.replace(n.path); isDescShow=false;">
-        <img class="button-image" :src="n.iconSrc"/>
+                               @click="n.onclick ? n.onclick() : null; router.replace(n.path); isDescShow=false;">
+        <img class="button-image" :src="n.iconSrc" alt="Выбор"/>
       </ControlButtonRoundWhite>
     </div>
     <div class="desc-panel" ref="descPanel" :class="{show: isDescShow}">
       <div class="desc-item"
            v-for="n in sectionsList"
            :key="n.path">
-        {{ n.desc }}
+        <div class="separator"/>
+        <div class="desc-text">{{ n.desc }}</div>
       </div>
     </div>
   </div>
@@ -27,8 +28,9 @@ import {useRouter} from "vue-router";
 import {ref} from "vue";
 import ControlButtonRound from "@/components/controls/ControlButtonRound.vue";
 import ControlButtonRoundWhite from "@/components/controls/ControlButtonRoundWhite.vue";
+import {container} from "@/composition/DIContainer";
 
-const sectionsList: { path: string, iconSrc: string, desc: string }[] = [
+const sectionsList: { path: string, iconSrc: string, desc: string, onclick?: ()=>void }[] = [
   {
     path: "/workspace",
     iconSrc: "src/vue/assets/icons/virtual-disks.svg",
@@ -47,7 +49,8 @@ const sectionsList: { path: string, iconSrc: string, desc: string }[] = [
   {
     path: "/",
     iconSrc: "src/vue/assets/icons/exit.svg",
-    desc: "Выход"
+    desc: "Выход",
+    onclick: onLogout
   }
 ]
 
@@ -61,11 +64,18 @@ function onScroll() {
     descPanel.value.scrollTop = buttonPanel.value.scrollTop;
   }
 }
+
+function onLogout(){
+  container.accountRequestActions.logout();
+  container.socketStore.disconnect();
+  router.replace("/");
+}
 </script>
 
 <style scoped lang="scss">
-$bg-color: #999;
+$bg-color: #BBB;
 $desc-clip-per: 100%;
+$desc-separator-height: 2px;
 $button-panel-width: 90px;
 $button-panel-gap: 10px;
 $button-width: 65px;
@@ -113,7 +123,7 @@ $button-width: 65px;
     align-items: center;
     overflow-y: hidden;
     width: 250px;
-    padding-left: 30px;
+    padding: 0 10px 0 20px;
     background-color: #444;
     clip-path: inset(0 100% 0 0);
     transition: clip-path 0.2s;
@@ -123,15 +133,29 @@ $button-width: 65px;
     }
 
     .desc-item {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      height: $button-width + $button-panel-gap * 2;
-      flex: 0 0 auto;
       width: 100%;
-      color: white;
-      font-size: 22px;
-      line-height: 1.2em;
+
+      .desc-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        height: $button-width + $button-panel-gap * 2 - $desc-separator-height;
+        flex: 0 0 auto;
+        width: 100%;
+        color: white;
+        font-size: 22px;
+        line-height: 1.2em;
+      }
+
+      &:nth-child(1) .separator{
+        display: none;
+      }
+      .separator {
+        width: 100%;
+        height: $desc-separator-height;
+        background: white;
+      }
     }
   }
 }

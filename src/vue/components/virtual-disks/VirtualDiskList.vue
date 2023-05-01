@@ -1,13 +1,11 @@
 <template>
-  <div class="vd-local-list">
-    <component :is="isRemote ? VirtualDiskRemoteItem : VirtualDiskLocalItem"
-               class="vd-list-item"
-               v-for="[vdID, vd] in vds"
-               :vd="vd"
-               :vdID="vdID"
-               :key="vdID"
-               @delete="onDelete(vdID)"/>
-  </div>
+  <component :is="isRemote ? VirtualDiskRemoteItem : VirtualDiskLocalItem"
+             class="vd-list-item"
+             v-for="[vdID, vd] in vds"
+             :vd="vd"
+             :vdID="vdID"
+             :key="vdID"
+             @delete="onDelete(vdID)"/>
 </template>
 
 <script setup lang="ts">
@@ -32,6 +30,6 @@ function onDelete(vdID: string) {
 
 <style scoped lang="scss">
 .vd-list-item {
-  margin-bottom: 5px;
+  margin-bottom: 12px;
 }
 </style>

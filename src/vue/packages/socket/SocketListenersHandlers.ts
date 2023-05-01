@@ -77,11 +77,13 @@ export class SocketListenersHandlers {
      * */
     onDeviceDisconnected(fingerprint: string) {
         this.deps.virtualDiskWorkerActions.setRemoteDeviceOffline(fingerprint);
+        this.deps.webrtcWorkerActions.removeConnectionToRemote(fingerprint);
+        this.deps.webrtcWorkerActions.removeConnectionToLocal(fingerprint);
     }
 
     /**
      * Nothing*/
-    onDeviceConnected(fingerprint: string) {
+    onDeviceConnected() {
         //
     }
 
