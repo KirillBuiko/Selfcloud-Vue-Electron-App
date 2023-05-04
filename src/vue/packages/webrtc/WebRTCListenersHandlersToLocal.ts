@@ -39,14 +39,14 @@ export class WebRTCListenersHandlersToLocal extends WebRTCListenersHandlers {
     }
 
     onNegotiationNeededHandler(event: Event, connection: WebRTCConnectionClass): void {
-        console.log(`Ice candidate with connection to local ${connection.fingerprint}`);
+        console.log(`Negotiation need to local ${connection.fingerprint}`);
         // TODO: Nothing
     }
 
     onIceCandidateHandler(event: RTCPeerConnectionIceEvent, connection: WebRTCConnectionClass): void {
         console.log(`Ice candidate with connection to local ${connection.fingerprint}`);
-        if (event.candidate)
-            this.deps.socketEmitActions.toLocalIceCandidateReady(connection.fingerprint, event.candidate);
+        console.log(event.candidate);
+        this.deps.socketEmitActions.toLocalIceCandidateReady(connection.fingerprint, event.candidate);
     }
 }
 

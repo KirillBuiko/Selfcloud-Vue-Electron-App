@@ -7,8 +7,8 @@ interface SocketEmitEvents {
     "revoke-virtual-disk": (vdID: string) => void,
     "create-virtual-disk": (name: string, callback: (vd: VirtualDiskData) => void) => void,
     "remove-virtual-disk": (vdID: string) => void,
-    "to-local-ice-candidate-ready": (fingerprint: string, candidate: RTCIceCandidate) => void,
-    "to-remote-ice-candidate-ready": (fingerprint: string, candidate: RTCIceCandidate) => void
+    "to-local-ice-candidate-ready": (fingerprint: string, candidate: RTCIceCandidate | null) => void,
+    "to-remote-ice-candidate-ready": (fingerprint: string, candidate: RTCIceCandidate | null) => void
     "connect-webrtc": (fingerprint: string, offer: string) => void,
     "connect-webrtc-answer": (fingerprint: string, answer: string) => void
 }

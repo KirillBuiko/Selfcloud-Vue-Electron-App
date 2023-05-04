@@ -41,13 +41,13 @@ export class WebRTCListenersHandlersToRemote extends WebRTCListenersHandlers {
 
     onNegotiationNeededHandler(event: Event, connection: WebRTCConnectionClass): void {
         // TODO: Create new connection offer
-        console.log(`Ice candidate with connection to remote ${connection.fingerprint}`);
+        console.log(`Negotiation need to remote ${connection.fingerprint}`);
     }
 
     onIceCandidateHandler(event: RTCPeerConnectionIceEvent, connection: WebRTCConnectionClass): void {
         console.log(`Ice candidate with connection to remote ${connection.fingerprint}`);
-        if (event.candidate)
-            this.deps.socketEmitActions.toRemoteIceCandidateReady(connection.fingerprint, event.candidate);
+        console.log(event.candidate);
+        this.deps.socketEmitActions.toRemoteIceCandidateReady(connection.fingerprint, event.candidate);
     }
 }
 

@@ -54,7 +54,8 @@ export abstract class WebRTCListenersHandlers {
     }
 
     onIceCandidateErrorHandler(event: Event, connection: WebRTCConnectionClass): void {
-        console.log(`Error with ice candidate with connection ${connection.fingerprint}`);
+        const err = event as RTCPeerConnectionIceErrorEvent;
+        console.log(`Error with ice candidate with connection ${connection.fingerprint}: ${err.errorCode} ${err.errorText}`);
     }
 
     onSignalingStateChangeHandler(event: Event, connection: WebRTCConnectionClass): void {

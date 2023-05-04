@@ -83,7 +83,7 @@ export class SocketEmitActions {
     /**
      * Send webrtc ice candidate from "to local"
      * */
-    toLocalIceCandidateReady(fingerprint: string, candidate: RTCIceCandidate) {
+    toLocalIceCandidateReady(fingerprint: string, candidate: RTCIceCandidate | null) {
         // TODO check
         this.deps.socketStore.socket.emit("to-local-ice-candidate-ready", fingerprint, candidate);
     }
@@ -91,7 +91,7 @@ export class SocketEmitActions {
     /**
      * Send webrtc ice candidate from "to remote"
      * */
-    toRemoteIceCandidateReady(fingerprint: string, candidate: RTCIceCandidate) {
+    toRemoteIceCandidateReady(fingerprint: string, candidate: RTCIceCandidate | null) {
         // TODO check
         this.deps.socketStore.socket.emit("to-remote-ice-candidate-ready", fingerprint, candidate);
     }

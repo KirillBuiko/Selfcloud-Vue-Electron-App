@@ -39,15 +39,28 @@ export class VirtualDiskWorkerActions implements IVirtualDiskWorkerActions {
 
     syncVirtualDisks(vds: VirtualDiskData[]): void {
         const fingerprint = this.deps.authStore.fingerprint.value;
+        const locals: Set<string> = new Set();
+        const remotes: Set<string> = new Set();
+
+        console.log(fingerprint, vds);
         vds.forEach((vd: VirtualDiskData) => {
+            const isLocal = (vd.fingerprint === fingerprint);
+            (isLocal ? locals : remotes).add(vd.vdID);
             if (this.getLocalVirtualDisk(vd.vdID)) return;
-            if (!this.getLocalVirtualDisk(vd.vdID) && (vd.fingerprint === fingerprint)) {
+            if (!this.getLocalVirtualDisk(vd.vdID) && isLocal) {
+                console.log("REMOVE")
                 this.deps.socketEmitActions.removeVirtualDisk(vd.vdID);
                 return;
             }
             this.addRemoteVirtualDisk(vd);
             if (vd.isOnline)
                 this.setRemoteVirtualDisksProvided(vd.fingerprint, [vd.vdID]);
+        })
+        this.getAllRemoteVirtualDisks().forEach((value, key) => {
+            if (!remotes.has(key)) this.removeRemoteVirtualDisk(key);
+        })
+        this.getAllLocalVirtualDisks().forEach((value, key) => {
+            if (!locals.has(key)) this.removeLocalVirtualDisk(key);
         })
     }
 

@@ -70,7 +70,8 @@ export const prodContainerInit = () => {
             new WebRTCListenersHandlersToRemote(container as
                 $WebRTCWorkerActions & $VirtualDiskWorkerActions & $SocketEmitActions),
         webrtcStore: container.webrtcStore =
-            new WebRTCStore(container as $WebRTCListenersHandlersToRemote & $WebRTCListenersHandlersToLocal),
+            new WebRTCStore(container as
+                $WebRTCListenersHandlersToRemote & $WebRTCListenersHandlersToLocal),
 
         socketListenersHandlers: container.socketListenersHandlers =
             new SocketListenersHandlers(container as

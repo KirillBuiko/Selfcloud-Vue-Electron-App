@@ -22,17 +22,21 @@ import ViewWorkspaceLeftPanel from "@/components/view-workspace/ViewWorkspaceLef
 const router = useRouter();
 const isWindowShown = ref(false);
 
-let unwatch: WatchStopHandle;
-unwatch = watch(container.socketStore.state, (v) => {
-  console.log(container.socketStore.state);
-  if (v.connected)
-    isWindowShown.value = true;
-  else if (v.connectionError)
-    router.replace("/");
-  unwatch();
-})
+if(!container.socketStore.state.connected){
+  let unwatch: WatchStopHandle;
+  unwatch = watch(container.socketStore.state, (v) => {
+    console.log(container.socketStore.state);
+    if (v.connected)
+      isWindowShown.value = true;
+    else if (v.connectionError)
+      router.replace("/");
+    unwatch();
+  })
 
-container.socketStore.connect()
+  container.socketStore.connect()
+} else {
+  isWindowShown.value = true;
+}
 </script>
 
 <style scoped lang="scss">

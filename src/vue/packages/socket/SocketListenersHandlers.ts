@@ -58,11 +58,11 @@ export class SocketListenersHandlers {
     }
 
     onDisconnected() {
-        // Nothing
+        //this.socket?.connect();
     }
 
     async onConnectionError(err: Error & { data: ResponseData<string> }) {
-        if (!err || !err.data) return;
+        if (!err || !err.data || !err.data.code) return;
         console.warn("SOCKET ERROR: ", err.data);
         if (err.data.code === ResultCode.TOKEN_EXPIRED) {
             await this.deps.accountRequestActions.loginToken();
