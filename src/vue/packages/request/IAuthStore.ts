@@ -1,7 +1,7 @@
 import type {RefreshData} from "@/types/Objects";
 import type {Ref} from "vue";
 
-export default interface IAuthStorage {
+export default interface IAuthStore {
     access: Ref<string>,
     refresh: Ref<string>,
     fingerprint: Ref<string>,
@@ -17,4 +17,4 @@ export default interface IAuthStorage {
     getTokenData(): RefreshData,
 }
 
-export type $AuthStore = { authStore: IAuthStorage }
+export type $AuthStore = { authStore: IAuthStore }

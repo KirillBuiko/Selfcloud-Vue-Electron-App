@@ -27,7 +27,10 @@ export class WebRTCStore implements IWebRTCStore {
         return new RTCPeerConnection({
             iceServers: [
                 {
-                    urls: ["stun:stun4.l.google.com:19302"]
+                    urls: [
+                        "stun:stun.sipnet.ru:3478",
+                        "stun:stun.stunprotocol.org:3478",
+                    ]
                 }
             ]
         });

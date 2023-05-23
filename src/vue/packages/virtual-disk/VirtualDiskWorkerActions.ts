@@ -5,7 +5,7 @@ import type {LocalVirtualDiskConfig, RemoteVirtualDiskConfig, VirtualDiskData} f
 import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 import type {RemoteVirtualDiskClass} from "@/packages/virtual-disk/RemoteVirtualDiskClass";
 import type {$VirtualDisksStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStore";
-import type {$AuthStore} from "@/packages/request/IAuthStorage";
+import type {$AuthStore} from "@/packages/request/IAuthStore";
 
 export class VirtualDiskWorkerActions implements IVirtualDiskWorkerActions {
     constructor(private deps: $WebRTCWorkerActions & $VirtualDisksStore & $SocketEmitActions & $AuthStore) {

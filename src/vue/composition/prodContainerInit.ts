@@ -3,18 +3,18 @@ import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWor
 import type {$VirtualDisksStore} from "@/packages/virtual-disk/interfaces/IVirtualDisksStore";
 import type {$OverlayStore} from "@/stores/OverlayStore";
 import {OverlayStore} from "@/stores/OverlayStore";
-import type {$SocketStore} from "@/stores/SoketStore";
-import {SocketStore} from "@/stores/SoketStore";
+import type {$SocketStore} from "@/packages/socket/SoketStore";
+import {SocketStore} from "@/packages/socket/SoketStore";
 import {type $ConfigStore, useConfigStore} from "@/stores/configStore";
 import {type $NotificationStore, useNotificationsStore} from "@/stores/notificationsStore";
-import {WebRTCStore} from "@/stores/WebRTCStore";
+import {WebRTCStore} from "@/packages/webrtc/WebRTCStore";
 import {WebRTCWorkerActions} from "@/packages/webrtc/WebRTCWorkerActions";
 import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirtualDiskWorkerActions";
 import {VirtualDiskWorkerActions} from "@/packages/virtual-disk/VirtualDiskWorkerActions";
 import {type $SocketEmitActions, SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 import type {$SocketListenersHandlers} from "@/packages/socket/SocketListenersHandlers";
 import {SocketListenersHandlers} from "@/packages/socket/SocketListenersHandlers";
-import type {$AuthStore} from "@/packages/request/IAuthStorage";
+import type {$AuthStore} from "@/packages/request/IAuthStore";
 import type {$RequestHandler} from "@/packages/request/IRequestHandler";
 import RequestHandlerClass from "@/packages/request/RequestHandlerClass";
 import AccountRequestClass, {type $AccountRequestActions} from "@/packages/request/AccountRequestClass";
@@ -25,8 +25,8 @@ import {WorkerViewStart} from "@/component-class/WorkerViewStart";
 import {WorkerOverlayWindowRegistration} from "@/component-class/WorkerOverlayWindowRegistration";
 import type {DIContainerType} from "@/composition/DIContainer";
 import {container} from "@/composition/DIContainer";
-import {AuthStore} from "@/stores/AuthStore";
-import {VirtualDisksStore} from "@/stores/VirtualDisksStore";
+import {AuthStore} from "@/packages/request/AuthStore";
+import {VirtualDisksStore} from "@/packages/virtual-disk/VirtualDisksStore";
 import {
     type $WebRTCListenersHandlersToLocal,
     WebRTCListenersHandlersToLocal

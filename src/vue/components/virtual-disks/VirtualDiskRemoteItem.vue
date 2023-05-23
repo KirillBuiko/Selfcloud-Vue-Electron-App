@@ -9,14 +9,14 @@
     </header>
     <main>
       <div class="property-grid">
-        <div class="property-text">ID устройства:</div>
+        <div class="property-text">Идентификатор устройства:</div>
         <div class="property-value">{{ vd.getConfig().fingerprint }}</div>
         <div class="property-text">Путь к диску:</div>
         <div class="property-value">{{ vd.getConfig().localPath }}</div>
         <div class="property-text">Проверено:</div>
         <div class="property-indicator" :class="{active: vd.states.checkStatus}"/>
         <div class="property-text">Проверяется:</div>
-        <div class="property-indicator" :class="{active: vd.states.isChecking}"/>
+        <div class="property-indicator" :class="{active: vd.states.isChecking, disabled: !vd.states.isChecking}"/>
         <div class="property-text">Готов к подключению:</div>
         <div class="property-indicator" :class="{active: vd.remoteStates.isRemoteReady}"/>
         <div class="property-text">Подключён:</div>

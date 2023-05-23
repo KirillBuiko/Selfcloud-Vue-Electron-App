@@ -4,11 +4,11 @@ import type {$VirtualDisksStore} from "@/packages/virtual-disk/interfaces/IVirtu
 import type {$OverlayStore} from "@/stores/OverlayStore";
 import type {$NotificationStore} from "@/stores/notificationsStore";
 import type {$ConfigStore} from "@/stores/configStore";
-import type {$SocketStore} from "@/stores/SoketStore";
+import type {$SocketStore} from "@/packages/socket/SoketStore";
 import type {$VirtualDiskWorkerActions} from "@/packages/socket/interfaces/IVirtualDiskWorkerActions";
 import type {$SocketEmitActions} from "@/packages/socket/SocketEmitActions";
 import type {$SocketListenersHandlers} from "@/packages/socket/SocketListenersHandlers";
-import type {$AuthStore} from "@/packages/request/IAuthStorage";
+import type {$AuthStore} from "@/packages/request/IAuthStore";
 import type {$AccountRequestActions} from "@/packages/request/AccountRequestClass";
 import type {$RequestHandler} from "@/packages/request/IRequestHandler";
 import type {$UserInfoRequestActions} from "@/packages/request/UserInfoRequestClass";

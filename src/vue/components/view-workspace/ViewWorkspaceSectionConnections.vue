@@ -8,7 +8,7 @@
       </div>
       <div class="rtc-wrapper">
         <div class="actions-wrapper">
-          <b>Подключения WebRTC к локальному устройству</b>
+          <b>Подключения WebRTC к этому устройству</b>
           <WebRTCList :is-to-local="true"/>
         </div>
         <div class="actions-wrapper">
@@ -36,8 +36,6 @@ import {container} from "@/composition/DIContainer";
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%;
-    color: white;
     font-size: 22px;
     margin-left: 30px;
 
@@ -63,11 +61,11 @@ import {container} from "@/composition/DIContainer";
     display: flex;
     flex-direction: column;
     flex: 1 0;
-    border: 1px solid white;
+    border: 1px solid black;
     padding: 10px;
     margin: 20px;
     min-height: 200px;
-    color: white;
+    min-width: 500px;
 
     b {
       margin-bottom: 10px;

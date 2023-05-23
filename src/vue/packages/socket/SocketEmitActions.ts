@@ -1,6 +1,6 @@
 import type {VirtualDiskData} from "@/types/VirtualDisksTypes";
 import type {$WebRTCWorkerActions} from "@/packages/socket/interfaces/IWebRTCWorkerActions";
-import type {$SocketStore} from "@/stores/SoketStore";
+import type {$SocketStore} from "@/packages/socket/SoketStore";
 
 export class SocketEmitActions {
     constructor(private deps: $WebRTCWorkerActions & $SocketStore) {

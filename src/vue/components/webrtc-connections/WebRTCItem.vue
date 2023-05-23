@@ -84,7 +84,6 @@ const translateSignalingState: {[ind in RTCSignalingState]: [string, number] } =
 );
 
 .vd-id-text {
-  color: #BBB;
   font-weight: normal;
   font-style: italic;
   font-size: 16px;

@@ -125,6 +125,7 @@ $button-width: 65px;
     width: 250px;
     padding: 0 10px 0 20px;
     background-color: #444;
+    border-right: 3px solid black;
     clip-path: inset(0 100% 0 0);
     transition: clip-path 0.2s;
 

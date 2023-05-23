@@ -1,8 +1,8 @@
 import {useLocalStorage} from "@vueuse/core";
-import type IAuthStorage from "@/packages/request/IAuthStorage";
+import type IAuthStore from "@/packages/request/IAuthStore";
 import type {RefreshData} from "@/types/Objects";
 
-export class AuthStore implements IAuthStorage {
+export class AuthStore implements IAuthStore {
     access = useLocalStorage("access", "");
     refresh = useLocalStorage("refresh", "");
     fingerprint = useLocalStorage("fingerprint", "");

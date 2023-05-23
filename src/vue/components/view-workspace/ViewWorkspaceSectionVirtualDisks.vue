@@ -71,23 +71,20 @@ async function onVDAdd() {
     display: flex;
     flex-direction: column;
     flex: 1 0;
-    border: 1px solid white;
+    border: 1px solid black;
     padding: 10px;
     margin: 20px;
     min-height: 200px;
-    color: white;
+    min-width: 500px;
 
     b {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      font-size: 18px;
     }
 
     &.list-item-wrapper {
       min-height: 200px;
     }
   }
-}
-
-::-webkit-scrollbar{
-  width: 0;
 }
 </style>

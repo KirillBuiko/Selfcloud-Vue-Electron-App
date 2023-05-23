@@ -3,7 +3,7 @@ import type {AccessData, RefreshData, RequestData, ResponseData} from "@/types/O
 import type {AxiosInstance, AxiosRequestConfig} from "axios"
 import axios, {AxiosError} from "axios";
 import {ResultCode} from "@/types/ResultCode";
-import type {$AuthStore} from "@/packages/request/IAuthStorage";
+import type {$AuthStore} from "@/packages/request/IAuthStore";
 import {Configs} from "@/Configs";
 
 export default class RequestHandlerClass implements IRequestHandler {

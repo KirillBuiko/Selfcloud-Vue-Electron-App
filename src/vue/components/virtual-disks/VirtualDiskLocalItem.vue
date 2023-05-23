@@ -14,7 +14,7 @@
         <div class="property-text">Проверено:</div>
         <div class="property-indicator" :class="{active: vd.states.checkStatus}"/>
         <div class="property-text">Проверяется:</div>
-        <div class="property-indicator" :class="{active: vd.states.isChecking}"/>
+        <div class="property-indicator" :class="{active: vd.states.isChecking, disabled: !vd.states.isChecking}"/>
       </div>
     </main>
   </div>
@@ -41,6 +41,6 @@ function onDelete() {
 
 <style scoped lang="scss">
 @use "@/assets/styles/ListItemStylesheet.scss" with (
-  $border-color: white
+  $border-color: black
 );
 </style>
